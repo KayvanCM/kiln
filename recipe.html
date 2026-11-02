@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Recipe · Meridian M6 N3E</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+<style>
+  /* Live-lot pulse on the active wire */
+  .lot-pip { filter: drop-shadow(0 0 6px rgba(220,38,38,0.55)); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.6; transform: scale(1.18); }
+  }
+  .lot-pip circle { transform-origin: center; transform-box: fill-box; animation: pulse 1.6s ease-in-out infinite; }
+  /* Animated dash flow on the active wire */
+  @keyframes flow { to { stroke-dashoffset: -24; } }
+  .wire-active { stroke-dasharray: 6 6; animation: flow 1.4s linear infinite; }
+  /* Node hover lift */
+  .node g.body { transition: transform 140ms cubic-bezier(.2,.7,.2,1), filter 140ms; }
+  .node:hover g.body { transform: translateY(-1px); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.10)); }
+  .node { cursor: pointer; }
+  /* Selected node — separate ring rect injected by JS sits 3px outside the
+     card edge (concentric, rx=12 matches card's rx=10 + 3px offset). Living
+     outside the card means it never collides with the colored accent stripe. */
+  .select-ring { opacity: 0; transition: opacity 140ms; pointer-events: none; }
+  .node[data-selected="true"] .select-ring { opacity: 1; }
+  /* Subtle dotted grid background */
+  .canvas-bg {
+    background-color: rgb(250 250 250);
+    background-image: radial-gradient(rgb(228 228 231) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+</style>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <!-- Sidebar -->
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</span></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</a></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</a></li>
+        <li><a href="vendors.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</a></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <!-- Main: 3-pane (palette | canvas | inspector) -->
+  <main class="grid h-full grid-rows-[56px_1fr] overflow-hidden">
+
+    <!-- Top toolbar -->
+    <header class="flex items-center justify-between border-b border-zinc-200 bg-white px-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="tools.html" class="grid h-8 w-8 place-items-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900" title="Back">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </a>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h1 class="truncate text-[14px] font-semibold tracking-tight text-zinc-950">Meridian M6 · N3E base flow</h1>
+            <span class="rounded-md bg-zinc-100 px-2 py-0.5 text-[10.5px] font-medium text-zinc-700">Rev 17</span>
+            <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10.5px] font-medium text-amber-800">
+              <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>Held · M3 Etch
+            </span>
+          </div>
+          <div class="font-mono text-[10.5px] tabular-nums text-zinc-400">RCP-N3E-MER-M6 · 487 steps · last edit 2h ago by R. Patel</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button class="inline-flex h-8 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 text-[12px] font-medium text-zinc-700 transition hover:bg-zinc-50">
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 7v5l3 2"/></svg>
+          History
+        </button>
+        <button class="inline-flex h-8 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 text-[12px] font-medium text-zinc-700 transition hover:bg-zinc-50">
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          Compare rev
+        </button>
+        <button class="inline-flex h-8 items-center gap-1.5 rounded-md bg-zinc-900 px-3 text-[12px] font-medium text-white transition hover:bg-zinc-800">
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>
+          Release Rev 18
+        </button>
+      </div>
+    </header>
+
+    <!-- 3-pane row -->
+    <div class="grid h-full grid-cols-[220px_1fr_320px] overflow-hidden">
+
+      <!-- Step palette -->
+      <aside class="overflow-y-auto border-r border-zinc-200 bg-white p-3">
+        <div class="mb-2 px-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Process steps</div>
+        <ul class="space-y-1">
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-slate-100 text-[10px] font-bold text-slate-700 ring-1 ring-inset ring-slate-200">LIT</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">Lithography</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">EUV · DUV · i-line</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-orange-100 text-[10px] font-bold text-orange-800 ring-1 ring-inset ring-orange-200">ETC</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">Etch</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">Conductor · Dielectric</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-zinc-100 text-[10px] font-bold text-zinc-700 ring-1 ring-inset ring-zinc-200">CVD</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">Deposition</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">CVD · PVD · ALD</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-emerald-100 text-[10px] font-bold text-emerald-800 ring-1 ring-inset ring-emerald-200">CMP</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">CMP</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">Cu · Oxide · STI</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-amber-100 text-[10px] font-bold text-amber-800 ring-1 ring-inset ring-amber-200">IMP</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">Implant</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">High-energy · LDD</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-rose-100 text-[10px] font-bold text-rose-800 ring-1 ring-inset ring-rose-200">RTA</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">Anneal</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">RTA · Furnace · Laser</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="group flex w-full items-center gap-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left transition hover:border-zinc-300 hover:bg-zinc-50">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-sky-100 text-[10px] font-bold text-sky-800 ring-1 ring-inset ring-sky-200">MET</span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-[12.5px] font-semibold text-zinc-950">Metrology</span>
+                <span class="block truncate text-[10.5px] text-zinc-500">CD-SEM · Overlay · Defect</span>
+              </span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="my-4 border-t border-zinc-200"></div>
+
+        <div class="mb-2 px-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Live lots on this recipe</div>
+        <ul class="space-y-1">
+          <li><button class="flex w-full items-center justify-between gap-2 rounded-md bg-red-50 px-2.5 py-1.5 text-left ring-1 ring-inset ring-red-200">
+            <span class="font-mono text-[11.5px] font-semibold tabular-nums text-red-900">W2607-N3</span>
+            <span class="text-[10.5px] text-red-800">step 142</span>
+          </button></li>
+          <li><button class="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1.5 text-left transition hover:bg-zinc-50">
+            <span class="font-mono text-[11.5px] tabular-nums text-zinc-700">W2614-N3</span>
+            <span class="text-[10.5px] text-zinc-500">step 88</span>
+          </button></li>
+          <li><button class="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1.5 text-left transition hover:bg-zinc-50">
+            <span class="font-mono text-[11.5px] tabular-nums text-zinc-700">W2581-N3</span>
+            <span class="text-[10.5px] text-zinc-500">step 412</span>
+          </button></li>
+        </ul>
+      </aside>
+
+      <!-- Canvas -->
+      <section class="canvas-bg relative overflow-hidden">
+
+        <!-- Floating zoom + tools -->
+        <div class="pointer-events-none absolute inset-0">
+          <div class="pointer-events-auto absolute right-4 top-4 flex flex-col gap-1 rounded-md border border-zinc-200 bg-white p-1 shadow-sm">
+            <button class="grid h-7 w-7 place-items-center rounded text-zinc-600 transition hover:bg-zinc-100" title="Zoom in">
+              <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4-4"/></svg>
+            </button>
+            <button class="grid h-7 w-7 place-items-center rounded text-zinc-600 transition hover:bg-zinc-100" title="Zoom out">
+              <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M21 21l-4-4"/></svg>
+            </button>
+            <hr class="border-zinc-200" />
+            <button class="grid h-7 w-7 place-items-center rounded text-zinc-600 transition hover:bg-zinc-100" title="Auto layout (L)">
+              <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="9" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M9 6h6M9 18h6"/></svg>
+            </button>
+            <button class="grid h-7 w-7 place-items-center rounded text-zinc-600 transition hover:bg-zinc-100" title="Minimap (M)">
+              <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/></svg>
+            </button>
+          </div>
+
+          <div class="pointer-events-auto absolute left-4 top-4 flex items-center gap-2 rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 shadow-sm">
+            <span class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Showing</span>
+            <span class="text-[11.5px] font-medium text-zinc-800">FEOL detail · steps 120–180</span>
+            <button class="text-[11px] text-zinc-500 transition hover:text-zinc-900">Full flow ↗</button>
+          </div>
+
+          <!-- Lot ribbon (bottom) -->
+          <div class="pointer-events-auto absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 rounded-full border border-red-200 bg-white px-4 py-2 shadow-sm">
+            <span class="font-mono text-[11px] font-semibold tabular-nums text-red-800">W2607-N3</span>
+            <span class="text-[11px] text-zinc-500">→</span>
+            <span class="text-[11.5px] font-medium text-zinc-900">M3 Etch</span>
+            <span class="h-1 w-1 rounded-full bg-zinc-300"></span>
+            <span class="text-[11px] tabular-nums text-zinc-500">step 142 / 487 · 29% done</span>
+            <span class="h-1 w-1 rounded-full bg-zinc-300"></span>
+            <button class="text-[11px] font-medium text-zinc-700 transition hover:text-zinc-900" onclick="location.href='lot-detail.html?lot=W2607-N3'">Open lot ↗</button>
+          </div>
+        </div>
+
+        <!-- Canvas SVG -->
+        <svg viewBox="0 0 1100 720" class="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgb(161 161 170)"/>
+            </marker>
+            <marker id="arrowActive" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgb(220 38 38)"/>
+            </marker>
+          </defs>
+
+          <!-- ============ Wires (drawn first, under nodes) ============ -->
+          <g fill="none" stroke="rgb(161 161 170)" stroke-width="1.5" stroke-linecap="round">
+            <!-- Row 1: Start → Clean → Pad Ox → Active Litho → Active Etch -->
+            <path d="M 130 90 L 240 90"     marker-end="url(#arrow)"/>
+            <path d="M 350 90 L 460 90"     marker-end="url(#arrow)"/>
+            <path d="M 570 90 L 680 90"     marker-end="url(#arrow)"/>
+            <path d="M 790 90 L 900 90"     marker-end="url(#arrow)"/>
+            <!-- Row 1 → Row 2 elbow: Active Etch → STI Fill -->
+            <path d="M 970 110 C 1000 130, 1000 180, 970 200 L 100 200" marker-end="url(#arrow)"/>
+            <!-- Row 2: STI Fill → STI CMP → Gate Litho → Gate Stack -->
+            <path d="M 130 220 L 240 220"   marker-end="url(#arrow)"/>
+            <path d="M 350 220 L 460 220"   marker-end="url(#arrow)"/>
+            <path d="M 570 220 L 680 220"   marker-end="url(#arrow)"/>
+            <path d="M 790 220 L 900 220"   marker-end="url(#arrow)"/>
+            <!-- Row 2 → Row 3 elbow: Gate Stack → Gate Etch -->
+            <path d="M 970 240 C 1000 260, 1000 310, 970 330 L 100 330" marker-end="url(#arrow)"/>
+            <!-- Row 3: Gate Etch → S/D Implant → RTA Anneal → Silicide → PMD -->
+            <path d="M 130 350 L 240 350"   marker-end="url(#arrow)"/>
+            <path d="M 350 350 L 460 350"   marker-end="url(#arrow)"/>
+            <path d="M 570 350 L 680 350"   marker-end="url(#arrow)"/>
+            <path d="M 790 350 L 900 350"   marker-end="url(#arrow)"/>
+            <!-- Row 3 → Row 4: PMD → M1 Litho -->
+            <path d="M 970 370 C 1000 390, 1000 440, 970 460 L 100 460" marker-end="url(#arrow)"/>
+          </g>
+
+          <!-- Active wire (with live lot pip): Gate Etch → S/D Implant on Row 3 (active step) -->
+          <g>
+            <path d="M 130 480 L 240 480" fill="none" stroke="rgb(220 38 38)" stroke-width="1.8" stroke-linecap="round" class="wire-active" marker-end="url(#arrowActive)"/>
+            <!-- Live lot pip -->
+            <g class="lot-pip" transform="translate(180 480)">
+              <circle r="6" fill="rgb(220 38 38)"/>
+              <circle r="3" fill="white"/>
+            </g>
+          </g>
+
+          <!-- Row 4: M1 Litho → M1 Etch → M1 Cu Fill → M1 CMP → KLA Inspect -->
+          <g fill="none" stroke="rgb(161 161 170)" stroke-width="1.5" stroke-linecap="round">
+            <path d="M 350 480 L 460 480"   marker-end="url(#arrow)"/>
+            <path d="M 570 480 L 680 480"   marker-end="url(#arrow)"/>
+            <path d="M 790 480 L 900 480"   marker-end="url(#arrow)"/>
+          </g>
+
+          <!-- ============ Nodes ============ -->
+          <!-- Each node: <g class="node"> with <g class="body"> inside for hover lift -->
+
+          <!-- ROW 1 -->
+          <!-- Start -->
+          <g class="node" data-step="start" transform="translate(20 60)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="rgb(63 63 70)" letter-spacing="0.04em">START</text>
+              <text x="58" y="46" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">FOUP load</text>
+            </g>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Clean RCA -->
+          <g class="node" data-step="rca-clean" transform="translate(240 60)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(113 113 122)" text-anchor="middle" letter-spacing="0.06em">WET CLEAN</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">RCA Clean</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">SC1 + SC2</text>
+            </g>
+            <circle cx="0"   cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Pad Oxide -->
+          <g class="node" data-step="pad-oxide" transform="translate(460 60)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(82 82 91)" text-anchor="middle" letter-spacing="0.06em">CVD</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Pad oxide</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">10 nm SiO₂</text>
+            </g>
+            <circle cx="0"   cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Active Litho -->
+          <g class="node" data-step="active-litho" transform="translate(680 60)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(203 213 225)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(71 85 105)" text-anchor="middle" letter-spacing="0.06em">DUV LITHO</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Active mask</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">M1 · NXT-04</text>
+            </g>
+            <circle cx="0"   cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Active Etch -->
+          <g class="node" data-step="active-etch" transform="translate(900 60)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(254 215 170)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(154 52 18)" text-anchor="middle" letter-spacing="0.06em">ETCH</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Active etch</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">Centura · Bay 2</text>
+            </g>
+            <circle cx="0"   cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+
+          <!-- ROW 2 -->
+          <!-- STI Fill -->
+          <g class="node" data-step="sti-fill" transform="translate(20 190)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(82 82 91)" text-anchor="middle" letter-spacing="0.06em">CVD</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">STI fill</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">HDP oxide</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- STI CMP -->
+          <g class="node" data-step="sti-cmp" transform="translate(240 190)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(187 247 208)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(6 95 70)" text-anchor="middle" letter-spacing="0.06em">CMP</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">STI CMP</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">Reflexion-02</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Well Implant -->
+          <g class="node" data-step="well-implant" transform="translate(460 190)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(253 230 138)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(146 64 14)" text-anchor="middle" letter-spacing="0.06em">IMPLANT</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">N-well</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">P · 600 keV</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Gate Litho -->
+          <g class="node" data-step="gate-litho" transform="translate(680 190)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(203 213 225)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(71 85 105)" text-anchor="middle" letter-spacing="0.06em">EUV LITHO</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Gate mask</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">M2 · NXE-01</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- Gate Stack -->
+          <g class="node" data-step="gate-stack" transform="translate(900 190)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(82 82 91)" text-anchor="middle" letter-spacing="0.06em">ALD</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Hi-K + metal</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">HfO₂ · TiN</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+
+          <!-- ROW 3 (active row, contains current step) -->
+          <!-- Gate Etch (DONE — has done glow) -->
+          <g class="node" data-step="gate-etch" transform="translate(20 320)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(254 215 170)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(154 52 18)" text-anchor="middle" letter-spacing="0.06em">ETCH</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Gate etch</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">Kiyo · Bay 2</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="rgb(34 197 94)" stroke="rgb(21 128 61)" stroke-width="1.2"/>
+          </g>
+          <!-- Spacer (DONE) -->
+          <g class="node" data-step="spacer" transform="translate(240 320)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(82 82 91)" text-anchor="middle" letter-spacing="0.06em">CVD</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Spacer</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">Si₃N₄ · ALD</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="rgb(34 197 94)" stroke="rgb(21 128 61)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- S/D Implant (DONE) -->
+          <g class="node" data-step="sd-implant" transform="translate(460 320)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(253 230 138)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(146 64 14)" text-anchor="middle" letter-spacing="0.06em">IMPLANT</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">S/D N+</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">As · 30 keV</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- RTA Anneal -->
+          <g class="node" data-step="rta-anneal" transform="translate(680 320)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(254 205 211)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(159 18 57)" text-anchor="middle" letter-spacing="0.06em">ANNEAL</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">RTA spike</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">1050 °C · 1.5s</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- PMD -->
+          <g class="node" data-step="pmd" transform="translate(900 320)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(82 82 91)" text-anchor="middle" letter-spacing="0.06em">CVD</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">PMD</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">TEOS oxide</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+
+          <!-- ROW 3.5 (active row) — repurposing y=480 -->
+          <!-- Active step: M3 ETCH (where lot is) -->
+          <g class="node" data-step="m3-etch" transform="translate(20 450)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="rgb(254 242 242)" stroke="rgb(220 38 38)" stroke-width="1.6"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(153 27 27)" text-anchor="middle" letter-spacing="0.06em">ETCH · ACTIVE</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="rgb(127 29 29)">M3 etch</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(159 18 57)">Kiyo-04 · HOLD</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="rgb(34 197 94)" stroke="rgb(21 128 61)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="rgb(220 38 38)" stroke="rgb(127 29 29)" stroke-width="1.2"/>
+          </g>
+          <!-- M3 Cu fill (queued) -->
+          <g class="node" data-step="m3-cu-fill" transform="translate(240 450)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(82 82 91)" text-anchor="middle" letter-spacing="0.06em">PVD</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">M3 Cu fill</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">Endura · Bay 4</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- M3 CMP -->
+          <g class="node" data-step="m3-cmp" transform="translate(460 450)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(187 247 208)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(6 95 70)" text-anchor="middle" letter-spacing="0.06em">CMP</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">M3 CMP</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">Cu polish</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- KLA Inspect -->
+          <g class="node" data-step="kla-inspect" transform="translate(680 450)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(186 230 253)" stroke-width="1.2"/>
+              <text x="58" y="22" font-size="9.5" font-weight="700" fill="rgb(7 89 133)" text-anchor="middle" letter-spacing="0.06em">METRO</text>
+              <text x="58" y="40" text-anchor="middle" font-size="11.5" font-weight="600" fill="rgb(24 24 27)">Defect scan</text>
+              <text x="58" y="53" text-anchor="middle" font-size="9.5" fill="rgb(113 113 122)">SP7 · post-M3</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <circle cx="110" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+          <!-- … to M4 Litho (next branch) -->
+          <g class="node" data-step="continues" transform="translate(900 450)">
+            <g class="body">
+              <rect width="110" height="60" rx="10" fill="white" stroke="rgb(228 228 231)" stroke-width="1.2" stroke-dasharray="4 3"/>
+              <text x="58" y="28" font-size="10" fill="rgb(113 113 122)" text-anchor="middle">… continues</text>
+              <text x="58" y="44" font-size="11" font-weight="600" fill="rgb(82 82 91)" text-anchor="middle">+342 steps</text>
+            </g>
+            <circle cx="0" cy="30" r="3.5" fill="white" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+          </g>
+
+        </svg>
+      </section>
+
+      <!-- Inspector -->
+      <aside id="inspector" class="overflow-y-auto border-l border-zinc-200 bg-white"></aside>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// ============ Step data ============
+// Each canvas node has a data-step key that resolves to one of these entries.
+// Status drives which inspector sections render: done → completed timestamp,
+// queued → ETA, running → recipe + SPC, held → recipe + SPC + hold panel.
+const TONE = {
+  zinc:    { ring: 'ring-zinc-200',    bg: 'bg-zinc-50',     text: 'text-zinc-700',    grad: 'from-zinc-100 to-zinc-300' },
+  slate:   { ring: 'ring-slate-200',   bg: 'bg-slate-50',    text: 'text-slate-700',   grad: 'from-slate-100 to-slate-300' },
+  orange:  { ring: 'ring-orange-200',  bg: 'bg-orange-50',   text: 'text-orange-800',  grad: 'from-orange-50 to-orange-200' },
+  emerald: { ring: 'ring-emerald-200', bg: 'bg-emerald-50',  text: 'text-emerald-800', grad: 'from-emerald-50 to-emerald-200' },
+  amber:   { ring: 'ring-amber-200',   bg: 'bg-amber-50',    text: 'text-amber-800',   grad: 'from-amber-50 to-amber-200' },
+  rose:    { ring: 'ring-rose-200',    bg: 'bg-rose-50',     text: 'text-rose-800',    grad: 'from-rose-50 to-rose-200' },
+  sky:     { ring: 'ring-sky-200',     bg: 'bg-sky-50',      text: 'text-sky-800',     grad: 'from-sky-50 to-sky-200' },
+  red:     { ring: 'ring-red-200',     bg: 'bg-red-50',      text: 'text-red-800',     grad: 'from-red-50 to-red-200' },
+}
+const STATUS = {
+  start:   { label: 'Step · entry',          tone: 'zinc' },
+  done:    { label: 'Step · completed',      tone: 'emerald' },
+  queued:  { label: 'Step · queued',         tone: 'zinc' },
+  running: { label: 'Step · in progress',    tone: 'sky' },
+  held:    { label: 'Step · active · held',  tone: 'red' },
+  marker:  { label: 'Continues',             tone: 'zinc' },
+}
+
+const STEPS = {
+  'start': {
+    num: 1, badge: 'IN',  badgeTone: 'zinc',
+    title: 'FOUP load', recipeId: 'STP-N3E-INTAKE-01',
+    status: 'start',
+    description: 'Operator dispatches a fresh 25-wafer FOUP into the line. Each wafer scanned and bound to lot W2607-N3.',
+  },
+  'rca-clean': {
+    num: 4, badge: 'WET', badgeTone: 'sky',
+    title: 'RCA Clean', recipeId: 'STP-N3E-WETCLN-01',
+    status: 'done', completed: 'May 28 · 04:48',
+    tool: { fam: 'EX12', name: 'TEL EX12W · WET-03', desc: 'Wet bench · Bay 0', tone: 'sky' },
+    params: [
+      ['SC1 (NH₄OH/H₂O₂)', '70 °C · 10 min'],
+      ['SC2 (HCl/H₂O₂)',    '70 °C · 10 min'],
+      ['DI rinse',          '18 MΩ · 5 min'],
+    ],
+  },
+  'pad-oxide': {
+    num: 8, badge: 'CVD', badgeTone: 'zinc',
+    title: 'Pad oxide growth', recipeId: 'STP-N3E-PADOX-01',
+    status: 'done', completed: 'May 28 · 09:14',
+    tool: { fam: 'PRD', name: 'AMAT Producer SE · PRD-02', desc: 'CVD Dielectric · Bay 4', tone: 'zinc' },
+    params: [['Target thickness', '10 nm SiO₂'], ['Temperature', '850 °C'], ['Time', '14 min']],
+  },
+  'active-litho': {
+    num: 14, badge: 'DUV', badgeTone: 'slate',
+    title: 'Active mask exposure', recipeId: 'STP-N3E-LITHO-M1',
+    status: 'done', completed: 'May 29 · 02:31',
+    tool: { fam: 'NXT', name: 'ASML NXT:2050i · NXT-04', desc: 'DUV Immersion · Bay 1', tone: 'slate' },
+    params: [['Mask', 'MS-N3E-MER-M1-r17'], ['Dose', '32 mJ/cm²'], ['Focus', '−12 nm']],
+  },
+  'active-etch': {
+    num: 18, badge: 'ETC', badgeTone: 'orange',
+    title: 'Active etch', recipeId: 'STP-N3E-ETCH-AC',
+    status: 'done', completed: 'May 29 · 05:50',
+    tool: { fam: 'CTR', name: 'AMAT Centura · CTR-07', desc: 'Plasma Etch · Bay 2', tone: 'zinc' },
+    params: [['Cl₂ flow', '120 sccm'], ['Source RF', '1100 W'], ['Endpoint', 'OES · 405 nm']],
+  },
+  'sti-fill': {
+    num: 22, badge: 'CVD', badgeTone: 'zinc',
+    title: 'STI fill', recipeId: 'STP-N3E-STIFL-01',
+    status: 'done', completed: 'May 29 · 14:08',
+    tool: { fam: 'PRD', name: 'AMAT Producer SE · PRD-05', desc: 'CVD Dielectric · Bay 4', tone: 'zinc' },
+    params: [['Material', 'HDP oxide'], ['Fill height', '320 nm']],
+  },
+  'sti-cmp': {
+    num: 28, badge: 'CMP', badgeTone: 'emerald',
+    title: 'STI CMP', recipeId: 'STP-N3E-STICM-01',
+    status: 'done', completed: 'May 30 · 03:27',
+    tool: { fam: 'RFX', name: 'AMAT Reflexion LK Prime · RFX-02', desc: 'CMP · Bay 5', tone: 'emerald' },
+    params: [['Slurry', 'Cu/Ox selective'], ['Removal', '320 nm'], ['Endpoint', 'optical'] ],
+  },
+  'well-implant': {
+    num: 41, badge: 'IMP', badgeTone: 'amber',
+    title: 'N-well implant', recipeId: 'STP-N3E-IMPNW-01',
+    status: 'done', completed: 'May 30 · 18:52',
+    tool: { fam: 'QTM', name: 'AMAT Quantum · QTM-01', desc: 'High-energy Implant · Bay 6', tone: 'amber' },
+    params: [['Species', 'P-31'], ['Energy', '600 keV'], ['Dose', '4×10¹³ /cm²']],
+  },
+  'gate-litho': {
+    num: 67, badge: 'EUV', badgeTone: 'slate',
+    title: 'Gate mask exposure', recipeId: 'STP-N3E-LITHO-G',
+    status: 'done', completed: 'Jun 02 · 11:14',
+    tool: { fam: 'NXE', name: 'ASML NXE:3800E · NXE-01', desc: 'EUV Litho · Bay 1', tone: 'slate' },
+    params: [['Mask', 'MS-N3E-MER-GT-r17'], ['Dose', '52 mJ/cm²'], ['Overlay residual', '1.4 nm 3σ']],
+  },
+  'gate-stack': {
+    num: 74, badge: 'ALD', badgeTone: 'zinc',
+    title: 'Hi-K + metal gate stack', recipeId: 'STP-N3E-GATEALD-01',
+    status: 'done', completed: 'Jun 02 · 22:00',
+    tool: { fam: 'END', name: 'AMAT Endura · END-03', desc: 'PVD/ALD · Bay 4', tone: 'zinc' },
+    params: [['Hi-K', 'HfO₂ · 1.8 nm EOT'], ['Work-fn metal', 'TiN · 4 nm'], ['Cap', 'TaN · 2 nm']],
+  },
+  'gate-etch': {
+    num: 88, badge: 'ETC', badgeTone: 'orange',
+    title: 'Gate etch', recipeId: 'STP-N3E-ETCH-G',
+    status: 'done', completed: 'Jun 04 · 06:11',
+    tool: { fam: 'KYO', name: 'LAM Kiyo F · KYO-09', desc: 'Conductor Etch · Bay 2', tone: 'orange' },
+    params: [['Cl₂ flow', '95 sccm'], ['BCl₃ flow', '38 sccm'], ['Endpoint', 'OES']],
+  },
+  'spacer': {
+    num: 94, badge: 'ALD', badgeTone: 'zinc',
+    title: 'Spacer formation', recipeId: 'STP-N3E-SPCR-01',
+    status: 'done', completed: 'Jun 04 · 19:35',
+    tool: { fam: 'PRD', name: 'AMAT Producer SE · PRD-08', desc: 'CVD Dielectric · Bay 4', tone: 'zinc' },
+    params: [['Material', 'Si₃N₄'], ['Thickness', '8 nm']],
+  },
+  'sd-implant': {
+    num: 101, badge: 'IMP', badgeTone: 'amber',
+    title: 'S/D N+ implant', recipeId: 'STP-N3E-IMPSD-N',
+    status: 'done', completed: 'Jun 05 · 12:08',
+    tool: { fam: 'QTM', name: 'AMAT Quantum · QTM-02', desc: 'High-energy Implant · Bay 6', tone: 'amber' },
+    params: [['Species', 'As-75'], ['Energy', '30 keV'], ['Dose', '5×10¹⁵ /cm²']],
+  },
+  'rta-anneal': {
+    num: 108, badge: 'RTA', badgeTone: 'rose',
+    title: 'RTA spike anneal', recipeId: 'STP-N3E-ANNEAL-01',
+    status: 'done', completed: 'Jun 06 · 04:42',
+    tool: { fam: 'RTA', name: 'AMAT Vantage RTP · RTA-04', desc: 'Anneal · Bay 7', tone: 'rose' },
+    params: [['Peak temp', '1050 °C'], ['Spike duration', '1.5 s'], ['Ambient', 'N₂']],
+  },
+  'pmd': {
+    num: 122, badge: 'CVD', badgeTone: 'zinc',
+    title: 'Pre-metal dielectric', recipeId: 'STP-N3E-PMD-01',
+    status: 'done', completed: 'Jun 09 · 16:14',
+    tool: { fam: 'PRD', name: 'AMAT Producer SE · PRD-12', desc: 'CVD Dielectric · Bay 4', tone: 'zinc' },
+    params: [['Material', 'TEOS oxide'], ['Thickness', '180 nm']],
+  },
+  'm3-etch': {
+    num: 142, total: 487,
+    badge: 'ETC', badgeTone: 'red',
+    title: 'M3 metal etch', recipeId: 'STP-N3E-M3-ETCH-A4',
+    status: 'held',
+    tool: { fam: 'KYO', name: 'LAM Kiyo F · KYO-04', desc: 'Conductor Etch · Bay 2', tone: 'orange' },
+    params: [
+      ['Recipe ID',  'N3E-M3-A4 r17'],
+      ['Cl₂ flow',   '110 sccm'],
+      ['BCl₃ flow',  '42 sccm'],
+      ['Pressure',   '8 mTorr'],
+      ['Source RF',  '1200 W'],
+      ['Bias RF',    '180 W'],
+      ['Endpoint',   'OES · 405 nm'],
+      ['Target depth','120 ± 4 nm'],
+    ],
+    spc: [
+      { label: 'Defect density (post-etch)', tone: 'crit', value: '+3.2σ' },
+      { label: 'CD bias',                    tone: 'ok',   value: '−0.4σ' },
+      { label: 'Etch depth',                 tone: 'ok',   value: '+0.1σ' },
+    ],
+    holdInfo: {
+      title: 'Hold · pending integration eng',
+      body:  'Defect cluster on W2614-N3 exceeded SPC limit. Recipe re-qual gated on R. Patel review. Estimated release within <strong>4h</strong>.',
+    },
+  },
+  'm3-cu-fill': {
+    num: 143, badge: 'PVD', badgeTone: 'zinc',
+    title: 'M3 Cu fill', recipeId: 'STP-N3E-M3-FILL',
+    status: 'queued', queuedFor: 'after release',
+    tool: { fam: 'END', name: 'AMAT Endura · END-04', desc: 'PVD Cu · Bay 4', tone: 'zinc' },
+    params: [['Seed', 'PVD Cu · 25 nm'], ['Fill', 'electroplate']],
+  },
+  'm3-cmp': {
+    num: 144, badge: 'CMP', badgeTone: 'emerald',
+    title: 'M3 CMP', recipeId: 'STP-N3E-M3-CMP',
+    status: 'queued', queuedFor: 'Jun 17 · 09:00 (est)',
+    tool: { fam: 'RFX', name: 'AMAT Reflexion · RFX-03', desc: 'CMP · Bay 5', tone: 'emerald' },
+    params: [['Slurry', 'Cu polish'], ['Pad', 'PSL · 28 s']],
+  },
+  'kla-inspect': {
+    num: 145, badge: 'MET', badgeTone: 'sky',
+    title: 'Defect inspection (post-M3)', recipeId: 'STP-N3E-METRO-M3',
+    status: 'queued', queuedFor: 'Jun 17 · 13:00 (est)',
+    tool: { fam: 'SP7', name: 'KLA Surfscan SP7 · SP7-02', desc: 'Defect Inspection · Metro', tone: 'sky' },
+    params: [['Throughput', '110 wph'], ['Detection threshold', '20 nm']],
+  },
+  'continues': {
+    num: 146, badge: '···', badgeTone: 'zinc',
+    title: 'Process continues', recipeId: 'STP-N3E-…',
+    status: 'marker',
+    description: 'The flow continues for another 342 steps through M4–M18 metallization, packaging, and final probe.',
+  },
+}
+
+// ============ Inspector renderer ============
+const inspector = document.getElementById('inspector')
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]))
+}
+
+function renderInspector(stepKey) {
+  const s = STEPS[stepKey]
+  if (!s) { inspector.innerHTML = ''; return }
+  const status = STATUS[s.status] || STATUS.done
+  const headerTone = TONE[s.badgeTone] || TONE.zinc
+  const labelTone  = TONE[status.tone] || TONE.zinc
+
+  // Header
+  let html = `
+    <header class="border-b border-zinc-200 px-5 py-4">
+      <div class="flex items-center gap-2">
+        <span class="grid h-7 w-7 place-items-center rounded-md ${headerTone.bg} text-[10px] font-bold ${headerTone.text} ring-1 ring-inset ${headerTone.ring}">${escapeHtml(s.badge)}</span>
+        <span class="text-[11px] font-semibold uppercase tracking-wider ${labelTone.text}">${escapeHtml(status.label)}</span>
+      </div>
+      <h2 class="mt-2 text-[16px] font-semibold tracking-tight text-zinc-950">${escapeHtml(s.title)}</h2>
+      <div class="mt-1 font-mono text-[10.5px] tabular-nums text-zinc-400">step ${s.num}${s.total ? ' / ' + s.total : ''} · ${escapeHtml(s.recipeId)}</div>
+    </header>
+    <div class="space-y-5 px-5 py-4">`
+
+  // Status hint (timestamp / ETA / description)
+  if (s.status === 'done' && s.completed) {
+    html += `<div class="text-[12px] text-zinc-500">Completed <span class="font-mono tabular-nums text-zinc-700">${escapeHtml(s.completed)}</span> · all wafers passed.</div>`
+  } else if (s.status === 'queued') {
+    html += `<div class="text-[12px] text-zinc-500">Queued — <span class="font-mono tabular-nums text-zinc-700">${escapeHtml(s.queuedFor || 'TBD')}</span>.</div>`
+  } else if (s.status === 'running') {
+    html += `<div class="text-[12px] text-sky-700">Currently processing — wafers in motion.</div>`
+  } else if (s.description) {
+    html += `<p class="text-[12.5px] leading-relaxed text-zinc-600">${escapeHtml(s.description)}</p>`
+  }
+
+  // Tool binding
+  if (s.tool) {
+    const t = TONE[s.tool.tone] || TONE.zinc
+    html += `
+      <div>
+        <div class="mb-2 text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Tool binding</div>
+        <a href="tool-detail.html" class="flex items-center gap-2.5 rounded-md border border-zinc-200 bg-white p-2.5 transition hover:border-zinc-300 hover:bg-zinc-50">
+          <span class="grid h-8 w-8 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br ${t.grad} text-[10px] font-bold ${t.text} ring-1 ring-inset ${t.ring}">${escapeHtml(s.tool.fam)}</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[12.5px] font-semibold text-zinc-950">${escapeHtml(s.tool.name)}</div>
+            <div class="text-[11px] text-zinc-500">${escapeHtml(s.tool.desc)}</div>
+          </div>
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+      </div>`
+  }
+
+  // Recipe params
+  if (s.params && s.params.length) {
+    html += `
+      <div>
+        <div class="mb-2 flex items-center justify-between">
+          <div class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Recipe parameters</div>
+          ${s.status === 'held' || s.status === 'running' ? '<button class="text-[11px] font-medium text-zinc-700 transition hover:text-zinc-900">Edit</button>' : ''}
+        </div>
+        <dl class="space-y-1.5 rounded-md border border-zinc-200 bg-white p-3 text-[12px]">
+          ${s.params.map(([k,v]) => `<div class="flex justify-between"><dt class="text-zinc-500">${escapeHtml(k)}</dt><dd class="tabular-nums text-zinc-800${/Recipe ID/i.test(k) ? ' font-mono' : ''}">${escapeHtml(v)}</dd></div>`).join('')}
+        </dl>
+      </div>`
+  }
+
+  // SPC gates
+  if (s.spc && s.spc.length) {
+    html += `
+      <div>
+        <div class="mb-2 text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">SPC gates</div>
+        <ul class="space-y-1 text-[12px]">
+          ${s.spc.map(g => g.tone === 'crit'
+            ? `<li class="flex items-center justify-between rounded-md bg-red-50 px-2.5 py-1.5 ring-1 ring-inset ring-red-200"><span class="text-zinc-700">${escapeHtml(g.label)}</span><span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-red-500"></span><span class="font-semibold tabular-nums text-red-800">${escapeHtml(g.value)}</span></span></li>`
+            : `<li class="flex items-center justify-between rounded-md bg-zinc-50 px-2.5 py-1.5"><span class="text-zinc-700">${escapeHtml(g.label)}</span><span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span><span class="font-medium tabular-nums text-zinc-700">${escapeHtml(g.value)}</span></span></li>`
+          ).join('')}
+        </ul>
+      </div>`
+  }
+
+  // Hold panel
+  if (s.holdInfo) {
+    html += `
+      <div class="rounded-md border border-amber-200 bg-amber-50/60 p-3">
+        <div class="flex items-center gap-2">
+          <span class="grid h-5 w-5 place-items-center rounded-full bg-amber-100 text-amber-800">
+            <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          </span>
+          <span class="text-[12px] font-semibold text-amber-900">${escapeHtml(s.holdInfo.title)}</span>
+        </div>
+        <p class="mt-1.5 text-[11.5px] leading-relaxed text-amber-900/90">${s.holdInfo.body}</p>
+        <div class="mt-2 flex gap-2">
+          <button class="inline-flex h-7 items-center rounded-md bg-amber-900 px-2.5 text-[11px] font-medium text-amber-50">Release hold</button>
+          <button class="inline-flex h-7 items-center rounded-md border border-amber-300 bg-white px-2.5 text-[11px] font-medium text-amber-900">Open ticket</button>
+        </div>
+      </div>`
+  }
+
+  html += `</div>`
+  inspector.innerHTML = html
+}
+
+// ============ Click wiring ============
+function selectStep(stepKey) {
+  document.querySelectorAll('.node[data-step]').forEach(n => {
+    n.removeAttribute('data-selected')
+  })
+  const node = document.querySelector(`.node[data-step="${stepKey}"]`)
+  if (node) node.setAttribute('data-selected', 'true')
+  renderInspector(stepKey)
+}
+
+document.querySelectorAll('.node[data-step]').forEach(n => {
+  n.addEventListener('click', () => selectStep(n.dataset.step))
+})
+
+// Initial selection: M3 etch (the held step) so the page opens with the
+// inspector already populated and matching the canvas highlight.
+selectStep('m3-etch')
+</script>
+
+</body>
+</html>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Process BOM · Meridian M6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</a></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</a></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</span></li>
+        <li><a href="vendors.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</a></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <main class="overflow-y-auto">
+    <div class="mx-auto w-full max-w-[1320px] px-6 pb-16 pt-6 lg:px-12 xl:px-16">
+
+      <!-- Breadcrumb -->
+      <nav class="mb-4 flex items-center gap-1.5 text-[12.5px] text-zinc-500">
+        <span>Process BOM</span>
+        <svg viewBox="0 0 12 12" class="h-3 w-3 text-zinc-300" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l4 4-4 4"/></svg>
+        <span id="breadcrumbProduct">Meridian M6</span>
+        <svg viewBox="0 0 12 12" class="h-3 w-3 text-zinc-300" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l4 4-4 4"/></svg>
+        <span id="breadcrumbRev" class="font-medium text-zinc-900">N3E base · Rev 17</span>
+      </nav>
+
+      <!-- Hero -->
+      <header class="mb-6 flex items-start justify-between gap-6">
+        <div class="min-w-0">
+          <h1 id="heroTitle" class="text-[26px] font-semibold tracking-tight text-zinc-950">Meridian M6</h1>
+          <p id="heroSubtitle" class="mt-2 max-w-3xl text-[14px] leading-relaxed text-zinc-500">
+            Layer-by-layer photomask, chemistry, and consumable tree for the Aetheron Meridian M6 die on N3E.
+            Per-wafer consumption rates feed the supply-buffer model on the right; click any row to open its full part detail.
+          </p>
+        </div>
+        <div class="flex flex-shrink-0 gap-2">
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Export tree
+          </button>
+        </div>
+      </header>
+      <hr class="mb-6 border-zinc-200" />
+
+      <!-- Product picker -->
+      <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div id="productTabs" class="inline-flex rounded-lg border border-zinc-200 bg-white p-0.5">
+          <button data-product="meridian" class="product-tab rounded-md px-3 py-1.5 text-[12.5px] font-medium transition">Meridian M6</button>
+          <button data-product="sinew" class="product-tab rounded-md px-3 py-1.5 text-[12.5px] font-medium transition">Sinew N2</button>
+          <button data-product="loom" class="product-tab rounded-md px-3 py-1.5 text-[12.5px] font-medium transition">Loom D2</button>
+          <button data-product="vela" class="product-tab rounded-md px-3 py-1.5 text-[12.5px] font-medium transition">Vela SC</button>
+        </div>
+        <span class="text-[11.5px] text-zinc-500">4 products in production at Fab 1</span>
+      </div>
+
+      <!-- KPI strip -->
+      <div class="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-5">
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Process node</div>
+          <div id="kpiNode" class="mt-1.5 text-[20px] font-semibold tracking-tight text-zinc-950">N3E</div>
+          <div id="kpiNodeDetail" class="mt-1 text-[11.5px] text-zinc-500">3 nm Enhanced</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Metal layers</div>
+          <div id="kpiMetals" class="mt-1.5 text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">18</div>
+          <div id="kpiMetalsDetail" class="mt-1 text-[11.5px] text-zinc-500">M1–M18 + RDL</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Photomasks</div>
+          <div id="kpiMasks" class="mt-1.5 text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">47</div>
+          <div id="kpiMasksDetail" class="mt-1 text-[11.5px] text-zinc-500">12 EUV · 35 DUV</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Recipe steps</div>
+          <div id="kpiSteps" class="mt-1.5 text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">487</div>
+          <div id="kpiStepsDetail" class="mt-1 text-[11.5px] text-zinc-500">incl. 38 metro gates</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Mat'l cost / wafer</div>
+          <div id="kpiCost" class="mt-1.5 text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">$1,840</div>
+          <div id="kpiCostDelta" class="mt-1 text-[11.5px] tabular-nums text-emerald-700">−4% vs Rev 16</div>
+        </div>
+      </div>
+
+      <!-- Two col -->
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[1.7fr_1fr]">
+
+        <!-- TREE -->
+        <section class="rounded-lg border border-zinc-200 bg-white">
+          <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+            <div class="flex items-center gap-2">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Layer tree</h2>
+              <span id="treeHeaderRev" class="rounded-md bg-zinc-100 px-2 py-0.5 text-[10.5px] font-medium text-zinc-600">Rev 17 · effective</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="expandAll" class="inline-flex h-8 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 text-[12px] font-medium text-zinc-700 transition hover:bg-zinc-50">
+                <svg id="expandAllIcon" viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+                <span id="expandAllLabel">Expand all</span>
+              </button>
+              <div class="relative w-56 max-w-full">
+                <svg viewBox="0 0 24 24" class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+                <input id="bomSearch" type="search" placeholder="Filter layers, masks…" class="w-full rounded-md border border-zinc-200 bg-white py-1.5 pl-8 pr-3 text-[12.5px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-1" />
+              </div>
+            </div>
+          </header>
+          <div id="tree" class="px-2 py-2 text-[12.5px]"></div>
+        </section>
+
+        <!-- RIGHT RAIL -->
+        <aside class="space-y-6">
+
+          <!-- Supply buffers -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Supply buffers</h2>
+              <span class="text-[11.5px] tabular-nums text-zinc-500">days of cover at 3,400 wafers/wk</span>
+            </header>
+            <ul class="divide-y divide-zinc-100 text-[12px]">
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">JSR EUV resist · PR-EUV-7242</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-amber-500" style="width:35%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-amber-700">14d</span>
+              </li>
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">TOK ArF immersion resist</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-zinc-900" style="width:75%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-zinc-700">38d</span>
+              </li>
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">Cu electroplating bath · Atotech</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-zinc-900" style="width:88%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-zinc-700">52d</span>
+              </li>
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">HfCl₄ ALD precursor</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-zinc-900" style="width:62%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-zinc-700">28d</span>
+              </li>
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">Cl₂ · 6N · etch</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-emerald-500" style="width:96%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-emerald-700">110d</span>
+              </li>
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">Co W-fill chemistry · LAM</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-red-500" style="width:18%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-red-700">7d</span>
+              </li>
+              <li class="flex items-center gap-3 px-5 py-2.5">
+                <span class="flex-1 truncate text-zinc-800">Slurry · CMC · Cu/oxide</span>
+                <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-100">
+                  <div class="h-full rounded-full bg-zinc-900" style="width:70%"></div>
+                </div>
+                <span class="w-9 text-right font-medium tabular-nums text-zinc-700">34d</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- DG / hazmat callout -->
+          <section class="rounded-lg border border-orange-200 bg-orange-50/50 p-4">
+            <div class="flex items-start gap-3">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-orange-100 text-orange-800">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>
+              </span>
+              <div class="min-w-0">
+                <h3 class="text-[12.5px] font-semibold text-zinc-950">14 dangerous-goods chemistries on this BOM</h3>
+                <p class="mt-1 text-[11.5px] leading-relaxed text-zinc-700">
+                  Includes arsine (UN2188), phosphine (UN2199), HF (UN1790), Cl₂ (UN1017), and 10 others. IATA Class 2.3 and 8 dominant.
+                </p>
+                <a href="#" class="mt-1.5 inline-flex items-center gap-1 text-[11.5px] font-medium text-zinc-900 transition hover:text-orange-800">Open Hazmat &amp; DG <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l4 4-4 4"/></svg></a>
+              </div>
+            </div>
+          </section>
+
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ PART DETAIL DRAWER ============ -->
+<div id="partOverlay" class="fixed inset-0 z-40 hidden bg-zinc-950/25 transition-opacity" aria-hidden="true"></div>
+
+<aside id="partDrawer" class="fixed inset-y-0 right-0 z-50 flex w-full max-w-[460px] translate-x-full flex-col bg-white shadow-2xl transition-transform duration-200 ease-out"
+       role="dialog" aria-modal="true" aria-labelledby="drawerName" aria-hidden="true">
+  <header class="flex items-start justify-between gap-3 border-b border-zinc-200 px-6 py-5">
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-2">
+        <span id="drawerKind" class="grid h-6 w-11 place-items-center rounded-md text-[9.5px] font-bold ring-1 ring-inset">MASK</span>
+        <span id="drawerCode" class="font-mono text-[11px] font-semibold tabular-nums text-zinc-500">MS-N3E-MER-M3-r17</span>
+      </div>
+      <h2 id="drawerName" class="mt-2 text-[18px] font-semibold tracking-tight text-zinc-950">M3 Photomask</h2>
+      <div id="drawerPath" class="mt-1 truncate font-mono text-[11px] tabular-nums text-zinc-400">BEOL › Metal 3</div>
+    </div>
+    <button id="drawerClose" class="grid h-8 w-8 flex-shrink-0 place-items-center rounded-md border border-zinc-200 bg-white text-zinc-500 transition hover:bg-zinc-50 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-1" aria-label="Close">
+      <svg viewBox="0 0 15.8472 15.4956" class="h-3.5 w-3.5" fill="currentColor"><path d="M13.9929 0.27223L0.252699 14.0125C-0.0793324 14.3445-0.0890981 14.9109 0.252699 15.2429C0.594496 15.575 1.1609 15.575 1.49293 15.2429L15.2332 1.5027C15.5652 1.17067 15.575 0.604261 15.2332 0.27223C14.8914-0.0695668 14.3347-0.0793324 13.9929 0.27223ZM15.2332 14.0125L1.49293 0.27223C1.1609-0.0695668 0.58473-0.0793324 0.252699 0.27223C-0.0793324 0.614027-0.0793324 1.17067 0.252699 1.5027L13.9929 15.2429C14.325 15.575 14.9011 15.5847 15.2332 15.2429C15.5652 14.9011 15.5652 14.3445 15.2332 14.0125Z"/></svg>
+    </button>
+  </header>
+
+  <div class="flex-1 overflow-y-auto">
+    <section class="border-b border-zinc-200 px-6 py-5">
+      <h3 class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Identification</h3>
+      <dl id="drawerBasics" class="mt-3 space-y-2 text-[12.5px]"></dl>
+    </section>
+
+    <section class="border-b border-zinc-200 px-6 py-5">
+      <h3 id="drawerSpecsTitle" class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Specifications</h3>
+      <dl id="drawerSpecs" class="mt-3 space-y-2 text-[12.5px]"></dl>
+    </section>
+
+    <section class="border-b border-zinc-200 px-6 py-5">
+      <div class="flex items-center justify-between">
+        <h3 class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Supply cover</h3>
+        <span class="text-[11px] tabular-nums text-zinc-400">at 3,400 wafers/wk</span>
+      </div>
+      <div id="drawerSupply" class="mt-3"></div>
+    </section>
+
+    <section class="border-b border-zinc-200 px-6 py-5">
+      <h3 class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Active lots using this</h3>
+      <ul id="drawerLots" class="mt-3 space-y-1.5"></ul>
+    </section>
+
+    <section class="px-6 py-5">
+      <h3 class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">Recent activity</h3>
+      <ol id="drawerActivity" class="mt-3 space-y-3"></ol>
+    </section>
+  </div>
+
+  <footer class="flex items-center gap-2 border-t border-zinc-200 bg-zinc-50 px-6 py-4">
+    <button class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-md border border-zinc-200 bg-white px-3 py-2 text-[13px] font-medium text-zinc-800 transition hover:bg-zinc-50">Request requal</button>
+    <button id="drawerOpenVendor" class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-md border border-zinc-900 bg-zinc-900 px-3 py-2 text-[13px] font-medium text-white transition hover:bg-zinc-800">Open vendor</button>
+  </footer>
+</aside>
+
+<script>
+  // ============ BOM tree data ============
+  // Three-level tree: section → layer → leaf (mask | chemistry | consumable)
+  const TREE = [
+    { id: 'feol', label: 'Front-end of line (FEOL)', sub: '128 steps · 14 masks', open: true,
+      children: [
+        { id: 'feol-sti', label: 'Shallow-trench isolation', sub: '8 steps · 1 mask', open: false, children: [
+          { kind: 'mask',  label: 'STI photomask',                code: 'MS-N3E-MER-STI-r17', vendor: 'Toppan',          tone: 'slate', detail: 'DUV · binary',     usage: '1 / 1000w' },
+          { kind: 'chem',  label: 'HDP oxide deposition',         code: 'CVD-HDP-OX',         vendor: 'AMAT',            tone: 'zinc',  detail: 'Producer SE',      usage: '120 nm' },
+          { kind: 'chem',  label: 'STI CMP slurry · Cu-stop',     code: 'CMP-SLR-Cu',         vendor: 'Cabot',           tone: 'emerald', detail: 'Cu/Ox selective', usage: '180 mL/wafer' },
+        ]},
+        { id: 'feol-well', label: 'Well + active', sub: '6 steps · 2 masks', open: false, children: [
+          { kind: 'mask',  label: 'N-well photomask',             code: 'MS-N3E-MER-NW-r17',  vendor: 'Toppan',          tone: 'slate', detail: 'DUV · binary',     usage: '1 / 1000w' },
+          { kind: 'mask',  label: 'P-well photomask',             code: 'MS-N3E-MER-PW-r17',  vendor: 'Toppan',          tone: 'slate', detail: 'DUV · binary',     usage: '1 / 1000w' },
+          { kind: 'chem',  label: 'P-31 implant species',         code: 'IMP-P31',            vendor: 'Linde',           tone: 'amber', detail: '600 keV',          usage: '4×10¹³ /cm²' },
+          { kind: 'chem',  label: 'B-11 implant species',         code: 'IMP-B11',            vendor: 'Linde',           tone: 'amber', detail: '300 keV',          usage: '5×10¹³ /cm²' },
+        ]},
+        { id: 'feol-gate', label: 'Gate stack (Hi-K + metal)', sub: '14 steps · 1 mask', open: true, children: [
+          { kind: 'mask',  label: 'Gate photomask',               code: 'MS-N3E-MER-GT-r17',  vendor: 'DNP',             tone: 'slate', detail: 'EUV · low-defect', usage: '1 / 1000w' },
+          { kind: 'chem',  label: 'HfCl₄ ALD precursor',          code: 'ALD-HfCl4',          vendor: 'Versum',          tone: 'orange',detail: 'Hi-K · 1.8 nm EOT',usage: '0.42 g/wafer' },
+          { kind: 'chem',  label: 'TiN PVD target',               code: 'PVD-TiN',            vendor: 'AMAT',            tone: 'zinc',  detail: 'Endura · 4 nm',    usage: '0.18 g/wafer' },
+          { kind: 'chem',  label: 'TaN ALD precursor (TBTDET)',   code: 'ALD-TaN',            vendor: 'Versum',          tone: 'orange',detail: 'work-function tune', usage: '0.22 g/wafer' },
+          { kind: 'chem',  label: 'Cl₂ + BCl₃ gate etch',         code: 'ETCH-GATE-Cl',       vendor: 'Linde',           tone: 'amber', detail: 'Kiyo · endpoint',  usage: '38 sccm' },
+        ]},
+        { id: 'feol-sd', label: 'S/D + spacer + silicide', sub: '12 steps · 2 masks', open: false, children: [] },
+      ]
+    },
+    { id: 'mol', label: 'Middle of line (MOL)', sub: '34 steps · 3 masks', open: false,
+      children: [
+        { id: 'mol-cnt', label: 'Contacts', sub: '12 steps · 2 masks', open: false, children: [
+          { kind: 'mask',  label: 'Contact photomask',            code: 'MS-N3E-MER-CO-r17',  vendor: 'Toppan',          tone: 'slate', detail: 'EUV',              usage: '1 / 1000w' },
+          { kind: 'chem',  label: 'W-fill (WF₆ + H₂)',            code: 'CVD-W',              vendor: 'LAM ALTUS',       tone: 'orange',detail: 'plug fill',        usage: '0.31 g/wafer' },
+          { kind: 'chem',  label: 'Co liner ALD',                 code: 'ALD-CoL',            vendor: 'AMAT',            tone: 'zinc',  detail: 'wetting layer',    usage: '0.05 g/wafer' },
+        ]},
+      ]
+    },
+    { id: 'beol', label: 'Back-end of line (BEOL)', sub: '325 steps · 30 masks · M1–M18', open: true,
+      children: [
+        { id: 'beol-m1', label: 'Metal 1', sub: '18 steps · 1 mask', open: false, children: [
+          { kind: 'mask',  label: 'M1 photomask',                 code: 'MS-N3E-MER-M1-r17',  vendor: 'DNP',             tone: 'slate', detail: 'EUV',              usage: '1 / 1000w' },
+          { kind: 'chem',  label: 'JSR EUV resist',               code: 'PR-EUV-7242',        vendor: 'JSR',             tone: 'orange',detail: '480L · 14d cover', usage: '0.18 mL/wafer', warn: true },
+          { kind: 'chem',  label: 'Cu electroplate bath',         code: 'EP-CuBATH-A',        vendor: 'Atotech',         tone: 'zinc',  detail: '52d cover',         usage: '12 mL/wafer' },
+          { kind: 'chem',  label: 'Cu CMP slurry',                code: 'CMP-SLR-Cu',         vendor: 'CMC',             tone: 'emerald', detail: '34d cover',       usage: '180 mL/wafer' },
+        ]},
+        { id: 'beol-m3', label: 'Metal 3', sub: '18 steps · 1 mask', open: true, children: [
+          { kind: 'mask',  label: 'M3 photomask',                 code: 'MS-N3E-MER-M3-r17',  vendor: 'Toppan',          tone: 'slate', detail: 'EUV · selected',    usage: '1 / 1000w', selected: true },
+          { kind: 'chem',  label: 'JSR EUV resist',               code: 'PR-EUV-7242',        vendor: 'JSR',             tone: 'orange',detail: 'shared with M1/M5/M7', usage: '0.18 mL/wafer', warn: true },
+          { kind: 'chem',  label: 'Cu electroplate bath',         code: 'EP-CuBATH-A',        vendor: 'Atotech',         tone: 'zinc',  detail: 'shared',            usage: '12 mL/wafer' },
+          { kind: 'chem',  label: 'BCl₃ etch',                    code: 'ETCH-BCl3',          vendor: 'Linde',           tone: 'amber', detail: 'Cu/Ta cap',         usage: '42 sccm' },
+        ]},
+        { id: 'beol-mid', label: 'Metal 4–8 (intermediate)', sub: '90 steps · 5 masks', open: false, children: [] },
+        { id: 'beol-thk', label: 'Metal 9–15 (thick Cu)', sub: '105 steps · 7 masks', open: false, children: [] },
+        { id: 'beol-rdl', label: 'Metal 16–18 + RDL', sub: '60 steps · 3 masks', open: false, children: [] },
+      ]
+    },
+    { id: 'pkg', label: 'Wafer-level packaging', sub: '24 steps', open: false, children: [
+      { kind: 'chem', label: 'Solder bumps · SnAgCu', code: 'PKG-SAC305', vendor: 'Senju', tone: 'orange', detail: 'C4 · 250µm pitch', usage: '0.06 g/wafer' },
+      { kind: 'chem', label: 'Underfill · NCF', code: 'PKG-NCF',     vendor: 'Hitachi', tone: 'zinc',   detail: 'CoWoS-S compatible', usage: '0.4 g/wafer' },
+    ]}
+  ]
+
+  const TONE_PILL = {
+    slate:   'bg-slate-100 text-slate-700 ring-slate-200',
+    zinc:    'bg-zinc-100 text-zinc-700 ring-zinc-200',
+    orange:  'bg-orange-100 text-orange-800 ring-orange-200',
+    rose:    'bg-rose-100 text-rose-800 ring-rose-200',
+    emerald: 'bg-emerald-100 text-emerald-800 ring-emerald-200',
+    amber:   'bg-amber-100 text-amber-800 ring-amber-200',
+    sky:     'bg-sky-100 text-sky-800 ring-sky-200',
+  }
+  const KIND_LABEL = { mask: 'MASK', chem: 'CHEM', cons: 'CONS' }
+
+  function renderTree() {
+    const root = document.getElementById('tree')
+    root.innerHTML = ''
+    TREE.forEach(section => root.appendChild(renderSection(section, 0, [])))
+    if (window.glossaryRefresh) window.glossaryRefresh()
+  }
+
+  function renderSection(node, depth, ancestry) {
+    const wrap = document.createElement('div')
+    wrap.className = 'mb-0.5'
+    const head = document.createElement('button')
+    head.className = `group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left transition hover:bg-zinc-50 ${depth===0 ? 'font-semibold' : ''}`
+    head.style.paddingLeft = `${8 + depth*20}px`
+      head.innerHTML = `
+      <svg viewBox="0 0 24 24" class="h-3 w-3 flex-shrink-0 text-zinc-400 transition-transform ${node.open ? 'rotate-90' : ''}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      <span class="flex-1 truncate text-zinc-${depth===0 ? '950' : '800'}">${node.label}</span>
+      <span class="ml-2 text-[11px] tabular-nums text-zinc-400">${node.sub || ''}</span>
+    `
+    head.addEventListener('click', () => { node.open = !node.open; renderTree(); refreshExpandAllLabel() })
+    wrap.appendChild(head)
+
+    const nextAncestry = [...ancestry, node.label]
+    if (node.open && node.children && node.children.length) {
+      const kids = document.createElement('div')
+      kids.className = 'mt-0.5'
+      node.children.forEach(child => {
+        if (child.kind) kids.appendChild(renderLeaf(child, depth+1, nextAncestry))
+        else kids.appendChild(renderSection(child, depth+1, nextAncestry))
+      })
+      wrap.appendChild(kids)
+    } else if (node.open && (!node.children || !node.children.length)) {
+      const empty = document.createElement('div')
+      empty.className = 'rounded-md bg-zinc-50 px-3 py-2 text-[11.5px] italic text-zinc-500'
+      empty.style.marginLeft = `${28 + depth*20}px`
+      empty.textContent = 'Layer scope collapsed for brevity in mockup.'
+      wrap.appendChild(empty)
+    }
+    return wrap
+  }
+
+  function renderLeaf(leaf, depth, ancestry) {
+    const row = document.createElement('button')
+    const sel = leaf.selected ? 'bg-zinc-100 ring-1 ring-inset ring-zinc-200' : 'hover:bg-zinc-50'
+    row.className = `bom-leaf group flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-left transition ${sel}`
+    row.style.paddingLeft = `${8 + depth*20}px`
+    row.dataset.code = leaf.code
+    row.dataset.label = leaf.label
+    const pill = TONE_PILL[leaf.tone] || TONE_PILL.zinc
+    const warn = leaf.warn ? `<span class="ml-1 inline-flex items-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-800"><span class="h-1 w-1 rounded-full bg-amber-500"></span>14d</span>` : ''
+    row.innerHTML = `
+      <span class="grid h-6 w-9 flex-shrink-0 place-items-center rounded-md ${pill} text-[9.5px] font-bold ring-1 ring-inset">${KIND_LABEL[leaf.kind]}</span>
+      <span class="min-w-0 flex-1">
+        <span class="block truncate text-[12.5px] font-medium text-zinc-900">${leaf.label}${warn}</span>
+        <span class="block truncate font-mono text-[10.5px] tabular-nums text-zinc-400">${productizeCode(leaf.code)} · ${leaf.vendor} · ${leaf.detail}</span>
+      </span>
+      <span class="hidden text-[11px] tabular-nums text-zinc-500 md:inline">${leaf.usage}</span>
+    `
+    row.addEventListener('click', () => {
+      document.querySelectorAll('.bom-leaf').forEach(x => x.classList.remove('bg-zinc-100','ring-1','ring-inset','ring-zinc-200'))
+      row.classList.add('bg-zinc-100','ring-1','ring-inset','ring-zinc-200')
+      openDrawer(leaf, ancestry)
+    })
+    return row
+  }
+
+  function allInternalOpen() {
+    let allOpen = true
+    function check(n) {
+      if (n.children) {
+        if (!n.open) allOpen = false
+        n.children.forEach(check)
+      }
+    }
+    TREE.forEach(check)
+    return allOpen
+  }
+
+  function refreshExpandAllLabel() {
+    const open = allInternalOpen()
+    document.getElementById('expandAllLabel').textContent = open ? 'Collapse all' : 'Expand all'
+    document.getElementById('expandAllIcon').innerHTML = open
+      ? '<path d="M7 11l5-5 5 5M7 18l5-5 5 5"/>'
+      : '<path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>'
+  }
+
+  document.getElementById('expandAll').addEventListener('click', () => {
+    const target = !allInternalOpen()
+    function walk(n) { if (n.children) { n.open = target; n.children.forEach(c => c.kind ? null : walk(c)) } }
+    TREE.forEach(walk)
+    renderTree()
+    refreshExpandAllLabel()
+  })
+
+  document.getElementById('bomSearch').addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase()
+    if (!q) { document.querySelectorAll('.bom-leaf').forEach(b => b.style.display = ''); return }
+    document.querySelectorAll('.bom-leaf').forEach(b => {
+      const hay = (b.dataset.label + ' ' + b.dataset.code).toLowerCase()
+      b.style.display = hay.includes(q) ? '' : 'none'
+    })
+  })
+
+  // ============ Part detail drawer ============
+  const KIND_TITLE = { mask: 'Reticle', chem: 'Chemistry', cons: 'Consumable' }
+
+  function openDrawer(leaf, ancestry) {
+    const drawer = document.getElementById('partDrawer')
+    const overlay = document.getElementById('partOverlay')
+
+    // Header
+    const kindEl = document.getElementById('drawerKind')
+    kindEl.className = `grid h-6 w-11 place-items-center rounded-md ${TONE_PILL[leaf.tone] || TONE_PILL.zinc} text-[9.5px] font-bold ring-1 ring-inset`
+    kindEl.textContent = KIND_LABEL[leaf.kind] || 'PART'
+    document.getElementById('drawerCode').textContent = productizeCode(leaf.code)
+    document.getElementById('drawerName').textContent = leaf.label
+    document.getElementById('drawerPath').textContent = ancestry.filter(Boolean).join(' › ')
+    document.getElementById('drawerSpecsTitle').textContent = KIND_TITLE[leaf.kind] || 'Specifications'
+
+    // Body
+    document.getElementById('drawerBasics').innerHTML = renderBasics(leaf)
+    document.getElementById('drawerSpecs').innerHTML = renderSpecs(leaf)
+    document.getElementById('drawerSupply').innerHTML = renderSupply(leaf)
+    document.getElementById('drawerLots').innerHTML = renderLots(leaf)
+    document.getElementById('drawerActivity').innerHTML = renderActivity(leaf)
+    document.getElementById('drawerOpenVendor').dataset.vendor = leaf.vendor
+
+    overlay.classList.remove('hidden')
+    overlay.setAttribute('aria-hidden', 'false')
+    requestAnimationFrame(() => {
+      drawer.classList.remove('translate-x-full')
+      drawer.setAttribute('aria-hidden', 'false')
+    })
+    if (window.glossaryRefresh) window.glossaryRefresh()
+  }
+
+  function closeDrawer() {
+    const drawer = document.getElementById('partDrawer')
+    const overlay = document.getElementById('partOverlay')
+    drawer.classList.add('translate-x-full')
+    drawer.setAttribute('aria-hidden', 'true')
+    overlay.setAttribute('aria-hidden', 'true')
+    setTimeout(() => overlay.classList.add('hidden'), 200)
+    document.querySelectorAll('.bom-leaf').forEach(x => x.classList.remove('bg-zinc-100','ring-1','ring-inset','ring-zinc-200'))
+  }
+
+  function dlRow(k, v) {
+    return `<div class="flex justify-between gap-4"><dt class="text-zinc-500">${k}</dt><dd class="text-right text-zinc-800">${v}</dd></div>`
+  }
+
+  function renderBasics(leaf) {
+    return [
+      dlRow('Code',            `<span class="font-mono tabular-nums">${productizeCode(leaf.code)}</span>`),
+      dlRow('Vendor',          leaf.vendor),
+      dlRow('Detail',          leaf.detail),
+      dlRow('Per-wafer usage', `<span class="tabular-nums">${leaf.usage}</span>`),
+    ].join('')
+  }
+
+  function renderSpecs(leaf) {
+    if (leaf.kind === 'mask') {
+      const isEuv = /EUV/i.test(leaf.detail)
+      return [
+        dlRow('Type',           isEuv ? 'EUV · low-defect PSM' : 'DUV · binary'),
+        dlRow('Field size',     '26 × 33 mm'),
+        dlRow('Master reticle', `<span class="font-mono tabular-nums">${productizeCode(leaf.code).replace('MS-','MR-')}</span>`),
+        dlRow('Pellicle',       isEuv ? 'MoSi₂ · 88% transmission' : 'organic · 99% transmission'),
+        dlRow('Pellicle life',  'every 1,000 wafers'),
+        dlRow('Last requal',    'May 28, 2026 · pass'),
+      ].join('')
+    }
+    if (leaf.kind === 'chem') {
+      return [
+        dlRow('Grade / purity', /precursor|ALD/i.test(leaf.detail) ? 'semiconductor · 6N' : 'process grade · 5N'),
+        dlRow('Hazard class',   hazardOf(leaf)),
+        dlRow('Storage',        storageOf(leaf)),
+        dlRow('Batch size',     '25 kg drums · 12 per pallet'),
+        dlRow('Shelf life',     '9 months · sealed'),
+      ].join('')
+    }
+    return [
+      dlRow('Replacement',   'every 500 wafers'),
+      dlRow('Tool binding',  'ASML NXE · Bay 1'),
+      dlRow('Certification', 'ISO 14644-1 Class 3'),
+    ].join('')
+  }
+
+  function hazardOf(l) {
+    const s = (l.label + ' ' + l.code + ' ' + l.detail).toLowerCase()
+    if (/hf|cl₂|cl2|bcl3|wf6|hfcl|phosphine|arsine|nh3/.test(s)) return 'IATA 2.3 · toxic gas'
+    if (/resist|arf|euv-72|euv resist/.test(s))                  return 'IATA 3 · flammable liquid'
+    if (/slurry|electroplate|cmp/.test(s))                       return 'IATA 8 · corrosive'
+    if (/implant|p-31|b-11/.test(s))                             return 'IATA 2.3 · toxic gas'
+    return 'ORM-D · non-DG'
+  }
+
+  function storageOf(l) {
+    if (/precursor|ald/i.test(l.detail + ' ' + l.label)) return '−20 °C · N₂ blanket'
+    if (/resist|euv|arf/i.test(l.label))                 return '4 °C · light-shielded'
+    return 'ambient · dry'
+  }
+
+  function hash(str) {
+    return (str || '').split('').reduce((a, c) => (a * 31 + c.charCodeAt(0)) & 0xffff, 0)
+  }
+
+  function renderSupply(leaf) {
+    let pct, days, tone, note
+    if (leaf.warn) {
+      pct = 35; days = 14; tone = 'amber'
+      note = 'Reorder triggered · PO expected in 6 days.'
+    } else {
+      const h = hash(leaf.code) % 70
+      days = 24 + h
+      pct  = Math.min(96, 42 + h)
+      tone = pct > 82 ? 'emerald' : 'zinc'
+      note = `Auto-replenishment on Kanban card #${1000 + (hash(leaf.code) % 900)}.`
+    }
+    const bar  = { amber: 'bg-amber-500', emerald: 'bg-emerald-500', zinc: 'bg-zinc-900' }[tone]
+    const text = { amber: 'text-amber-700', emerald: 'text-emerald-700', zinc: 'text-zinc-800' }[tone]
+    return `
+      <div class="flex items-center gap-3">
+        <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
+          <div class="h-full rounded-full ${bar}" style="width:${pct}%"></div>
+        </div>
+        <span class="w-12 text-right text-[13px] font-semibold tabular-nums ${text}">${days}d</span>
+      </div>
+      <p class="mt-2 text-[11.5px] leading-relaxed text-zinc-500">
+        Buffer covers ${days} days of production at current 3,400 wafer/week ramp. ${note}
+      </p>`
+  }
+
+  const LOT_POOL = [
+    { id: 'W2607-N3', stage: 'M5 Litho',      pct: 64, flag: 'crit' },
+    { id: 'W2614-N3', stage: 'M3 Etch',       pct: 41, flag: 'warn' },
+    { id: 'W2589-N4', stage: 'Gate Implant',  pct: 28, flag: null   },
+    { id: 'W2602-N3', stage: 'M8 CMP',        pct: 78, flag: null   },
+    { id: 'W2611-N4', stage: 'M2 Cu Fill',    pct: 33, flag: null   },
+  ]
+
+  function renderLots(leaf) {
+    const h = hash(leaf.code)
+    const picks = [LOT_POOL[h % LOT_POOL.length], LOT_POOL[(h + 2) % LOT_POOL.length], LOT_POOL[(h + 4) % LOT_POOL.length]]
+    const flagDot = { crit: 'bg-red-500', warn: 'bg-amber-500' }
+    return picks.map(l => `
+      <li class="flex items-center gap-3 rounded-md border border-zinc-200 px-3 py-2">
+        <span class="font-mono text-[11.5px] font-semibold text-zinc-900">${l.id}</span>
+        <span class="flex-1 truncate text-[11.5px] text-zinc-500">${l.stage}</span>
+        ${l.flag ? `<span class="h-1.5 w-1.5 rounded-full ${flagDot[l.flag]}"></span>` : ''}
+        <span class="w-10 text-right text-[11px] tabular-nums text-zinc-400">${l.pct}%</span>
+      </li>
+    `).join('')
+  }
+
+  function renderActivity(leaf) {
+    const items = [
+      { when: 'Jun 24, 2026', text: `Rev 17 released · replaces r16 (defect cluster on M3 CD).` },
+      { when: 'Jun 12, 2026', text: `Vendor ${leaf.vendor} confirmed lead time 4 weeks.` },
+      { when: 'May 28, 2026', text: `Last requal · pass (defect count within spec).` },
+    ]
+    return items.map(i => `
+      <li class="flex gap-3">
+        <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-300"></span>
+        <div class="min-w-0 flex-1">
+          <div class="text-[12px] leading-snug text-zinc-800">${i.text}</div>
+          <div class="mt-0.5 text-[10.5px] tabular-nums text-zinc-400">${i.when}</div>
+        </div>
+      </li>
+    `).join('')
+  }
+
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer)
+  document.getElementById('drawerOpenVendor').addEventListener('click', () => {
+    const vendor = document.getElementById('drawerOpenVendor').dataset.vendor || ''
+    location.href = `vendor-detail.html?name=${encodeURIComponent(vendor)}`
+  })
+  document.getElementById('partOverlay').addEventListener('click', closeDrawer)
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('partDrawer').getAttribute('aria-hidden') === 'false') closeDrawer()
+  })
+
+  // ============ Products ============
+  const PRODUCTS = {
+    meridian: {
+      name: 'Meridian M6', node: 'N3E', nodeDetail: '3 nm Enhanced', revision: '17',
+      metals: '18', metalDetail: 'M1–M18 + RDL',
+      masks:  '47', maskDetail:  '12 EUV · 35 DUV',
+      steps:  '487', stepsDetail: 'incl. 38 metro gates',
+      cost: '$1,840', costDelta: '−4% vs Rev 16', costImproved: true,
+      prefix: 'MER',
+      subtitle: 'Layer-by-layer photomask, chemistry, and consumable tree for the Aetheron Meridian M6 die on N3E.',
+    },
+    sinew: {
+      name: 'Sinew N2', node: 'N4', nodeDetail: '4 nm', revision: '9',
+      metals: '15', metalDetail: 'M1–M15 + RDL',
+      masks:  '41', maskDetail:  '10 EUV · 31 DUV',
+      steps:  '442', stepsDetail: 'incl. 32 metro gates',
+      cost: '$1,510', costDelta: '−7% vs Rev 8', costImproved: true,
+      prefix: 'SIN',
+      subtitle: 'Layer-by-layer photomask, chemistry, and consumable tree for the Aetheron Sinew N2 humanoid NPU die on N4.',
+    },
+    loom: {
+      name: 'Loom D2', node: 'N3', nodeDetail: '3 nm', revision: '22',
+      metals: '20', metalDetail: 'M1–M20 + RDL',
+      masks:  '52', maskDetail:  '14 EUV · 38 DUV',
+      steps:  '521', stepsDetail: 'incl. 44 metro gates',
+      cost: '$2,180', costDelta: '+2% vs Rev 21', costImproved: false,
+      prefix: 'LOO',
+      subtitle: 'Layer-by-layer photomask, chemistry, and consumable tree for the Aetheron Loom D2 training tile on N3.',
+    },
+    vela: {
+      name: 'Vela SC', node: 'N4', nodeDetail: '4 nm rad-hard', revision: '6',
+      metals: '14', metalDetail: 'M1–M14 + RDL',
+      masks:  '38', maskDetail:  '8 EUV · 30 DUV',
+      steps:  '398', stepsDetail: 'incl. 42 metro gates',
+      cost: '$2,940', costDelta: '+3% vs Rev 5', costImproved: false,
+      prefix: 'VEL',
+      subtitle: 'Layer-by-layer photomask, chemistry, and consumable tree for the Aetheron Vela SC space-compute die on N4.',
+    },
+  }
+
+  let currentProductId = 'meridian'
+  function productizeCode(code) {
+    const p = PRODUCTS[currentProductId]
+    return code.replace('N3E-MER', `${p.node}-${p.prefix}`)
+  }
+
+  function applyProduct(id) {
+    currentProductId = id
+    const p = PRODUCTS[id]
+
+    document.getElementById('heroTitle').textContent = p.name
+    document.getElementById('heroSubtitle').innerHTML = `${p.subtitle} Per-wafer consumption rates feed the supply-buffer model on the right; click any row to open its full part detail.`
+    document.getElementById('breadcrumbProduct').textContent = p.name
+    document.getElementById('breadcrumbRev').textContent = `${p.node} base · Rev ${p.revision}`
+
+    document.getElementById('kpiNode').textContent = p.node
+    document.getElementById('kpiNodeDetail').textContent = p.nodeDetail
+    document.getElementById('kpiMetals').textContent = p.metals
+    document.getElementById('kpiMetalsDetail').textContent = p.metalDetail
+    document.getElementById('kpiMasks').textContent = p.masks
+    document.getElementById('kpiMasksDetail').textContent = p.maskDetail
+    document.getElementById('kpiSteps').textContent = p.steps
+    document.getElementById('kpiStepsDetail').textContent = p.stepsDetail
+    document.getElementById('kpiCost').textContent = p.cost
+    const costEl = document.getElementById('kpiCostDelta')
+    costEl.textContent = p.costDelta
+    costEl.className = `mt-1 text-[11.5px] tabular-nums ${p.costImproved ? 'text-emerald-700' : 'text-red-700'}`
+    document.getElementById('treeHeaderRev').textContent = `Rev ${p.revision} · effective`
+    document.title = `Kiln — Process BOM · ${p.name}`
+
+    document.querySelectorAll('.product-tab').forEach(t => {
+      const active = t.dataset.product === id
+      t.classList.toggle('bg-zinc-900',        active)
+      t.classList.toggle('text-white',         active)
+      t.classList.toggle('shadow-sm',          active)
+      t.classList.toggle('text-zinc-500',      !active)
+      t.classList.toggle('hover:text-zinc-900', !active)
+    })
+
+    closeDrawer()
+    renderTree()
+    refreshExpandAllLabel()
+  }
+
+  document.querySelectorAll('.product-tab').forEach(t => {
+    t.addEventListener('click', () => applyProduct(t.dataset.product))
+  })
+
+  applyProduct('meridian')
+</script>
+
+</body>
+</html>

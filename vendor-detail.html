@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Toppan Photomasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</a></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</a></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</a></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</span></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <main class="overflow-y-auto">
+    <div class="mx-auto w-full max-w-[1320px] px-6 pb-16 pt-6 lg:px-12 xl:px-16">
+
+      <!-- Breadcrumb -->
+      <nav class="mb-4 flex items-center gap-1.5 text-[12.5px] text-zinc-500">
+        <a href="vendors.html" class="transition hover:text-zinc-900">Vendors</a>
+        <svg viewBox="0 0 12 12" class="h-3 w-3 text-zinc-300" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l4 4-4 4"/></svg>
+        <span id="breadcrumbVendor" class="font-medium text-zinc-900">Toppan Photomasks</span>
+      </nav>
+
+      <!-- Hero -->
+      <header class="mb-6 flex items-start justify-between gap-6">
+        <div class="flex items-start gap-4 min-w-0">
+          <span id="heroMono" class="grid h-12 w-12 flex-shrink-0 place-items-center rounded-lg bg-gradient-to-br from-slate-100 to-slate-300 text-[12px] font-bold text-slate-800 ring-1 ring-inset ring-slate-200">TP</span>
+          <div class="min-w-0">
+            <h1 id="heroTitle" class="text-[26px] font-semibold tracking-tight text-zinc-950">Toppan Photomasks</h1>
+            <p id="heroSubtitle" class="mt-1.5 max-w-2xl text-[14px] leading-relaxed text-zinc-500">Long-established supplier of DUV binary and EUV low-defect reticles.</p>
+            <div id="heroChips" class="mt-3 flex flex-wrap items-center gap-2"></div>
+          </div>
+        </div>
+        <div class="flex flex-shrink-0 gap-2">
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 20l1.3-4.1a8.38 8.38 0 0 1-.8-3.6 8.5 8.5 0 0 1 8.5-8.5c4.5 0 8.4 3.8 8.4 8.4z"/></svg>
+            Message rep
+          </button>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-900 bg-zinc-900 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.98]">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            New PO
+          </button>
+        </div>
+      </header>
+      <hr class="mb-6 border-zinc-200" />
+
+      <!-- KPI strip -->
+      <div class="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-5">
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">On-time delivery</div>
+          <div class="mt-1.5 flex items-baseline gap-0.5">
+            <span id="kpiOnTime" class="text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">96.4</span>
+            <span class="text-[14px] text-zinc-400">%</span>
+          </div>
+          <div id="kpiOnTimeDetail" class="mt-1 text-[11.5px] tabular-nums text-zinc-500">7-day avg · target 98%</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Lead time</div>
+          <div class="mt-1.5 flex items-baseline gap-0.5">
+            <span id="kpiLead" class="text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">21</span>
+            <span class="text-[14px] text-zinc-400">d</span>
+          </div>
+          <div id="kpiLeadDetail" class="mt-1 text-[11.5px] tabular-nums text-emerald-700">−3d vs Q1</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Active POs</div>
+          <div id="kpiPOs" class="mt-1.5 text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">4</div>
+          <div id="kpiPOsDetail" class="mt-1 text-[11.5px] text-zinc-500">this month</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Quality incidents</div>
+          <div id="kpiQual" class="mt-1.5 text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">2</div>
+          <div id="kpiQualDetail" class="mt-1 text-[11.5px] tabular-nums text-amber-700">last 90d · both minor</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Spend YTD</div>
+          <div id="kpiSpend" class="mt-1.5 text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">$12.4M</div>
+          <div id="kpiSpendDetail" class="mt-1 text-[11.5px] tabular-nums text-zinc-500">+8% YoY</div>
+        </div>
+      </div>
+
+      <!-- Alert banner (dynamic, hidden if no alert) -->
+      <div id="vendorAlert" class="mb-8 hidden rounded-lg border border-amber-200 bg-amber-50/60 p-5">
+        <div class="flex items-start gap-4">
+          <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-md bg-amber-100 text-amber-700">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-baseline gap-2">
+              <h3 id="alertTitle" class="text-[15px] font-semibold tracking-tight text-zinc-950">—</h3>
+              <span id="alertBadge" class="font-mono text-[11px] tabular-nums text-amber-800">—</span>
+            </div>
+            <p id="alertBody" class="mt-1 text-[13px] leading-relaxed text-zinc-700">—</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two col -->
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
+
+        <!-- LEFT -->
+        <div class="space-y-6">
+
+          <!-- Parts supplied -->
+          <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Parts supplied</h2>
+              <span id="partsCount" class="text-[11.5px] tabular-nums text-zinc-500">5 items across Meridian M6</span>
+            </header>
+            <table class="w-full text-left">
+              <thead class="bg-zinc-50 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+                <tr>
+                  <th class="px-5 py-2.5">Code</th>
+                  <th class="px-3 py-2.5">Part</th>
+                  <th class="px-3 py-2.5">Node</th>
+                  <th class="px-3 py-2.5">Product</th>
+                  <th class="px-3 py-2.5 text-right">Last delivery</th>
+                </tr>
+              </thead>
+              <tbody id="partsRows" class="divide-y divide-zinc-100 text-[12.5px]"></tbody>
+            </table>
+          </section>
+
+          <!-- Recent POs -->
+          <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Recent purchase orders</h2>
+              <span class="text-[11.5px] tabular-nums text-zinc-500">last 90 days</span>
+            </header>
+            <table class="w-full text-left">
+              <thead class="bg-zinc-50 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+                <tr>
+                  <th class="px-5 py-2.5">PO #</th>
+                  <th class="px-3 py-2.5">Ordered</th>
+                  <th class="px-3 py-2.5">Ship / ETA</th>
+                  <th class="px-3 py-2.5">Qty</th>
+                  <th class="px-3 py-2.5 text-right">Total</th>
+                  <th class="px-3 py-2.5 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody id="poRows" class="divide-y divide-zinc-100 text-[12.5px]"></tbody>
+            </table>
+          </section>
+
+          <!-- Delivery trend chart -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <div>
+                <h2 class="text-[13px] font-semibold text-zinc-950">On-time delivery · last 90 days</h2>
+                <p class="text-[11.5px] text-zinc-500">Rolling 7-day average · target 98%</p>
+              </div>
+              <div class="flex gap-1.5">
+                <button class="inline-flex h-7 items-center rounded-md bg-zinc-900 px-3 text-[11.5px] font-medium text-zinc-50">Delivery</button>
+                <button class="inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-[11.5px] font-medium text-zinc-700 transition hover:bg-zinc-50">Quality</button>
+                <button class="inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-[11.5px] font-medium text-zinc-700 transition hover:bg-zinc-50">Cost</button>
+              </div>
+            </header>
+            <div class="px-5 py-5">
+              <svg viewBox="0 0 600 180" class="w-full" aria-hidden="true">
+                <g stroke="rgb(244 244 245)" stroke-width="1">
+                  <line x1="0" y1="30" x2="600" y2="30"/>
+                  <line x1="0" y1="60" x2="600" y2="60"/>
+                  <line x1="0" y1="90" x2="600" y2="90"/>
+                  <line x1="0" y1="120" x2="600" y2="120"/>
+                  <line x1="0" y1="150" x2="600" y2="150"/>
+                </g>
+                <!-- Target 98% line -->
+                <line x1="0" y1="45" x2="600" y2="45" stroke="rgb(16 185 129)" stroke-width="1" stroke-dasharray="4 3" opacity="0.7"/>
+                <text x="595" y="41" text-anchor="end" font-size="9" fill="rgb(4 120 87)" font-weight="600">TARGET 98%</text>
+                <!-- Trend polyline (populated by JS) -->
+                <polyline id="trendLine" points="" fill="none" stroke="rgb(24 24 27)" stroke-width="1.6"/>
+                <polyline id="trendFill" points="" fill="rgb(24 24 27)" fill-opacity="0.04" stroke="none"/>
+                <g id="trendDots"></g>
+              </svg>
+              <div class="mt-3 flex items-center gap-3 text-[11.5px] text-zinc-500">
+                <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-zinc-900"></span>Rolling 7-day</span>
+                <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-emerald-600"></span>Target</span>
+                <span id="trendSummary" class="ml-auto tabular-nums text-zinc-400">—</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RIGHT -->
+        <aside class="space-y-6">
+
+          <!-- Primary contact -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Primary contact</h2>
+            </header>
+            <div class="px-5 py-4">
+              <div class="flex items-start gap-3">
+                <span id="contactAvatar" class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full bg-zinc-900 text-[12px] font-semibold text-white">KS</span>
+                <div class="min-w-0 flex-1">
+                  <div id="contactName" class="text-[13.5px] font-semibold text-zinc-950">K. Sato</div>
+                  <div id="contactRole" class="text-[11.5px] text-zinc-500">Account manager</div>
+                </div>
+              </div>
+              <dl class="mt-4 space-y-1.5 text-[12px]">
+                <div class="flex justify-between gap-4"><dt class="text-zinc-500">Phone</dt><dd id="contactPhone" class="font-mono tabular-nums text-zinc-800">+81 90 555 0102</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-zinc-500">Email</dt><dd id="contactEmail" class="truncate text-right font-mono text-zinc-800">k.sato@toppan-em.co.jp</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-zinc-500">Time zone</dt><dd id="contactTz" class="text-zinc-800">JST · UTC+9</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-zinc-500">Escalation</dt><dd id="contactEsc" class="text-right text-zinc-800">H. Yamada · Regional director</dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <!-- Certifications -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Certifications</h2>
+            </header>
+            <ul id="certList" class="divide-y divide-zinc-100 text-[12.5px]"></ul>
+          </section>
+
+          <!-- Recent activity -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Recent activity</h2>
+              <button class="text-[11.5px] font-medium text-zinc-500 transition hover:text-zinc-900">All events</button>
+            </header>
+            <ul id="activityList" class="divide-y divide-zinc-100"></ul>
+          </section>
+
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // ============ Vendor data ============
+  const VENDORS = {
+    toppan: {
+      name: 'Toppan Photomasks',
+      title: 'Toppan Photomasks',
+      mono: 'TP',
+      monoClass: 'bg-gradient-to-br from-slate-100 to-slate-300 text-slate-800 ring-slate-200',
+      subtitle: 'Long-established supplier of DUV binary and EUV low-defect reticles. Primary source for STI, well, contact, and select metal-layer masks on N3E and N4.',
+      chips: [
+        { label: 'Photomasks · DUV + EUV', tone: 'zinc' },
+        { label: 'Yokkaichi, JP', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-TOPPAN-JP',
+      kpi: {
+        onTime: '96.4', onTimeDetail: '7-day avg · target 98%', onTimeTone: 'text-zinc-500',
+        lead: '21', leadDetail: '−3d vs Q1', leadTone: 'text-emerald-700',
+        pos: '4', posDetail: 'this month',
+        qual: '2', qualDetail: 'last 90d · both minor', qualTone: 'text-amber-700',
+        spend: '$12.4M', spendDetail: '+8% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'MS-N3E-MER-STI-r17', label: 'STI photomask',      node: 'N3E', product: 'Meridian M6', last: 'Jun 08' },
+        { code: 'MS-N3E-MER-NW-r17',  label: 'N-well photomask',   node: 'N3E', product: 'Meridian M6', last: 'Jun 08' },
+        { code: 'MS-N3E-MER-PW-r17',  label: 'P-well photomask',   node: 'N3E', product: 'Meridian M6', last: 'Jun 08' },
+        { code: 'MS-N3E-MER-CO-r17',  label: 'Contact photomask',  node: 'N3E', product: 'Meridian M6', last: 'May 22' },
+        { code: 'MS-N3E-MER-M3-r17',  label: 'M3 photomask',       node: 'N3E', product: 'Meridian M6', last: 'May 22' },
+      ],
+      partsSummary: '5 items across Meridian M6',
+      pos: [
+        { num: 'PO-2026-1102', ordered: 'Jun 14', ship: 'Est Jun 24', qty: '2 reticles', total: '$2.8M', status: 'In transit',  tone: 'amber' },
+        { num: 'PO-2026-1088', ordered: 'Jun 04', ship: 'Jun 09',     qty: '3 reticles', total: '$4.2M', status: 'Delivered',   tone: 'emerald' },
+        { num: 'PO-2026-1067', ordered: 'May 18', ship: 'May 27',     qty: '4 reticles', total: '$5.6M', status: 'Delivered',   tone: 'emerald' },
+        { num: 'PO-2026-1044', ordered: 'Apr 30', ship: 'May 08',     qty: '1 reticle',  total: '$1.4M', status: 'Delivered',   tone: 'emerald' },
+      ],
+      trend: [95,96,94,97,96,95,97,96,98,97,96,95,97,97,96],
+      trendSummary: '+2.1 pt vs prior quarter · 4 misses this window',
+      contact: { name: 'K. Sato',   initials: 'KS', role: 'Account manager',       phone: '+81 90 555 0102', email: 'k.sato@toppan-em.co.jp', tz: 'JST · UTC+9', esc: 'H. Yamada · Regional director' },
+      certs: [
+        { name: 'ISO 9001:2015',   detail: 'renewed 2026-02' },
+        { name: 'ISO 14001:2015',  detail: 'renewed 2025-11' },
+        { name: 'SEMI E10 / E58',  detail: 'audit 2025-09'   },
+        { name: 'IATF 16949',      detail: 'auto-industry'   },
+      ],
+      activity: [
+        { when: 'Jun 12', who: 'K. Sato',     text: 'Confirmed lead time on M8 mask order · 21 days.' },
+        { when: 'Jun 08', who: 'Receiving',   text: 'STI + well reticles received · defect scan passed.' },
+        { when: 'May 22', who: 'Receiving',   text: 'Contact + M3 reticles delivered on schedule.' },
+        { when: 'May 18', who: 'C. Mesbah',   text: 'Quarterly review call · scoring 96.4% on-time.' },
+      ],
+    },
+
+    dnp: {
+      name: 'DNP',
+      title: 'Dai Nippon Printing',
+      mono: 'DN',
+      monoClass: 'bg-gradient-to-br from-slate-100 to-slate-300 text-slate-800 ring-slate-200',
+      subtitle: 'Dai Nippon Printing specialty EUV reticles for critical layers. Sole provider for gate stack and M1 photomasks on the N3E node.',
+      chips: [
+        { label: 'Photomasks · EUV specialist', tone: 'zinc' },
+        { label: 'Osaka, JP', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-DNP-JP',
+      kpi: {
+        onTime: '98.1', onTimeDetail: '7-day avg · above target', onTimeTone: 'text-emerald-700',
+        lead: '28', leadDetail: 'flat vs Q1', leadTone: 'text-zinc-500',
+        pos: '2', posDetail: 'this month',
+        qual: '0', qualDetail: 'last 90d · clean', qualTone: 'text-emerald-700',
+        spend: '$8.7M', spendDetail: '+12% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'MS-N3E-MER-GT-r17', label: 'Gate photomask', node: 'N3E', product: 'Meridian M6', last: 'Jun 02' },
+        { code: 'MS-N3E-MER-M1-r17', label: 'M1 photomask',   node: 'N3E', product: 'Meridian M6', last: 'May 24' },
+      ],
+      partsSummary: '2 critical EUV masks on Meridian M6',
+      pos: [
+        { num: 'PO-2026-1094', ordered: 'Jun 06', ship: 'Est Jul 04', qty: '1 reticle',  total: '$3.9M', status: 'Fabricating', tone: 'zinc' },
+        { num: 'PO-2026-1071', ordered: 'May 20', ship: 'Jun 02',     qty: '1 reticle',  total: '$3.7M', status: 'Delivered',   tone: 'emerald' },
+        { num: 'PO-2026-1039', ordered: 'Apr 22', ship: 'May 24',     qty: '2 reticles', total: '$7.4M', status: 'Delivered',   tone: 'emerald' },
+      ],
+      trend: [97,97,98,98,97,98,99,98,99,99,98,98,99,99,98],
+      trendSummary: '+1.4 pt vs prior quarter · 1 miss this window',
+      contact: { name: 'M. Ito', initials: 'MI', role: 'Sr. account manager', phone: '+81 90 555 0208', email: 'm.ito@dnp.co.jp', tz: 'JST · UTC+9', esc: 'T. Kobayashi · VP semi masks' },
+      certs: [
+        { name: 'ISO 9001:2015',  detail: 'renewed 2026-01' },
+        { name: 'ISO 14001:2015', detail: 'renewed 2025-08' },
+        { name: 'SEMI E10 / E58', detail: 'audit 2026-03'   },
+        { name: 'IATF 16949',     detail: 'auto-industry'   },
+      ],
+      activity: [
+        { when: 'Jun 06', who: 'M. Ito',    text: 'Gate mask r18 slot booked · 4-week fab window.' },
+        { when: 'Jun 02', who: 'Receiving', text: 'Gate r17 delivered · pellicle installation confirmed.' },
+        { when: 'May 24', who: 'Receiving', text: 'M1 photomask delivered on schedule.' },
+        { when: 'May 15', who: 'C. Mesbah', text: 'N4-node roadmap alignment call.' },
+      ],
+    },
+
+    jsr: {
+      name: 'JSR',
+      title: 'JSR Corporation',
+      mono: 'JR',
+      monoClass: 'bg-gradient-to-br from-orange-100 to-orange-300 text-orange-800 ring-orange-200',
+      subtitle: 'Primary supplier of EUV photoresist chemistry (PR-EUV-7242). Shared across M1, M3, M5, and M7 exposure steps on N3E.',
+      chips: [
+        { label: 'Photoresists · EUV/DUV', tone: 'orange' },
+        { label: 'Yokkaichi, JP', tone: 'zinc' },
+        { label: 'Buffer low', tone: 'amber' },
+      ],
+      id: 'VND-JSR-JP',
+      kpi: {
+        onTime: '92.7', onTimeDetail: '7-day avg · below target', onTimeTone: 'text-amber-700',
+        lead: '35', leadDetail: '+7d vs Q1', leadTone: 'text-amber-700',
+        pos: '3', posDetail: '1 expedited',
+        qual: '1', qualDetail: 'minor viscosity dev', qualTone: 'text-amber-700',
+        spend: '$16.8M', spendDetail: '+22% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: {
+        title: 'PR-EUV-7242 buffer under 14 days · reorder in progress',
+        badge: 'BUFFER-14D',
+        body: 'Current stock covers 480L (~14 days at 3,400 wafers/wk consumption). Expedited PO placed Jun 15 for 720L; ship confirmation expected Jun 22. Contingency: cross-qual TOK ArF-i as fallback on M5/M7 layers.',
+      },
+      parts: [
+        { code: 'PR-EUV-7242', label: 'JSR EUV resist (M1)', node: 'N3E', product: 'Meridian M6', last: 'Jun 10' },
+        { code: 'PR-EUV-7242', label: 'JSR EUV resist (M3)', node: 'N3E', product: 'Meridian M6', last: 'Jun 10' },
+      ],
+      partsSummary: '1 chemistry · shared across 4 metal-layer masks',
+      pos: [
+        { num: 'PO-2026-1119', ordered: 'Jun 15', ship: 'Est Jun 22', qty: '720 L',  total: '$3.8M', status: 'Expedited',  tone: 'amber' },
+        { num: 'PO-2026-1085', ordered: 'Jun 03', ship: 'Jun 10',     qty: '480 L',  total: '$2.5M', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1052', ordered: 'May 08', ship: 'May 18',     qty: '480 L',  total: '$2.5M', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1021', ordered: 'Apr 10', ship: 'Apr 24',     qty: '960 L',  total: '$5.0M', status: 'Delivered',  tone: 'emerald' },
+      ],
+      trend: [96,94,95,93,92,94,93,91,92,93,91,90,91,89,88],
+      trendSummary: '−4.2 pt vs prior quarter · lead-time drift under review',
+      contact: { name: 'H. Tanaka', initials: 'HT', role: 'Sr. account manager', phone: '+81 90 555 0311', email: 'h.tanaka@jsr.co.jp', tz: 'JST · UTC+9', esc: 'S. Fujiwara · Photoresist BU head' },
+      certs: [
+        { name: 'ISO 9001:2015',   detail: 'renewed 2026-03' },
+        { name: 'ISO 14001:2015',  detail: 'renewed 2025-10' },
+        { name: 'RoHS / REACH',    detail: 'compliant'       },
+        { name: 'SEMI F49',        detail: 'photoresist std' },
+      ],
+      activity: [
+        { when: 'Jun 15', who: 'C. Mesbah', text: 'Expedited PO placed for 720L · shipping fee waived on this order.' },
+        { when: 'Jun 13', who: 'H. Tanaka', text: 'Confirmed Q3 allocation · 3,000 L reserved.' },
+        { when: 'Jun 10', who: 'Receiving', text: '480L delivered · slight viscosity dev noted, in-spec.' },
+        { when: 'Jun 05', who: 'System',    text: 'Buffer-low alert triggered for PR-EUV-7242.' },
+      ],
+    },
+
+    linde: {
+      name: 'Linde',
+      title: 'Linde plc',
+      mono: 'LN',
+      monoClass: 'bg-gradient-to-br from-amber-100 to-amber-300 text-amber-800 ring-amber-200',
+      subtitle: 'Industrial gases and implant species — Cl₂, BCl₃, HF, P-31, B-11, WF₆. All IATA Class 2.3 toxic-gas deliveries via bonded hazmat fleet.',
+      chips: [
+        { label: 'Industrial gases · Hazmat', tone: 'amber' },
+        { label: 'Houston, TX (US ops)', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-LINDE-US',
+      kpi: {
+        onTime: '99.2', onTimeDetail: '7-day avg · above target', onTimeTone: 'text-emerald-700',
+        lead: '5',   leadDetail: 'local depot',    leadTone: 'text-emerald-700',
+        pos: '8',   posDetail: 'JIT recurring',
+        qual: '0',  qualDetail: '12 months clean', qualTone: 'text-emerald-700',
+        spend: '$6.2M', spendDetail: 'flat YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'IMP-P31',        label: 'P-31 implant species',   node: 'N3E · N4', product: 'Meridian, Sinew', last: 'Jun 15' },
+        { code: 'IMP-B11',        label: 'B-11 implant species',   node: 'N3E · N4', product: 'Meridian, Sinew', last: 'Jun 15' },
+        { code: 'ETCH-GATE-Cl',   label: 'Cl₂ + BCl₃ gate etch',   node: 'N3E',      product: 'Meridian M6',     last: 'Jun 12' },
+        { code: 'ETCH-BCl3',      label: 'BCl₃ etch',              node: 'N3E',      product: 'Meridian M6',     last: 'Jun 12' },
+      ],
+      partsSummary: '4 gas species · IATA 2.3 hazmat',
+      pos: [
+        { num: 'PO-2026-1121', ordered: 'Jun 16', ship: 'Jun 21',     qty: '4 cylinders', total: '$180K', status: 'Scheduled',  tone: 'zinc' },
+        { num: 'PO-2026-1108', ordered: 'Jun 09', ship: 'Jun 14',     qty: '8 cylinders', total: '$340K', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1093', ordered: 'Jun 02', ship: 'Jun 07',     qty: '6 cylinders', total: '$258K', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1076', ordered: 'May 25', ship: 'May 30',     qty: '10 cylinders',total: '$412K', status: 'Delivered',  tone: 'emerald' },
+      ],
+      trend: [98,99,99,99,98,99,99,100,99,99,99,100,99,99,99],
+      trendSummary: 'Consistently above 98% · zero misses this window',
+      contact: { name: 'D. Ramírez', initials: 'DR', role: 'Semi accounts lead', phone: '+1 713 555 0189', email: 'diego.ramirez@linde.com', tz: 'CDT · UTC−5', esc: 'B. Weber · US semi director' },
+      certs: [
+        { name: 'ISO 9001:2015',        detail: 'renewed 2026-04' },
+        { name: 'ISO 14001:2015',       detail: 'renewed 2025-12' },
+        { name: 'DOT-CFR 49',           detail: 'hazmat carrier'  },
+        { name: 'SEMI E10 · SEMI S22',  detail: 'audit 2026-01'   },
+      ],
+      activity: [
+        { when: 'Jun 16', who: 'Ordering',    text: 'PO-2026-1121 issued for weekly Cl₂ + BCl₃ replenishment.' },
+        { when: 'Jun 14', who: 'Receiving',   text: '8 cylinders delivered · hazmat manifest cross-checked.' },
+        { when: 'Jun 07', who: 'Receiving',   text: 'P-31 implant delivered · isotope certificate on file.' },
+        { when: 'Jun 01', who: 'D. Ramírez',  text: 'Q3 forecast call · confirmed monthly cadence unchanged.' },
+      ],
+    },
+
+    amat: {
+      name: 'AMAT',
+      title: 'Applied Materials',
+      mono: 'AM',
+      monoClass: 'bg-gradient-to-br from-zinc-100 to-zinc-300 text-zinc-800 ring-zinc-200',
+      subtitle: 'Multi-role supplier — HDP oxide chemistry, TiN PVD targets, Co ALD liner. Also operates the installed tool base at Bay 4 (Producer SE + Endura + Reflexion).',
+      chips: [
+        { label: 'Process chemistries · CVD/PVD/CMP', tone: 'zinc' },
+        { label: 'Santa Clara, CA', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+        { label: 'Tool vendor overlap', tone: 'sky' },
+      ],
+      id: 'VND-AMAT-US',
+      kpi: {
+        onTime: '97.8', onTimeDetail: '7-day avg · near target',  onTimeTone: 'text-zinc-500',
+        lead: '14', leadDetail: '−2d vs Q1',  leadTone: 'text-emerald-700',
+        pos: '6',  posDetail: 'this month',
+        qual: '1', qualDetail: 'minor CoQ dev',  qualTone: 'text-amber-700',
+        spend: '$22.1M', spendDetail: '+5% YoY · consumables only', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'CVD-HDP-OX', label: 'HDP oxide deposition',   node: 'N3E', product: 'Meridian M6', last: 'Jun 04' },
+        { code: 'PVD-TiN',    label: 'TiN PVD target',         node: 'N3E', product: 'Meridian M6', last: 'May 29' },
+        { code: 'ALD-CoL',    label: 'Co liner ALD',           node: 'N3E', product: 'Meridian M6', last: 'May 29' },
+      ],
+      partsSummary: '3 chemistries · tools tracked separately',
+      pos: [
+        { num: 'PO-2026-1116', ordered: 'Jun 13', ship: 'Est Jun 27', qty: '4 kg TiN',   total: '$540K', status: 'Manufacturing', tone: 'zinc' },
+        { num: 'PO-2026-1099', ordered: 'Jun 05', ship: 'Jun 12',     qty: '25 kg HDP',  total: '$180K', status: 'Delivered',     tone: 'emerald' },
+        { num: 'PO-2026-1084', ordered: 'May 28', ship: 'Jun 04',     qty: '25 kg HDP',  total: '$180K', status: 'Delivered',     tone: 'emerald' },
+        { num: 'PO-2026-1063', ordered: 'May 12', ship: 'May 22',     qty: '3 kg TiN',   total: '$410K', status: 'Delivered',     tone: 'emerald' },
+      ],
+      trend: [96,97,97,98,97,97,98,97,98,98,97,98,98,97,98],
+      trendSummary: '+0.6 pt vs prior quarter · 2 misses this window',
+      contact: { name: 'S. Nakamura', initials: 'SN', role: 'Sr. materials rep', phone: '+1 408 555 0247', email: 's.nakamura@amat.com', tz: 'PDT · UTC−7', esc: 'R. Patel · Global accounts VP' },
+      certs: [
+        { name: 'ISO 9001:2015',   detail: 'renewed 2025-11' },
+        { name: 'ISO 14001:2015',  detail: 'renewed 2025-11' },
+        { name: 'SEMI S8 / S22',   detail: 'audit 2026-02'   },
+        { name: 'RoHS / REACH',    detail: 'compliant'       },
+      ],
+      activity: [
+        { when: 'Jun 13', who: 'C. Mesbah',   text: 'TiN target order placed · 4kg for Bay 4 restock.' },
+        { when: 'Jun 12', who: 'Receiving',   text: '25kg HDP oxide delivered · lot IQ passed.' },
+        { when: 'Jun 04', who: 'Receiving',   text: 'HDP delivery on schedule · CoO dev noted, non-blocking.' },
+        { when: 'May 27', who: 'S. Nakamura', text: 'CVD-HDP-OX Q3 pricing renegotiation call.' },
+      ],
+    },
+
+    tok: {
+      name: 'TOK',
+      title: 'Tokyo Ohka Kogyo',
+      mono: 'TK',
+      monoClass: 'bg-gradient-to-br from-orange-100 to-orange-300 text-orange-800 ring-orange-200',
+      subtitle: 'Secondary supplier of ArF immersion photoresist. Cross-qualified as the fallback for JSR EUV-7242 on M5 and M7 metal-layer exposures.',
+      chips: [
+        { label: 'Photoresists · ArF-i', tone: 'orange' },
+        { label: 'Kawasaki, JP', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-TOK-JP',
+      kpi: {
+        onTime: '95.8', onTimeDetail: '7-day avg · near target',   onTimeTone: 'text-zinc-500',
+        lead: '32',    leadDetail: '−2d vs Q1',                    leadTone: 'text-emerald-700',
+        pos: '2',      posDetail: 'this month',
+        qual: '0',     qualDetail: 'last 90d · clean',             qualTone: 'text-emerald-700',
+        spend: '$4.1M', spendDetail: '+3% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'PR-ArF-9820', label: 'TOK ArF immersion resist', node: 'N3E', product: 'Meridian M6', last: 'Jun 12' },
+      ],
+      partsSummary: '1 chemistry · fallback for JSR EUV-7242',
+      pos: [
+        { num: 'PO-2026-1112', ordered: 'Jun 10', ship: 'Jul 12',  qty: '240 L', total: '$1.2M', status: 'Fabricating', tone: 'zinc'    },
+        { num: 'PO-2026-1058', ordered: 'May 12', ship: 'May 24',  qty: '240 L', total: '$1.2M', status: 'Delivered',   tone: 'emerald' },
+        { num: 'PO-2026-1024', ordered: 'Apr 15', ship: 'Apr 28',  qty: '480 L', total: '$2.4M', status: 'Delivered',   tone: 'emerald' },
+      ],
+      trend: [94,95,96,95,94,96,95,96,97,95,96,95,96,97,96],
+      trendSummary: '+1.1 pt vs prior quarter · 3 misses this window',
+      contact: { name: 'Y. Watanabe', initials: 'YW', role: 'Account manager', phone: '+81 90 555 0402', email: 'y.watanabe@tok.co.jp', tz: 'JST · UTC+9', esc: 'K. Miyake · Sr. sales director' },
+      certs: [
+        { name: 'ISO 9001:2015',  detail: 'renewed 2026-01' },
+        { name: 'ISO 14001:2015', detail: 'renewed 2025-09' },
+        { name: 'SEMI F49',       detail: 'photoresist std' },
+        { name: 'RoHS / REACH',   detail: 'compliant'       },
+      ],
+      activity: [
+        { when: 'Jun 12', who: 'Receiving',    text: '240L ArF resist delivered · in-spec.' },
+        { when: 'Jun 08', who: 'Y. Watanabe',  text: 'Q3 slot booked · standard 30-day lead.' },
+        { when: 'May 24', who: 'Receiving',    text: 'Previous order delivered on schedule.' },
+        { when: 'May 02', who: 'C. Mesbah',    text: 'Cross-qual matrix reviewed for JSR fallback path.' },
+      ],
+    },
+
+    versum: {
+      name: 'Versum',
+      title: 'Versum Materials',
+      mono: 'VM',
+      monoClass: 'bg-gradient-to-br from-orange-100 to-orange-300 text-orange-800 ring-orange-200',
+      subtitle: 'ALD precursor supplier for Hi-K gate stack and work-function tune. Sole source for HfCl₄ and TBTDET (TaN) on the N3E process.',
+      chips: [
+        { label: 'ALD precursors · specialty', tone: 'orange' },
+        { label: 'Tempe, AZ', tone: 'zinc' },
+        { label: 'Sole source', tone: 'amber' },
+      ],
+      id: 'VND-VERSUM-US',
+      kpi: {
+        onTime: '97.2', onTimeDetail: '7-day avg · near target',   onTimeTone: 'text-zinc-500',
+        lead: '18',    leadDetail: 'flat vs Q1',                   leadTone: 'text-zinc-500',
+        pos: '4',      posDetail: 'this month',
+        qual: '0',     qualDetail: 'last 90d · clean',             qualTone: 'text-emerald-700',
+        spend: '$9.4M', spendDetail: '+18% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'ALD-HfCl4', label: 'HfCl₄ ALD precursor',        node: 'N3E', product: 'Meridian M6', last: 'Jun 14' },
+        { code: 'ALD-TaN',   label: 'TaN precursor (TBTDET)',     node: 'N3E', product: 'Meridian M6', last: 'Jun 14' },
+        { code: 'ALD-HfCl4', label: 'HfCl₄ ALD precursor',        node: 'N4',  product: 'Sinew N2',    last: 'Jun 07' },
+      ],
+      partsSummary: '2 precursors · Hi-K gate stack',
+      pos: [
+        { num: 'PO-2026-1117', ordered: 'Jun 14', ship: 'Jul 02', qty: '20 kg HfCl₄',  total: '$680K', status: 'In transit', tone: 'amber'   },
+        { num: 'PO-2026-1091', ordered: 'Jun 04', ship: 'Jun 14', qty: '15 kg TaN',    total: '$420K', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1073', ordered: 'May 22', ship: 'Jun 07', qty: '20 kg HfCl₄',  total: '$680K', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1049', ordered: 'May 05', ship: 'May 20', qty: '15 kg TaN',    total: '$420K', status: 'Delivered',  tone: 'emerald' },
+      ],
+      trend: [96,97,96,97,97,98,97,97,98,97,96,97,98,97,97],
+      trendSummary: '+0.4 pt vs prior quarter · 2 misses this window',
+      contact: { name: 'A. Reyes', initials: 'AR', role: 'Sr. materials manager', phone: '+1 480 555 0501', email: 'a.reyes@versum.com', tz: 'MST · UTC−7', esc: 'D. Fowler · Semi accounts VP' },
+      certs: [
+        { name: 'ISO 9001:2015',   detail: 'renewed 2025-11' },
+        { name: 'ISO 14001:2015',  detail: 'renewed 2025-11' },
+        { name: 'SEMI S22',        detail: 'audit 2026-01'   },
+        { name: 'RoHS / REACH',    detail: 'compliant'       },
+      ],
+      activity: [
+        { when: 'Jun 14', who: 'Ordering',    text: 'PO-2026-1117 placed · HfCl₄ replenishment for Bay 4.' },
+        { when: 'Jun 07', who: 'Receiving',   text: '20kg HfCl₄ delivered · lot QC passed at −20°C hold.' },
+        { when: 'May 20', who: 'Receiving',   text: '15kg TaN precursor delivered · viscosity in-spec.' },
+        { when: 'May 02', who: 'A. Reyes',    text: 'Q3 forecast call · sole-source risk mitigation discussed.' },
+      ],
+    },
+
+    cabot: {
+      name: 'Cabot',
+      title: 'Cabot Microelectronics',
+      mono: 'CB',
+      monoClass: 'bg-gradient-to-br from-emerald-100 to-emerald-300 text-emerald-800 ring-emerald-200',
+      subtitle: 'CMP slurry supplier for STI polish and metal-3 planarization. Cu/oxide selective chemistry qualified across both N3E and N4 nodes.',
+      chips: [
+        { label: 'CMP slurries', tone: 'emerald' },
+        { label: 'Aurora, IL', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-CABOT-US',
+      kpi: {
+        onTime: '98.4', onTimeDetail: '7-day avg · above target',  onTimeTone: 'text-emerald-700',
+        lead: '12',    leadDetail: '−1d vs Q1',                    leadTone: 'text-emerald-700',
+        pos: '3',      posDetail: 'this month',
+        qual: '0',     qualDetail: 'last 90d · clean',             qualTone: 'text-emerald-700',
+        spend: '$5.8M', spendDetail: '+6% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'CMP-SLR-Cu', label: 'STI CMP slurry · Cu-stop',  node: 'N3E · N4', product: 'Meridian, Sinew', last: 'Jun 16' },
+        { code: 'CMP-SLR-Ox', label: 'Cu / oxide CMP slurry',     node: 'N3E',      product: 'Meridian M6',     last: 'Jun 09' },
+      ],
+      partsSummary: '2 slurries · CMP tool base',
+      pos: [
+        { num: 'PO-2026-1120', ordered: 'Jun 16', ship: 'Jun 24', qty: '400 L STI',   total: '$220K', status: 'In transit', tone: 'amber'   },
+        { num: 'PO-2026-1104', ordered: 'Jun 09', ship: 'Jun 16', qty: '400 L STI',   total: '$220K', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1082', ordered: 'May 26', ship: 'Jun 02', qty: '300 L Cu/Ox', total: '$185K', status: 'Delivered',  tone: 'emerald' },
+      ],
+      trend: [97,98,98,98,97,98,99,98,99,98,99,98,99,99,98],
+      trendSummary: '+0.9 pt vs prior quarter · zero misses this window',
+      contact: { name: 'M. Johansson', initials: 'MJ', role: 'Semi accounts lead', phone: '+1 630 555 0645', email: 'm.johansson@cabot-me.com', tz: 'CDT · UTC−5', esc: 'R. Grant · Global CMP director' },
+      certs: [
+        { name: 'ISO 9001:2015',  detail: 'renewed 2026-02' },
+        { name: 'ISO 14001:2015', detail: 'renewed 2025-08' },
+        { name: 'SEMI E10',       detail: 'audit 2025-11'   },
+        { name: 'RoHS / REACH',   detail: 'compliant'       },
+      ],
+      activity: [
+        { when: 'Jun 16', who: 'Ordering',     text: 'PO-2026-1120 placed · biweekly Cu-stop slurry restock.' },
+        { when: 'Jun 09', who: 'Receiving',    text: '400L STI slurry delivered · particle count in-spec.' },
+        { when: 'Jun 02', who: 'Receiving',    text: '300L Cu/oxide slurry delivered on schedule.' },
+        { when: 'May 15', who: 'M. Johansson', text: 'Q3 volume commitment · 5,200L combined slurries.' },
+      ],
+    },
+
+    atotech: {
+      name: 'Atotech',
+      title: 'Atotech',
+      mono: 'AT',
+      monoClass: 'bg-gradient-to-br from-zinc-100 to-zinc-300 text-zinc-800 ring-zinc-200',
+      subtitle: 'Cu electroplate bath supplier for BEOL metal-layer fill. Chemistry stable across the M1–M18 stack on the N3E process.',
+      chips: [
+        { label: 'Cu electroplating', tone: 'zinc' },
+        { label: 'Berlin, DE', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-ATOTECH-DE',
+      kpi: {
+        onTime: '96.1', onTimeDetail: '7-day avg · near target',   onTimeTone: 'text-zinc-500',
+        lead: '21',    leadDetail: 'flat vs Q1',                   leadTone: 'text-zinc-500',
+        pos: '2',      posDetail: 'this month',
+        qual: '1',     qualDetail: 'minor pH excursion · resolved', qualTone: 'text-amber-700',
+        spend: '$3.9M', spendDetail: '+4% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'EP-CuBATH-A', label: 'Cu electroplate bath', node: 'N3E', product: 'Meridian M6', last: 'Jun 11' },
+      ],
+      partsSummary: '1 chemistry · shared across M1–M18',
+      pos: [
+        { num: 'PO-2026-1114', ordered: 'Jun 11', ship: 'Jul 02', qty: '600 L', total: '$310K', status: 'In transit', tone: 'amber'   },
+        { num: 'PO-2026-1090', ordered: 'May 21', ship: 'Jun 11', qty: '600 L', total: '$310K', status: 'Delivered',  tone: 'emerald' },
+        { num: 'PO-2026-1054', ordered: 'May 03', ship: 'May 24', qty: '400 L', total: '$205K', status: 'Delivered',  tone: 'emerald' },
+      ],
+      trend: [95,96,95,96,96,97,96,95,96,97,96,96,97,96,96],
+      trendSummary: '−0.3 pt vs prior quarter · 4 misses this window',
+      contact: { name: 'S. Braun', initials: 'SB', role: 'Regional sales manager', phone: '+49 30 555 0207', email: 's.braun@atotech.com', tz: 'CET · UTC+1', esc: 'J. Wagner · Semi VP' },
+      certs: [
+        { name: 'ISO 9001:2015',  detail: 'renewed 2026-03' },
+        { name: 'ISO 14001:2015', detail: 'renewed 2025-10' },
+        { name: 'REACH',          detail: 'EU compliant'    },
+        { name: 'SEMI S22',       detail: 'audit 2025-12'   },
+      ],
+      activity: [
+        { when: 'Jun 11', who: 'Ordering',   text: 'PO-2026-1114 placed · 600L Cu bath restock.' },
+        { when: 'Jun 04', who: 'Receiving',  text: 'Prior 600L delivery arrived · pH nominal.' },
+        { when: 'May 18', who: 'S. Braun',   text: 'Q3 pricing hold confirmed · no increase this quarter.' },
+        { when: 'Apr 22', who: 'C. Mesbah',  text: 'Minor pH excursion investigated · retest passed.' },
+      ],
+    },
+
+    senju: {
+      name: 'Senju',
+      title: 'Senju Metal Industry',
+      mono: 'SJ',
+      monoClass: 'bg-gradient-to-br from-orange-100 to-orange-300 text-orange-800 ring-orange-200',
+      subtitle: 'SnAgCu solder bump supplier for wafer-level packaging. C4 250µm pitch qualified for the Meridian M6 CoWoS-S stackup.',
+      chips: [
+        { label: 'Solder bumps · SAC305', tone: 'orange' },
+        { label: 'Osaka, JP', tone: 'zinc' },
+        { label: 'Preferred supplier', tone: 'emerald' },
+      ],
+      id: 'VND-SENJU-JP',
+      kpi: {
+        onTime: '94.5', onTimeDetail: '7-day avg · near target',   onTimeTone: 'text-amber-700',
+        lead: '45',    leadDetail: '+5d vs Q1',                    leadTone: 'text-amber-700',
+        pos: '1',      posDetail: 'this month',
+        qual: '0',     qualDetail: 'last 90d · clean',             qualTone: 'text-emerald-700',
+        spend: '$2.1M', spendDetail: '+11% YoY', spendTone: 'text-zinc-500',
+      },
+      alert: null,
+      parts: [
+        { code: 'PKG-SAC305', label: 'SnAgCu solder bumps', node: 'N3E', product: 'Meridian M6', last: 'May 30' },
+      ],
+      partsSummary: '1 packaging material · low-volume specialty',
+      pos: [
+        { num: 'PO-2026-1113', ordered: 'Jun 10', ship: 'Jul 25', qty: '4 kg SAC305', total: '$140K', status: 'Fabricating', tone: 'zinc'    },
+        { num: 'PO-2026-1046', ordered: 'Apr 18', ship: 'May 30', qty: '4 kg SAC305', total: '$140K', status: 'Delivered',   tone: 'emerald' },
+      ],
+      trend: [93,94,93,94,95,94,95,94,95,94,95,94,94,95,94],
+      trendSummary: '−1.2 pt vs prior quarter · 5 misses this window',
+      contact: { name: 'H. Fujimoto', initials: 'HF', role: 'Export sales manager', phone: '+81 90 555 0722', email: 'h.fujimoto@senju.co.jp', tz: 'JST · UTC+9', esc: 'M. Sakai · International BU head' },
+      certs: [
+        { name: 'ISO 9001:2015',  detail: 'renewed 2025-12' },
+        { name: 'ISO 14001:2015', detail: 'renewed 2025-08' },
+        { name: 'RoHS',           detail: 'Pb-free compliant' },
+        { name: 'JEDEC J-STD-020', detail: 'moisture-sensitivity' },
+      ],
+      activity: [
+        { when: 'Jun 10', who: 'Ordering',   text: 'PO-2026-1113 placed · Q3 SAC305 replenishment.' },
+        { when: 'May 30', who: 'Receiving',  text: '4kg SAC305 delivered · alloy composition verified.' },
+        { when: 'May 12', who: 'H. Fujimoto', text: 'Lead time discussion · 45-day baseline confirmed.' },
+        { when: 'Apr 04', who: 'C. Mesbah',  text: 'CoWoS-S qualification data reviewed.' },
+      ],
+    },
+  }
+
+  const TONE_CHIP = {
+    zinc:    'bg-zinc-100 text-zinc-700',
+    emerald: 'bg-emerald-100 text-emerald-800',
+    amber:   'bg-amber-100 text-amber-800',
+    orange:  'bg-orange-100 text-orange-800',
+    sky:     'bg-sky-100 text-sky-800',
+    red:     'bg-red-100 text-red-800',
+  }
+  const STATUS_PILL = {
+    emerald: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    amber:   'border-amber-200 bg-amber-50 text-amber-800',
+    zinc:    'border-zinc-200 bg-zinc-50 text-zinc-700',
+    red:     'border-red-200 bg-red-50 text-red-800',
+  }
+
+  function renderChips(chips, vId) {
+    const html = chips.map(c => `<span class="rounded-md px-2 py-0.5 text-[11.5px] font-medium ${TONE_CHIP[c.tone] || TONE_CHIP.zinc}">${c.label}</span>`).join('')
+    return html + `<span class="font-mono text-[11.5px] tabular-nums text-zinc-400">${VENDORS[vId].id}</span>`
+  }
+
+  function renderParts(parts) {
+    return parts.map(p => `
+      <tr class="cursor-pointer transition hover:bg-zinc-50" onclick="location.href='bom.html'">
+        <td class="px-5 py-2.5 font-mono tabular-nums text-zinc-950">${p.code}</td>
+        <td class="px-3 py-2.5 text-zinc-800">${p.label}</td>
+        <td class="px-3 py-2.5 text-zinc-500">${p.node}</td>
+        <td class="px-3 py-2.5 text-zinc-500">${p.product}</td>
+        <td class="px-3 py-2.5 text-right tabular-nums text-zinc-500">${p.last}</td>
+      </tr>
+    `).join('')
+  }
+
+  function renderPOs(pos) {
+    return pos.map(o => `
+      <tr class="transition hover:bg-zinc-50">
+        <td class="px-5 py-2.5 font-mono tabular-nums font-medium text-zinc-950">${o.num}</td>
+        <td class="px-3 py-2.5 tabular-nums text-zinc-700">${o.ordered}</td>
+        <td class="px-3 py-2.5 tabular-nums text-zinc-700">${o.ship}</td>
+        <td class="px-3 py-2.5 text-zinc-700">${o.qty}</td>
+        <td class="px-3 py-2.5 text-right font-medium tabular-nums text-zinc-950">${o.total}</td>
+        <td class="px-3 py-2.5 text-right"><span class="inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[11px] font-medium ${STATUS_PILL[o.tone] || STATUS_PILL.zinc}"><span class="h-1.5 w-1.5 rounded-full bg-current opacity-70"></span>${o.status}</span></td>
+      </tr>
+    `).join('')
+  }
+
+  function renderTrend(series) {
+    const w = 600, h = 180, top = 20, bot = 160
+    const min = Math.min(...series) - 2
+    const max = Math.max(100, Math.max(...series))
+    const step = w / (series.length - 1)
+    const pts = series.map((v, i) => {
+      const x = i * step
+      const y = bot - ((v - min) / (max - min)) * (bot - top)
+      return `${x.toFixed(1)},${y.toFixed(1)}`
+    })
+    document.getElementById('trendLine').setAttribute('points', pts.join(' '))
+    document.getElementById('trendFill').setAttribute('points', `0,${bot} ${pts.join(' ')} ${w},${bot}`)
+    const last5 = series.slice(-5)
+    const dots = pts.slice(-5).map((p, i) => {
+      const [x, y] = p.split(',')
+      const v = last5[i]
+      const color = v < 95 ? 'rgb(217 119 6)' : v < 98 ? 'rgb(82 82 91)' : 'rgb(4 120 87)'
+      return `<circle cx="${x}" cy="${y}" r="2.5" fill="${color}"/>`
+    }).join('')
+    document.getElementById('trendDots').innerHTML = dots
+  }
+
+  function renderCerts(certs) {
+    return certs.map(c => `
+      <li class="flex items-center justify-between px-5 py-2.5">
+        <span class="text-zinc-800">${c.name}</span>
+        <span class="text-[11px] tabular-nums text-zinc-500">${c.detail}</span>
+      </li>
+    `).join('')
+  }
+
+  function renderActivity(items) {
+    return items.map(i => `
+      <li class="px-5 py-3">
+        <div class="flex items-baseline gap-2">
+          <span class="text-[12.5px] font-medium text-zinc-950">${i.who}</span>
+          <span class="font-mono text-[10.5px] tabular-nums text-zinc-400">${i.when} · 2026</span>
+        </div>
+        <p class="mt-0.5 text-[12.5px] leading-relaxed text-zinc-700">${i.text}</p>
+      </li>
+    `).join('')
+  }
+
+  function applyVendor(id) {
+    if (!VENDORS[id]) id = 'toppan'
+    const v = VENDORS[id]
+
+    // Hero
+    document.getElementById('breadcrumbVendor').textContent = v.title
+    document.getElementById('heroTitle').textContent = v.title
+    document.getElementById('heroSubtitle').textContent = v.subtitle
+    document.getElementById('heroMono').textContent = v.mono
+    document.getElementById('heroMono').className = `grid h-12 w-12 flex-shrink-0 place-items-center rounded-lg ${v.monoClass} text-[12px] font-bold ring-1 ring-inset`
+    document.getElementById('heroChips').innerHTML = renderChips(v.chips, id)
+    document.title = `Kiln — ${v.title}`
+
+    // KPIs
+    document.getElementById('kpiOnTime').textContent       = v.kpi.onTime
+    document.getElementById('kpiOnTimeDetail').textContent = v.kpi.onTimeDetail
+    document.getElementById('kpiOnTimeDetail').className   = `mt-1 text-[11.5px] tabular-nums ${v.kpi.onTimeTone}`
+    document.getElementById('kpiLead').textContent         = v.kpi.lead
+    document.getElementById('kpiLeadDetail').textContent   = v.kpi.leadDetail
+    document.getElementById('kpiLeadDetail').className     = `mt-1 text-[11.5px] tabular-nums ${v.kpi.leadTone}`
+    document.getElementById('kpiPOs').textContent          = v.kpi.pos
+    document.getElementById('kpiPOsDetail').textContent    = v.kpi.posDetail
+    document.getElementById('kpiQual').textContent         = v.kpi.qual
+    document.getElementById('kpiQualDetail').textContent   = v.kpi.qualDetail
+    document.getElementById('kpiQualDetail').className     = `mt-1 text-[11.5px] tabular-nums ${v.kpi.qualTone}`
+    document.getElementById('kpiSpend').textContent        = v.kpi.spend
+    document.getElementById('kpiSpendDetail').textContent  = v.kpi.spendDetail
+    document.getElementById('kpiSpendDetail').className    = `mt-1 text-[11.5px] tabular-nums ${v.kpi.spendTone}`
+
+    // Alert
+    const alertEl = document.getElementById('vendorAlert')
+    if (v.alert) {
+      alertEl.classList.remove('hidden')
+      document.getElementById('alertTitle').textContent = v.alert.title
+      document.getElementById('alertBadge').textContent = v.alert.badge
+      document.getElementById('alertBody').textContent  = v.alert.body
+    } else {
+      alertEl.classList.add('hidden')
+    }
+
+    // Tables & chart
+    document.getElementById('partsCount').textContent = v.partsSummary
+    document.getElementById('partsRows').innerHTML    = renderParts(v.parts)
+    document.getElementById('poRows').innerHTML       = renderPOs(v.pos)
+    renderTrend(v.trend)
+    document.getElementById('trendSummary').textContent = v.trendSummary
+
+    // Contact
+    document.getElementById('contactAvatar').textContent = v.contact.initials
+    document.getElementById('contactName').textContent   = v.contact.name
+    document.getElementById('contactRole').textContent   = v.contact.role
+    document.getElementById('contactPhone').textContent  = v.contact.phone
+    document.getElementById('contactEmail').textContent  = v.contact.email
+    document.getElementById('contactTz').textContent     = v.contact.tz
+    document.getElementById('contactEsc').textContent    = v.contact.esc
+
+    // Certs & activity
+    document.getElementById('certList').innerHTML     = renderCerts(v.certs)
+    document.getElementById('activityList').innerHTML = renderActivity(v.activity)
+
+    // URL sync — deep-linkable without breaking history
+    const url = new URL(location.href)
+    url.searchParams.set('name', id)
+    history.replaceState({}, '', url)
+  }
+
+  // Resolve incoming ?name= to a vendor id — supports label ('JSR', 'Toppan') or id ('jsr')
+  function resolveVendorId(raw) {
+    if (!raw) return 'toppan'
+    const s = raw.toLowerCase()
+    if (VENDORS[s]) return s
+    if (s.includes('toppan'))                    return 'toppan'
+    if (s.includes('dnp') || s.includes('dai'))  return 'dnp'
+    if (s.includes('jsr'))                       return 'jsr'
+    if (s.includes('tok') || s.includes('tokyo ohka')) return 'tok'
+    if (s.includes('linde'))                     return 'linde'
+    if (s.includes('amat') || s.includes('applied')) return 'amat'
+    if (s.includes('versum'))                    return 'versum'
+    if (s.includes('cabot'))                     return 'cabot'
+    if (s.includes('atotech'))                   return 'atotech'
+    if (s.includes('senju'))                     return 'senju'
+    return 'toppan'
+  }
+
+  const params = new URLSearchParams(location.search)
+  applyVendor(resolveVendorId(params.get('name')))
+</script>
+
+</body>
+</html>

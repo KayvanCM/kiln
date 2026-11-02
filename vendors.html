@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Vendors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <!-- ============ Sidebar (shared) ============ -->
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</a></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</a></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</a></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</span></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <!-- ============ Main ============ -->
+  <main class="overflow-y-auto">
+    <div class="mx-auto w-full max-w-[1320px] px-6 pb-16 pt-8 lg:px-12 xl:px-16">
+
+      <header class="mb-7 flex items-end justify-between gap-6">
+        <div class="min-w-0">
+          <h1 class="text-3xl font-semibold tracking-tight text-zinc-950">Vendors</h1>
+          <p class="mt-2 max-w-2xl text-[15px] leading-relaxed text-zinc-500">10 material and equipment suppliers across masks, resists, chemistries, gases, and packaging. Click any vendor to drill into POs, quality trend, and contact details.</p>
+        </div>
+        <button class="inline-flex h-9 flex-shrink-0 items-center gap-1.5 rounded-md border border-zinc-900 bg-white px-4 text-sm font-medium text-zinc-900 shadow-sm transition-all duration-150 hover:bg-zinc-900 hover:text-zinc-50 hover:shadow-md active:scale-[0.98]">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export vendors CSV
+        </button>
+      </header>
+      <hr class="mb-6 border-zinc-200" />
+
+      <!-- Filter row -->
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap gap-1.5" id="catFilters">
+          <button data-filter="all"        class="cat-filter inline-flex h-7 items-center rounded-md bg-zinc-900 px-3 text-xs font-medium text-zinc-50 transition">All <span class="ml-1.5 rounded-sm bg-white/20 px-1.5 text-[10px] tabular-nums">10</span></button>
+          <button data-filter="Photomasks"   class="cat-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Photomasks <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">2</span></button>
+          <button data-filter="Photoresists" class="cat-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Photoresists <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">2</span></button>
+          <button data-filter="Chemistries"  class="cat-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Chemistries <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">4</span></button>
+          <button data-filter="Gases"        class="cat-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Gases <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">1</span></button>
+          <button data-filter="Packaging"    class="cat-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Packaging <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">1</span></button>
+        </div>
+        <div class="relative w-72 max-w-full">
+          <svg viewBox="0 0 24 24" class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+          <input id="vendorSearch" type="search" placeholder="Search vendors, categories, regions…" class="w-full rounded-md border border-zinc-200 bg-white py-1.5 pl-8 pr-3 text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-1" />
+        </div>
+      </div>
+
+      <!-- Vendor table -->
+      <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+        <table class="w-full text-left">
+          <thead class="bg-zinc-50 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+            <tr>
+              <th class="px-5 py-3">Vendor</th>
+              <th class="px-3 py-3">Category</th>
+              <th class="px-3 py-3 text-right">Parts</th>
+              <th class="px-3 py-3 text-right">Lead time</th>
+              <th class="px-3 py-3">On-time</th>
+              <th class="px-3 py-3 text-right">Active POs</th>
+              <th class="px-3 py-3">Status</th>
+              <th class="px-3 py-3"></th>
+            </tr>
+          </thead>
+          <tbody id="vendorRows" class="divide-y divide-zinc-100"></tbody>
+        </table>
+        <p id="emptyState" class="hidden p-12 text-center text-sm text-zinc-500">No vendors match the current filter.</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // ============ Vendor catalog ============
+  // `id` matches the ?name= param on vendor-detail.html
+  const VENDORS = [
+    { id: 'toppan',   name: 'Toppan Photomasks',      mono: 'TP', tone: 'slate',   category: 'Photomasks',   region: 'Yokkaichi, JP',   parts: 5, lead: 21, onTime: 96.4, pos: 4, status: 'warn',  statusLabel: 'M3 requal overdue' },
+    { id: 'dnp',      name: 'DNP',                    mono: 'DN', tone: 'slate',   category: 'Photomasks',   region: 'Osaka, JP',       parts: 2, lead: 28, onTime: 98.1, pos: 2, status: 'ok',    statusLabel: 'Preferred'         },
+    { id: 'jsr',      name: 'JSR Corporation',        mono: 'JR', tone: 'orange',  category: 'Photoresists', region: 'Yokkaichi, JP',   parts: 1, lead: 35, onTime: 92.7, pos: 3, status: 'warn',  statusLabel: 'Buffer low · 14d'  },
+    { id: 'tok',      name: 'TOK',                    mono: 'TK', tone: 'orange',  category: 'Photoresists', region: 'Kawasaki, JP',    parts: 1, lead: 32, onTime: 95.8, pos: 2, status: 'ok',    statusLabel: 'Preferred'         },
+    { id: 'linde',    name: 'Linde',                  mono: 'LN', tone: 'amber',   category: 'Gases',        region: 'Houston, TX',     parts: 4, lead:  5, onTime: 99.2, pos: 8, status: 'ok',    statusLabel: 'Preferred'         },
+    { id: 'amat',     name: 'Applied Materials',      mono: 'AM', tone: 'zinc',    category: 'Chemistries',  region: 'Santa Clara, CA', parts: 3, lead: 14, onTime: 97.8, pos: 6, status: 'ok',    statusLabel: 'Preferred'         },
+    { id: 'versum',   name: 'Versum Materials',       mono: 'VM', tone: 'orange',  category: 'Chemistries',  region: 'Tempe, AZ',       parts: 3, lead: 18, onTime: 97.2, pos: 4, status: 'ok',    statusLabel: 'ALD precursors'    },
+    { id: 'cabot',    name: 'Cabot Microelectronics', mono: 'CB', tone: 'emerald', category: 'Chemistries',  region: 'Aurora, IL',      parts: 2, lead: 12, onTime: 98.4, pos: 3, status: 'ok',    statusLabel: 'CMP slurries'      },
+    { id: 'atotech',  name: 'Atotech',                mono: 'AT', tone: 'zinc',    category: 'Chemistries',  region: 'Berlin, DE',      parts: 1, lead: 21, onTime: 96.1, pos: 2, status: 'ok',    statusLabel: 'Cu electroplate'   },
+    { id: 'senju',    name: 'Senju Metal Industry',   mono: 'SJ', tone: 'orange',  category: 'Packaging',    region: 'Osaka, JP',       parts: 1, lead: 45, onTime: 94.5, pos: 1, status: 'ok',    statusLabel: 'Solder bumps'      },
+  ]
+
+  const TONE = {
+    slate:   'from-slate-100 to-slate-300 text-slate-700 ring-slate-200',
+    zinc:    'from-zinc-100 to-zinc-300 text-zinc-700 ring-zinc-200',
+    orange:  'from-orange-50 to-orange-200 text-orange-800 ring-orange-200',
+    rose:    'from-rose-50 to-rose-200 text-rose-800 ring-rose-200',
+    emerald: 'from-emerald-50 to-emerald-200 text-emerald-800 ring-emerald-200',
+    amber:   'from-amber-50 to-amber-200 text-amber-800 ring-amber-200',
+    sky:     'from-sky-50 to-sky-200 text-sky-800 ring-sky-200',
+  }
+  const STATUS = {
+    ok:   { pill: 'border-emerald-200 bg-emerald-50 text-emerald-800', dot: 'bg-emerald-500' },
+    warn: { pill: 'border-amber-200 bg-amber-50 text-amber-800',       dot: 'bg-amber-500'   },
+    crit: { pill: 'border-red-200 bg-red-50 text-red-800',             dot: 'bg-red-500'     },
+  }
+
+  let activeFilter = 'all'
+  let activeSearch = ''
+
+  function onTimeColor(v) {
+    if (v >= 98) return 'bg-emerald-500'
+    if (v >= 95) return 'bg-zinc-900'
+    return 'bg-amber-500'
+  }
+  function onTimeText(v) {
+    if (v >= 98) return 'text-emerald-700'
+    if (v >= 95) return 'text-zinc-700'
+    return 'text-amber-700'
+  }
+
+  function render() {
+    const tbody = document.getElementById('vendorRows')
+    const filtered = VENDORS.filter(v => {
+      if (activeFilter !== 'all' && v.category !== activeFilter) return false
+      if (activeSearch) {
+        const hay = (v.name + ' ' + v.category + ' ' + v.region + ' ' + v.statusLabel).toLowerCase()
+        if (!hay.includes(activeSearch)) return false
+      }
+      return true
+    })
+    document.getElementById('emptyState').classList.toggle('hidden', filtered.length > 0)
+    tbody.innerHTML = filtered.map(v => {
+      const tone = TONE[v.tone] || TONE.zinc
+      const s = STATUS[v.status]
+      const bar = onTimeColor(v.onTime)
+      const txt = onTimeText(v.onTime)
+      return `
+        <tr class="group cursor-pointer transition hover:bg-zinc-50" data-id="${v.id}">
+          <td class="px-5 py-3">
+            <div class="flex items-center gap-3">
+              <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br ${tone} text-[10.5px] font-bold ring-1 ring-inset">${v.mono}</span>
+              <div class="min-w-0">
+                <div class="truncate text-[13px] font-semibold text-zinc-950">${v.name}</div>
+                <div class="text-[11px] text-zinc-500">${v.region}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-3 py-3 text-[12.5px] text-zinc-700">${v.category}</td>
+          <td class="px-3 py-3 text-right text-[12.5px] tabular-nums font-medium text-zinc-950">${v.parts}</td>
+          <td class="px-3 py-3 text-right text-[12.5px] tabular-nums text-zinc-700">${v.lead} d</td>
+          <td class="px-3 py-3">
+            <div class="flex items-center gap-2 min-w-[140px]">
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                <div class="h-full rounded-full ${bar}" style="width:${v.onTime}%"></div>
+              </div>
+              <span class="w-12 text-right text-[11px] tabular-nums font-medium ${txt}">${v.onTime.toFixed(1)}%</span>
+            </div>
+          </td>
+          <td class="px-3 py-3 text-right text-[12.5px] tabular-nums text-zinc-700">${v.pos}</td>
+          <td class="px-3 py-3">
+            <span class="inline-flex items-center gap-1.5 rounded-md border ${s.pill} px-2 py-0.5 text-[11px] font-medium">
+              <span class="h-1.5 w-1.5 rounded-full ${s.dot}"></span>${v.statusLabel}
+            </span>
+          </td>
+          <td class="px-3 py-3 text-right">
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </td>
+        </tr>`
+    }).join('')
+
+    tbody.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => {
+      window.location.href = `vendor-detail.html?name=${encodeURIComponent(tr.dataset.id)}`
+    }))
+  }
+
+  document.querySelectorAll('.cat-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter
+      document.querySelectorAll('.cat-filter').forEach(b => {
+        const on = b.dataset.filter === activeFilter
+        b.classList.toggle('bg-zinc-900', on)
+        b.classList.toggle('text-zinc-50', on)
+        b.classList.toggle('border', !on)
+        b.classList.toggle('border-zinc-200', !on)
+        b.classList.toggle('bg-white', !on)
+        b.classList.toggle('text-zinc-700', !on)
+        b.classList.toggle('hover:bg-zinc-50', !on)
+      })
+      render()
+    })
+  })
+  document.getElementById('vendorSearch').addEventListener('input', e => {
+    activeSearch = e.target.value.trim().toLowerCase()
+    render()
+  })
+  render()
+</script>
+
+</body>
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Comms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+<style>
+  /* Custom scrollbars — match Kiln's other pages */
+  .kiln-scroll::-webkit-scrollbar { width: 8px; }
+  .kiln-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 4px; }
+
+  /* Find-in-transcript highlights */
+  mark.find-hit {
+    background: rgba(250, 204, 21, 0.45);   /* amber-300 @ 45% — sits softly on both light and dark bubbles */
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  mark.find-hit.current {
+    background: rgb(251, 191, 36);          /* amber-400 — the active match pops */
+    color: rgb(24, 24, 27);
+  }
+
+  /* Inline find bar — grows leftward from magnifier via max-width transition (ChatKit port) */
+  .find-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    max-width: 0;
+    overflow: hidden;
+    padding: 0;
+    background: rgb(250 250 250);            /* zinc-50 */
+    border: 1px solid transparent;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: max-width 220ms cubic-bezier(.2,.7,.2,1),
+                opacity   160ms cubic-bezier(.2,.7,.2,1),
+                padding   220ms cubic-bezier(.2,.7,.2,1),
+                border-color 160ms cubic-bezier(.2,.7,.2,1);
+  }
+  .find-bar.open {
+    max-width: 340px;
+    opacity: 1;
+    padding: 0 6px 0 10px;
+    border-color: rgb(212 212 216);           /* zinc-300 */
+  }
+  .find-bar input {
+    border: none; outline: none; background: transparent;
+    font: inherit; font-size: 13px;
+    color: rgb(24 24 27);                     /* zinc-900 */
+    width: 168px;
+    padding: 2px 0;
+  }
+  .find-bar input::placeholder { color: rgb(161 161 170); }  /* zinc-400 */
+  .find-count {
+    font-size: 11px;
+    color: rgb(113 113 122);                  /* zinc-500 */
+    font-variant-numeric: tabular-nums;
+    min-width: 38px;
+    text-align: right;
+    padding-right: 2px;
+  }
+  .find-btn {
+    width: 22px; height: 22px;
+    border-radius: 5px;
+    display: grid; place-items: center;
+    color: rgb(113 113 122);                  /* zinc-500 */
+    flex-shrink: 0;
+    background: transparent;
+    transition: background 100ms, color 100ms;
+  }
+  .find-btn:hover {
+    background: rgba(0,0,0,0.06);
+    color: rgb(24 24 27);
+  }
+  .find-btn[disabled] {
+    color: rgb(212 212 216);                  /* zinc-300 */
+    pointer-events: none;
+  }
+  .find-divider {
+    display: inline-block;
+    width: 1px; height: 16px;
+    background: rgb(228 228 231);             /* zinc-200 */
+    margin: 0 2px;
+  }
+</style>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_340px_1fr]">
+
+  <!-- ============ Sidebar (shared) ============ -->
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</a></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</a></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</a></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</a></li>
+        <li><a href="vendors.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</span></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <!-- ============ Conversation list ============ -->
+  <section class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <!-- List header -->
+    <div class="flex items-center justify-between border-b border-zinc-200 px-4 pt-4 pb-3">
+      <div>
+        <h1 class="text-[16px] font-semibold tracking-tight text-zinc-950">Comms</h1>
+        <p class="text-[11.5px] text-zinc-500">8 supplier threads · <span id="unreadCount" class="tabular-nums text-zinc-700">3 unread</span></p>
+      </div>
+      <button class="inline-flex h-8 items-center gap-1.5 rounded-md border border-zinc-900 bg-white px-2.5 text-[12px] font-medium text-zinc-900 transition hover:bg-zinc-900 hover:text-zinc-50" title="New conversation">
+        <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        New
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="border-b border-zinc-200 px-4 py-3">
+      <div class="relative">
+        <svg viewBox="0 0 24 24" class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="convSearch" type="search" placeholder="Search suppliers, PO#, threads…" class="w-full rounded-md border border-zinc-200 bg-white py-1.5 pl-8 pr-3 text-[12.5px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-1" />
+      </div>
+      <!-- Filter pills -->
+      <div class="mt-2.5 flex gap-1.5">
+        <button data-filter="all"      class="conv-filter inline-flex h-6 items-center rounded-md bg-zinc-900 px-2.5 text-[11px] font-medium text-zinc-50 transition">All</button>
+        <button data-filter="unread"   class="conv-filter inline-flex h-6 items-center rounded-md border border-zinc-200 bg-white px-2.5 text-[11px] font-medium text-zinc-700 transition hover:bg-zinc-50">Unread</button>
+        <button data-filter="priority" class="conv-filter inline-flex h-6 items-center rounded-md border border-zinc-200 bg-white px-2.5 text-[11px] font-medium text-zinc-700 transition hover:bg-zinc-50">Priority</button>
+      </div>
+    </div>
+
+    <!-- Scrollable list -->
+    <div id="convList" class="kiln-scroll flex-1 overflow-y-auto"></div>
+  </section>
+
+  <!-- ============ Transcript pane ============ -->
+  <main class="flex h-full flex-col overflow-hidden bg-zinc-50/40">
+    <!-- Transcript header -->
+    <header class="flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-3">
+      <div class="flex min-w-0 items-center gap-3">
+        <span id="tsMono" class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br from-orange-100 to-orange-300 text-[10.5px] font-bold text-orange-800 ring-1 ring-inset ring-orange-200">JR</span>
+        <div class="min-w-0">
+          <div class="flex items-baseline gap-2">
+            <h2 id="tsContact" class="truncate text-[14px] font-semibold text-zinc-950">H. Tanaka</h2>
+            <span id="tsRole" class="truncate text-[11.5px] text-zinc-500">Sr. account manager · JSR</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-[11px] text-zinc-500">
+            <span id="tsPresenceDot" class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+            <span id="tsPresence" class="tabular-nums">Active now · JST · UTC+9</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-shrink-0 items-center gap-1.5">
+        <!-- Find-in-transcript bar (collapsed by default; grows leftward from magnifier via max-width) -->
+        <div id="findBar" class="find-bar" role="search" aria-label="Find in transcript">
+          <input id="findInput" type="text" placeholder="Find in transcript" autocomplete="off" spellcheck="false" />
+          <span id="findCount" class="find-count"></span>
+          <button id="findPrev" class="find-btn" title="Previous (Shift + Enter)" disabled>
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg>
+          </button>
+          <button id="findNext" class="find-btn" title="Next (Enter)" disabled>
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <span class="find-divider"></span>
+          <button id="findClose" class="find-btn" title="Close (Esc)">
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6l-6 12"/></svg>
+          </button>
+        </div>
+        <button id="findToggleBtn" class="grid h-8 w-8 place-items-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900 aria-[pressed=true]:bg-zinc-100 aria-[pressed=true]:text-zinc-900" title="Search transcript (⌘F)" aria-pressed="false">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        </button>
+        <button class="grid h-8 w-8 place-items-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900" title="More">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+        </button>
+        <button id="tsVendorBtn" class="inline-flex h-8 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2.5 text-[11.5px] font-medium text-zinc-700 transition hover:bg-zinc-50" title="View vendor detail">
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+          Vendor
+        </button>
+      </div>
+    </header>
+
+    <!-- Alert strip (context-tied — hidden unless thread carries one) -->
+    <div id="tsAlert" class="hidden border-b border-amber-200 bg-amber-50 px-6 py-2.5">
+      <div class="flex items-start gap-2.5">
+        <svg viewBox="0 0 24 24" class="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-700" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <div class="flex-1 text-[12px] text-amber-900">
+          <span id="tsAlertText" class="font-medium">PR-EUV-7242 buffer under 14 days · expedited PO in transit</span>
+        </div>
+        <button class="text-[11px] font-medium text-amber-800 transition hover:text-amber-950">Open</button>
+      </div>
+    </div>
+
+    <!-- Message list -->
+    <div id="msgList" class="kiln-scroll flex-1 overflow-y-auto px-6 py-5"></div>
+
+    <!-- Composer -->
+    <div class="border-t border-zinc-200 bg-white px-6 py-3">
+      <div class="flex items-end gap-2">
+        <button class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900" title="Attach">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1L12.9 19.6a5 5 0 0 1-7-7L14.3 4.2a3.3 3.3 0 0 1 4.7 4.7l-8.4 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.7"/></svg>
+        </button>
+        <div class="relative min-h-[36px] flex-1">
+          <textarea id="composer" rows="1" placeholder="Message H. Tanaka…" class="max-h-40 w-full resize-none rounded-md border border-zinc-200 bg-white px-3 py-2 text-[13px] leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-1"></textarea>
+        </div>
+        <button id="sendBtn" class="inline-flex h-9 flex-shrink-0 items-center gap-1.5 rounded-md bg-zinc-900 px-3.5 text-[12.5px] font-medium text-white transition hover:bg-zinc-800 disabled:bg-zinc-300 disabled:text-zinc-500" disabled>
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+          Send
+        </button>
+      </div>
+      <div class="mt-1.5 flex items-center gap-3 pl-11 text-[10.5px] text-zinc-400">
+        <span>Enter to send · Shift + Enter for a new line</span>
+        <span class="h-1 w-1 rounded-full bg-zinc-300"></span>
+        <span>Attachments encrypted in transit</span>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  // ============ Conversation data ============
+  // Each thread is a supplier-facing conversation. Contacts + vendors match the
+  // vendor-detail.html VENDORS lookup so "View vendor" navigates deep-linked.
+
+  const CONVERSATIONS = [
+    {
+      id: 'jsr',
+      vendor:   'JSR',
+      vendorId: 'jsr',
+      contact:  'H. Tanaka',
+      role:     'Sr. account manager · JSR',
+      mono:     'JR',
+      monoTone: 'from-orange-100 to-orange-300 text-orange-800 ring-orange-200',
+      presence: 'Active now · JST · UTC+9',
+      presenceDot: 'bg-emerald-500',
+      snippet:  'Sounds good. I\'ll intro you via email. Also — friendly heads up: we\'re seeing 5-day extended lead times on all EUV resists starting Q4…',
+      last:     '11:24 AM',
+      unread:   2,
+      priority: true,
+      alert:    'PR-EUV-7242 buffer under 14 days · expedited PO in transit',
+      messages: [
+        { from: 'them', text: 'Just saw the buffer-low alert on PR-EUV-7242 come through your MES feed. Confirming your consumption forecast — 3,400 wafers/wk, correct?', at: 'Jun 15 · 9:14 AM' },
+        { from: 'me',   text: 'Confirmed. We\'re at 480L on-hand, ~14 days at current burn. Meridian M6 ramp is pulling ahead of schedule.', at: 'Jun 15 · 9:22 AM', state: 'read' },
+        { from: 'them', text: 'OK. I can pull forward the 720L shipment from Jul 06 → Jun 22. Expedited shipping fee is waived on this order given the trigger source.', at: 'Jun 15 · 9:31 AM' },
+        { from: 'me',   text: 'Appreciate it. Please expedite. PO-2026-1119 issued this morning at 10:04, should be in your queue.', at: 'Jun 15 · 10:11 AM', state: 'read' },
+        { from: 'them', text: 'Received. Manifest attached. Ships from Yokkaichi Jun 20, arrives Austin Jun 22 EOD.', at: 'Jun 15 · 10:47 AM', attachment: { name: 'PO-2026-1119-manifest.pdf', size: '184 KB' } },
+        { day: 'Today' },
+        { from: 'them', text: 'Quick update — Q3 allocation confirmed. 3,000L reserved for Kiln. Delivery windows Jul 5 and Jul 26.', at: '10:52 AM' },
+        { from: 'me',   text: 'Perfect. What\'s the story on the ArF cross-qual as fallback for M5/M7?', at: '11:03 AM', state: 'read' },
+        { from: 'them', text: 'TOK is aware. They can hold 240L at their Kawasaki depot as contingency stock — you\'d need to draw within 30 days of any activation.', at: '11:18 AM' },
+        { from: 'me',   text: 'Let\'s set that up. I\'ll loop in Watanabe on the TOK side.', at: '11:21 AM', state: 'delivered' },
+        { from: 'them', text: 'Sounds good. I\'ll intro you via email.', at: '11:24 AM' },
+        { from: 'them', text: 'Also — friendly heads up: we\'re seeing 5-day extended lead times on all EUV resists starting Q4 due to precursor sourcing. No impact yet but flagging early.', at: '11:24 AM' },
+      ],
+    },
+    {
+      id: 'toppan',
+      vendor:   'Toppan Photomasks',
+      vendorId: 'toppan',
+      contact:  'K. Sato',
+      role:     'Account manager · Toppan',
+      mono:     'TP',
+      monoTone: 'from-slate-100 to-slate-300 text-slate-700 ring-slate-200',
+      presence: 'Last active 2h ago · JST · UTC+9',
+      presenceDot: 'bg-zinc-400',
+      snippet:  'Requal window locked in for Jul 3. I\'ll send the pellicle transmission test data ahead of the shipment.',
+      last:     '8:41 AM',
+      unread:   1,
+      priority: true,
+      alert:    'M3 photomask requal overdue by 6 days',
+      messages: [
+        { from: 'me',   text: 'Sato-san — flagging that MS-N3E-MER-M3-r17 is showing as overdue for requal in our system. Do we have a window scheduled?', at: 'Jun 12 · 4:18 PM', state: 'read' },
+        { from: 'them', text: 'Apologies for the delay. The metrology bay was blocked on a DNP order last week. I\'ll confirm a slot today.', at: 'Jun 13 · 9:02 AM' },
+        { day: 'Today' },
+        { from: 'them', text: 'Requal window locked in for Jul 3. I\'ll send the pellicle transmission test data ahead of the shipment.', at: '8:41 AM' },
+      ],
+    },
+    {
+      id: 'asml',
+      vendor:   'ASML Field Service',
+      vendorId: null,
+      contact:  'M. Voss',
+      role:     'FE · ASML Veldhoven',
+      mono:     'MV',
+      monoTone: 'from-sky-100 to-sky-300 text-sky-800 ring-sky-200',
+      presence: 'Active now · CEST · UTC+2',
+      presenceDot: 'bg-emerald-500',
+      snippet:  'Y-encoder replacement kit shipped from Veldhoven. Arriving Austin Jun 18 12:30 CDT. Recovery ETA remains Jun 18 18:30 CDT.',
+      last:     'Jun 15 · 6:14 PM',
+      unread:   0,
+      priority: true,
+      alert:    'NXE-02 down · reticle stage fault E14-22 · 6h 14m',
+      messages: [
+        { from: 'me',   text: 'NXE-02 halted 09:22 with reticle stage Y-encoder drift. Need FE on-site. 8 lots quarantined and redirected to NXE-01.', at: 'Jun 15 · 9:34 AM', state: 'read' },
+        { from: 'them', text: 'Received. Dispatching from Veldhoven via our Austin partner. Confirmed on-site ETA Jun 18 18:30 CDT.', at: 'Jun 15 · 10:08 AM' },
+        { from: 'them', text: 'Y-encoder replacement kit shipped from Veldhoven. Arriving Austin Jun 18 12:30 CDT. Recovery ETA remains Jun 18 18:30 CDT.', at: 'Jun 15 · 6:14 PM' },
+      ],
+    },
+    {
+      id: 'versum',
+      vendor:   'Versum Materials',
+      vendorId: 'versum',
+      contact:  'A. Reyes',
+      role:     'Sr. materials manager · Versum',
+      mono:     'AR',
+      monoTone: 'from-orange-100 to-orange-300 text-orange-800 ring-orange-200',
+      presence: 'Last active 1d ago · MST · UTC−7',
+      presenceDot: 'bg-zinc-400',
+      snippet:  'Q3 forecast looks good. HfCl₄ allocation up 15% to match your Meridian ramp. Sending updated pricing sheet EOW.',
+      last:     'Jun 14 · 3:22 PM',
+      unread:   0,
+      priority: false,
+      alert:    null,
+      messages: [
+        { from: 'me',   text: 'Prep for our Q3 forecast call — projecting Meridian M6 at 3,400 w/wk, Sinew N2 stepping up to 1,200 w/wk. Need HfCl₄ allocation to match.', at: 'Jun 11 · 2:04 PM', state: 'read' },
+        { from: 'them', text: 'Numbers work on our side. Also want to discuss sole-source risk mitigation — we can qualify TBTDET at a second Versum facility as parallel supply.', at: 'Jun 12 · 10:33 AM' },
+        { from: 'me',   text: 'Very interested. What\'s the qual timeline?', at: 'Jun 12 · 11:17 AM', state: 'read' },
+        { from: 'them', text: 'Standard qual is 12 weeks. If we start Jul 1, parallel supply active by end of Q3.', at: 'Jun 12 · 2:45 PM' },
+        { from: 'them', text: 'Q3 forecast looks good. HfCl₄ allocation up 15% to match your Meridian ramp. Sending updated pricing sheet EOW.', at: 'Jun 14 · 3:22 PM' },
+      ],
+    },
+    {
+      id: 'linde',
+      vendor:   'Linde',
+      vendorId: 'linde',
+      contact:  'D. Ramírez',
+      role:     'Semi accounts lead · Linde',
+      mono:     'DR',
+      monoTone: 'from-amber-100 to-amber-300 text-amber-800 ring-amber-200',
+      presence: 'Last active 4h ago · CDT · UTC−5',
+      presenceDot: 'bg-zinc-400',
+      snippet:  'Weekly Cl₂ + BCl₃ delivery confirmed for Jun 21, 08:00–10:00 CDT. Bonded hazmat fleet — driver credentials in hand.',
+      last:     'Jun 15 · 2:03 PM',
+      unread:   0,
+      priority: false,
+      alert:    null,
+      messages: [
+        { from: 'me',   text: 'Confirming weekly cadence for Cl₂ + BCl₃. Standard 4-cylinder order.', at: 'Jun 15 · 1:47 PM', state: 'read' },
+        { from: 'them', text: 'Weekly Cl₂ + BCl₃ delivery confirmed for Jun 21, 08:00–10:00 CDT. Bonded hazmat fleet — driver credentials in hand.', at: 'Jun 15 · 2:03 PM' },
+      ],
+    },
+    {
+      id: 'dnp',
+      vendor:   'DNP',
+      vendorId: 'dnp',
+      contact:  'M. Ito',
+      role:     'Sr. account manager · DNP',
+      mono:     'MI',
+      monoTone: 'from-slate-100 to-slate-300 text-slate-700 ring-slate-200',
+      presence: 'Last active 3d ago · JST · UTC+9',
+      presenceDot: 'bg-zinc-400',
+      snippet:  'Gate mask r18 slot booked. 4-week fab window, tape-out to your Austin dock Jul 24.',
+      last:     'Jun 12 · 10:44 AM',
+      unread:   0,
+      priority: false,
+      alert:    null,
+      messages: [
+        { from: 'me',   text: 'Ready to schedule the Gate mask r18 revision. When can DNP take the tape-out?', at: 'Jun 08 · 4:22 PM', state: 'read' },
+        { from: 'them', text: 'Gate mask r18 slot booked. 4-week fab window, tape-out to your Austin dock Jul 24.', at: 'Jun 12 · 10:44 AM' },
+      ],
+    },
+    {
+      id: 'amat',
+      vendor:   'Applied Materials',
+      vendorId: 'amat',
+      contact:  'S. Nakamura',
+      role:     'Sr. materials rep · AMAT',
+      mono:     'SN',
+      monoTone: 'from-zinc-100 to-zinc-300 text-zinc-700 ring-zinc-200',
+      presence: 'Last active 6h ago · PDT · UTC−7',
+      presenceDot: 'bg-zinc-400',
+      snippet:  'PO-2026-1116 confirmed. 4kg TiN target ships Jun 27, arrives Austin Jul 02. Also sending CoQ dev root-cause writeup this week.',
+      last:     'Jun 13 · 5:11 PM',
+      unread:   0,
+      priority: false,
+      alert:    null,
+      messages: [
+        { from: 'me',   text: 'TiN target order for Bay 4 restock — PO-2026-1116 issued.', at: 'Jun 13 · 4:32 PM', state: 'read' },
+        { from: 'them', text: 'PO-2026-1116 confirmed. 4kg TiN target ships Jun 27, arrives Austin Jul 02. Also sending CoQ dev root-cause writeup this week.', at: 'Jun 13 · 5:11 PM' },
+      ],
+    },
+    {
+      id: 'cabot',
+      vendor:   'Cabot Microelectronics',
+      vendorId: 'cabot',
+      contact:  'M. Johansson',
+      role:     'Semi accounts lead · Cabot',
+      mono:     'MJ',
+      monoTone: 'from-emerald-100 to-emerald-300 text-emerald-800 ring-emerald-200',
+      presence: 'Last active 2d ago · CDT · UTC−5',
+      presenceDot: 'bg-zinc-400',
+      snippet:  'Q3 volume commitment confirmed at 5,200L across Cu-stop + Cu/oxide slurries. Bi-weekly cadence on the STI line.',
+      last:     'Jun 15 · 11:48 AM',
+      unread:   0,
+      priority: false,
+      alert:    null,
+      messages: [
+        { from: 'me',   text: 'Closing out our Q3 volume discussion — need to lock the commitment this week.', at: 'Jun 15 · 10:04 AM', state: 'read' },
+        { from: 'them', text: 'Q3 volume commitment confirmed at 5,200L across Cu-stop + Cu/oxide slurries. Bi-weekly cadence on the STI line.', at: 'Jun 15 · 11:48 AM' },
+      ],
+    },
+  ];
+
+  // ============ State ============
+  let activeConvId = 'jsr';
+  let activeFilter = 'all';
+  let activeSearch = '';
+
+  // ============ Render conversation list ============
+  function renderList() {
+    const filtered = CONVERSATIONS.filter(c => {
+      if (activeFilter === 'unread'   && !c.unread)   return false;
+      if (activeFilter === 'priority' && !c.priority) return false;
+      if (activeSearch) {
+        const hay = (c.vendor + ' ' + c.contact + ' ' + c.snippet).toLowerCase();
+        if (!hay.includes(activeSearch)) return false;
+      }
+      return true;
+    });
+
+    const list = document.getElementById('convList');
+    list.innerHTML = filtered.map(c => {
+      const active = c.id === activeConvId;
+      const bgActive = active ? 'bg-zinc-100' : 'hover:bg-zinc-50';
+      const priorityDot = c.priority
+        ? '<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" title="Priority"></span>'
+        : '';
+      const unreadPill = c.unread
+        ? `<span class="ml-auto inline-flex h-4 min-w-[16px] items-center justify-center rounded-full bg-zinc-900 px-1 text-[10px] font-semibold tabular-nums text-white">${c.unread}</span>`
+        : '';
+      return `
+        <button data-conv="${c.id}" class="conv-row flex w-full items-start gap-3 px-4 py-3 text-left transition ${bgActive} border-b border-zinc-100 last:border-b-0">
+          <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br ${c.monoTone} text-[10.5px] font-bold ring-1 ring-inset">${c.mono}</span>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1.5">
+              ${priorityDot}
+              <span class="truncate text-[13px] font-semibold text-zinc-950">${c.contact}</span>
+              <span class="ml-auto flex-shrink-0 text-[10.5px] tabular-nums text-zinc-400">${c.last}</span>
+            </div>
+            <div class="truncate text-[11.5px] text-zinc-500">${c.vendor}</div>
+            <div class="mt-1 flex items-start gap-2">
+              <p class="line-clamp-2 flex-1 text-[12px] leading-snug ${c.unread ? 'font-medium text-zinc-800' : 'text-zinc-500'}">${c.snippet}</p>
+              ${unreadPill}
+            </div>
+          </div>
+        </button>`;
+    }).join('');
+
+    list.querySelectorAll('.conv-row').forEach(row => {
+      row.addEventListener('click', () => selectConv(row.dataset.conv));
+    });
+  }
+
+  function selectConv(id) {
+    activeConvId = id;
+    const c = CONVERSATIONS.find(x => x.id === id);
+    if (!c) return;
+    // Mark as read on open
+    c.unread = 0;
+    renderList();
+    renderTranscript(c);
+    updateUnreadCount();
+  }
+
+  function updateUnreadCount() {
+    const total = CONVERSATIONS.reduce((sum, c) => sum + c.unread, 0);
+    document.getElementById('unreadCount').textContent = `${total} unread`;
+  }
+
+  // ============ Render transcript ============
+  function renderTranscript(c) {
+    // Header
+    const mono = document.getElementById('tsMono');
+    mono.textContent = c.mono;
+    mono.className = `grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br ${c.monoTone} text-[10.5px] font-bold ring-1 ring-inset`;
+    document.getElementById('tsContact').textContent = c.contact;
+    document.getElementById('tsRole').textContent    = c.role;
+    document.getElementById('tsPresence').textContent = c.presence;
+    document.getElementById('tsPresenceDot').className = `h-1.5 w-1.5 rounded-full ${c.presenceDot}`;
+
+    // Vendor button (hide for non-vendor threads like ASML FE)
+    const vendorBtn = document.getElementById('tsVendorBtn');
+    if (c.vendorId) {
+      vendorBtn.classList.remove('hidden');
+      vendorBtn.onclick = () => location.href = `vendor-detail.html?name=${encodeURIComponent(c.vendorId)}`;
+    } else {
+      vendorBtn.classList.add('hidden');
+    }
+
+    // Alert strip
+    const alertEl = document.getElementById('tsAlert');
+    if (c.alert) {
+      document.getElementById('tsAlertText').textContent = c.alert;
+      alertEl.classList.remove('hidden');
+    } else {
+      alertEl.classList.add('hidden');
+    }
+
+    // Composer placeholder
+    document.getElementById('composer').placeholder = `Message ${c.contact}…`;
+
+    // Messages
+    const list = document.getElementById('msgList');
+    list.innerHTML = c.messages.map(m => {
+      if (m.day) {
+        return `
+          <div class="my-4 flex items-center gap-3">
+            <div class="h-px flex-1 bg-zinc-200"></div>
+            <span class="text-[10.5px] font-semibold uppercase tracking-wider text-zinc-400">${m.day}</span>
+            <div class="h-px flex-1 bg-zinc-200"></div>
+          </div>`;
+      }
+      const isMe = m.from === 'me';
+      const bubble = isMe
+        ? 'ml-auto bg-zinc-900 text-white'
+        : 'bg-white border border-zinc-200 text-zinc-800';
+      const stateLabel = isMe && m.state
+        ? `<span class="text-[10px] text-zinc-400 tabular-nums">· ${m.state === 'read' ? 'Read' : 'Delivered'}</span>`
+        : '';
+      const attachment = m.attachment
+        ? `
+          <div class="mt-2 flex items-center gap-2 rounded-md ${isMe ? 'bg-white/10' : 'bg-zinc-50 border border-zinc-200'} px-2.5 py-1.5">
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 flex-shrink-0 ${isMe ? 'text-white/80' : 'text-zinc-500'}" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            <span class="truncate text-[11.5px] font-medium ${isMe ? 'text-white' : 'text-zinc-800'}">${m.attachment.name}</span>
+            <span class="text-[10.5px] tabular-nums ${isMe ? 'text-white/70' : 'text-zinc-400'}">${m.attachment.size}</span>
+          </div>`
+        : '';
+      return `
+        <div class="mb-3 flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+          <div class="max-w-[68%] rounded-lg px-3.5 py-2 text-[13px] leading-relaxed shadow-[0_1px_1px_rgba(0,0,0,0.04)] ${bubble}">
+            <p class="whitespace-pre-wrap">${m.text}</p>
+            ${attachment}
+          </div>
+          <div class="mt-1 flex items-center gap-1.5 px-1 text-[10px] text-zinc-400 tabular-nums">
+            <span>${m.at}</span>
+            ${stateLabel}
+          </div>
+        </div>`;
+    }).join('');
+
+    // Scroll to bottom
+    list.scrollTop = list.scrollHeight;
+  }
+
+  // ============ Filters + search ============
+  document.querySelectorAll('.conv-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter;
+      document.querySelectorAll('.conv-filter').forEach(b => {
+        const on = b.dataset.filter === activeFilter;
+        b.classList.toggle('bg-zinc-900', on);
+        b.classList.toggle('text-zinc-50', on);
+        b.classList.toggle('border', !on);
+        b.classList.toggle('border-zinc-200', !on);
+        b.classList.toggle('bg-white', !on);
+        b.classList.toggle('text-zinc-700', !on);
+        b.classList.toggle('hover:bg-zinc-50', !on);
+      });
+      renderList();
+    });
+  });
+
+  document.getElementById('convSearch').addEventListener('input', e => {
+    activeSearch = e.target.value.trim().toLowerCase();
+    renderList();
+  });
+
+  // ============ Composer ============
+  const composer = document.getElementById('composer');
+  const sendBtn  = document.getElementById('sendBtn');
+
+  composer.addEventListener('input', () => {
+    sendBtn.disabled = composer.value.trim().length === 0;
+    // Auto-grow
+    composer.style.height = 'auto';
+    composer.style.height = Math.min(composer.scrollHeight, 160) + 'px';
+  });
+
+  composer.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!sendBtn.disabled) sendMessage();
+    }
+  });
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  function sendMessage() {
+    const text = composer.value.trim();
+    if (!text) return;
+    const c = CONVERSATIONS.find(x => x.id === activeConvId);
+    if (!c) return;
+    const now = new Date();
+    const hh = now.getHours();
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ampm = hh >= 12 ? 'PM' : 'AM';
+    const h12 = ((hh + 11) % 12) + 1;
+    c.messages.push({ from: 'me', text, at: `${h12}:${mm} ${ampm}`, state: 'delivered' });
+    c.snippet = text.replace(/\s+/g, ' ').slice(0, 120);
+    c.last = `${h12}:${mm} ${ampm}`;
+    composer.value = '';
+    composer.style.height = 'auto';
+    sendBtn.disabled = true;
+    renderTranscript(c);
+    renderList();
+  }
+
+  // Initial render
+  renderList();
+  selectConv('jsr');
+
+  // ============ Find-in-transcript ============
+  // Same mechanics as ChatKit's text-transcript find bar, ported to Kiln's DOM.
+  (() => {
+    const toggleBtn = document.getElementById('findToggleBtn');
+    const bar       = document.getElementById('findBar');
+    const input     = document.getElementById('findInput');
+    const countEl   = document.getElementById('findCount');
+    const prevBtn   = document.getElementById('findPrev');
+    const nextBtn   = document.getElementById('findNext');
+    const closeBtn  = document.getElementById('findClose');
+    const transcript = document.getElementById('msgList');
+
+    let hits = [];
+    let idx  = -1;
+
+    function clearMarks() {
+      transcript.querySelectorAll('mark.find-hit').forEach(m => {
+        const parent = m.parentNode;
+        while (m.firstChild) parent.insertBefore(m.firstChild, m);
+        parent.removeChild(m);
+        parent.normalize();
+      });
+    }
+
+    function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    function wrapMatches(query) {
+      clearMarks();
+      hits = [];
+      if (!query) return;
+      const re = new RegExp(escapeRegex(query), 'gi');
+      const walker = document.createTreeWalker(
+        transcript,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            if (node.parentNode.closest('mark.find-hit')) return NodeFilter.FILTER_REJECT;
+            // Only search inside message bubbles (skip day dividers, timestamps, state labels)
+            const bubble = node.parentNode.closest('p, .truncate');
+            if (!bubble) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+
+      nodes.forEach(node => {
+        const text = node.nodeValue;
+        let match, lastIndex = 0;
+        const frag = document.createDocumentFragment();
+        re.lastIndex = 0;
+        let any = false;
+        while ((match = re.exec(text)) !== null) {
+          any = true;
+          if (match.index > lastIndex) {
+            frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+          }
+          const mark = document.createElement('mark');
+          mark.className = 'find-hit';
+          mark.textContent = match[0];
+          frag.appendChild(mark);
+          hits.push(mark);
+          lastIndex = match.index + match[0].length;
+          if (match[0].length === 0) re.lastIndex++;
+        }
+        if (any) {
+          if (lastIndex < text.length) {
+            frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+          }
+          node.parentNode.replaceChild(frag, node);
+        }
+      });
+    }
+
+    function updateCount() {
+      if (!input.value) { countEl.textContent = ''; return; }
+      if (hits.length === 0) { countEl.textContent = 'No results'; return; }
+      countEl.textContent = `${idx + 1} of ${hits.length}`;
+    }
+
+    function updateNavButtons() {
+      const disabled = hits.length < 2;
+      prevBtn.disabled = disabled;
+      nextBtn.disabled = disabled;
+    }
+
+    function setCurrent(newIdx, { scroll = true } = {}) {
+      if (!hits.length) { idx = -1; updateCount(); updateNavButtons(); return; }
+      hits.forEach(h => h.classList.remove('current'));
+      idx = ((newIdx % hits.length) + hits.length) % hits.length;
+      const cur = hits[idx];
+      cur.classList.add('current');
+      if (scroll) cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      updateCount();
+      updateNavButtons();
+    }
+
+    function runSearch() {
+      wrapMatches(input.value.trim());
+      if (hits.length) setCurrent(0);
+      else { idx = -1; updateCount(); updateNavButtons(); }
+    }
+
+    function open() {
+      bar.classList.add('open');
+      toggleBtn.setAttribute('aria-pressed', 'true');
+      setTimeout(() => { input.focus(); input.select(); }, 30);
+    }
+    function close() {
+      bar.classList.remove('open');
+      toggleBtn.setAttribute('aria-pressed', 'false');
+      clearMarks();
+      hits = []; idx = -1;
+      countEl.textContent = '';
+      updateNavButtons();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      bar.classList.contains('open') ? close() : open();
+    });
+    closeBtn.addEventListener('click', close);
+    input.addEventListener('input', runSearch);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!hits.length) return;
+        setCurrent(e.shiftKey ? idx - 1 : idx + 1);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+      }
+    });
+    prevBtn.addEventListener('click', () => hits.length && setCurrent(idx - 1));
+    nextBtn.addEventListener('click', () => hits.length && setCurrent(idx + 1));
+
+    // ⌘F / Ctrl+F opens the find bar; browser's native find would search the
+    // whole page (nav + list), which is noisier than the user wants here.
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        open();
+      }
+    });
+
+    // If the active thread changes while the bar is open, re-run the search
+    // against the newly-rendered transcript. Wrap selectConv without
+    // touching its original behavior.
+    const _origSelectConv = selectConv;
+    selectConv = function(id) {
+      _origSelectConv(id);
+      if (bar.classList.contains('open') && input.value.trim()) {
+        runSearch();
+      }
+    };
+  })();
+</script>
+
+</body>
+</html>

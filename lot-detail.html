@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Lot W2607-N3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</a></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</span></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</a></li>
+        <li><a href="vendors.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</a></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <main class="overflow-y-auto">
+    <div class="mx-auto w-full max-w-[1320px] px-6 pb-16 pt-6 lg:px-12 xl:px-16">
+
+      <!-- Breadcrumb -->
+      <nav class="mb-4 flex items-center gap-1.5 text-[12.5px] text-zinc-500">
+        <a href="dashboard.html" class="transition hover:text-zinc-900">Wafer Lots</a>
+        <svg viewBox="0 0 12 12" class="h-3 w-3 text-zinc-300" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l4 4-4 4"/></svg>
+        <span>Active · N3E</span>
+        <svg viewBox="0 0 12 12" class="h-3 w-3 text-zinc-300" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l4 4-4 4"/></svg>
+        <span class="font-mono font-medium text-zinc-900">W2607-N3</span>
+      </nav>
+
+      <!-- Hero -->
+      <header class="mb-6 flex items-start justify-between gap-6">
+        <div class="flex items-start gap-4 min-w-0">
+          <span class="grid h-14 w-14 flex-shrink-0 place-items-center rounded-lg bg-gradient-to-br from-zinc-100 to-zinc-300 ring-1 ring-inset ring-zinc-200">
+            <svg viewBox="0 0 32 32" class="h-7 w-7" fill="none" stroke="rgb(82 82 91)" stroke-width="1.4">
+              <circle cx="16" cy="16" r="13"/>
+              <circle cx="16" cy="16" r="8" stroke-opacity="0.6"/>
+              <path d="M16 3 L16 6 M16 26 L16 29 M3 16 L6 16 M26 16 L29 16" stroke-linecap="round"/>
+              <path d="M11 11 L21 11 L21 21 L11 21 Z" stroke-opacity="0.4"/>
+              <path d="M14 14 L18 14 L18 18 L14 18 Z" fill="rgb(220 38 38)" stroke="none"/>
+            </svg>
+          </span>
+          <div class="min-w-0">
+            <h1 class="font-mono text-[26px] font-semibold tabular-nums tracking-tight text-zinc-950">W2607-N3</h1>
+            <p class="mt-1.5 max-w-2xl font-sans text-[14px] leading-relaxed text-zinc-500">A travel record for one wafer lot — current step, recipe path, defect map, operator notes, and any holds blocking it from finishing.</p>
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <span class="rounded-md bg-zinc-100 px-2 py-0.5 text-[11.5px] font-medium text-zinc-700">Aetheron Meridian M6</span>
+              <span class="rounded-md bg-zinc-100 px-2 py-0.5 text-[11.5px] font-medium text-zinc-700">N3E · 25 wafers</span>
+              <span class="rounded-md bg-zinc-100 px-2 py-0.5 text-[11.5px] font-medium text-zinc-700">Recipe RCP-N3E-MER-M6 · r17</span>
+              <span class="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-[11.5px] font-medium text-amber-800">
+                <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>On hold · M3 etch
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-shrink-0 gap-2">
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 7v5l3 2"/></svg>
+            Travel log
+          </button>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-900 bg-white px-4 text-sm font-medium text-zinc-900 shadow-sm transition-all duration-150 hover:bg-zinc-900 hover:text-zinc-50 hover:shadow-md active:scale-[0.98]">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>
+            Release hold
+          </button>
+        </div>
+      </header>
+      <hr class="mb-6 border-zinc-200" />
+
+      <!-- KPI strip -->
+      <div class="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-5">
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Progress</div>
+          <div class="mt-1.5 flex items-baseline gap-1">
+            <span class="text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">142</span>
+            <span class="text-[12.5px] tabular-nums text-zinc-500">/ 487 steps</span>
+          </div>
+          <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100">
+            <div class="h-full rounded-full bg-zinc-900" style="width:29%"></div>
+          </div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Days in fab</div>
+          <div class="mt-1.5 text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">15.2<span class="text-[14px] text-zinc-400">d</span></div>
+          <div class="mt-1 text-[11.5px] tabular-nums text-amber-700">+0.6d hold delta</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Projected out</div>
+          <div class="mt-1.5 text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">Jul 02</div>
+          <div class="mt-1 text-[11.5px] tabular-nums text-amber-700">+1d vs plan (Jul 01)</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Wafer count</div>
+          <div class="mt-1.5 flex items-baseline gap-1.5">
+            <span class="text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">25</span>
+            <span class="text-[12.5px] tabular-nums text-zinc-500">/ 25</span>
+          </div>
+          <div class="mt-1 text-[11.5px] tabular-nums text-emerald-700">no scrap</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Yield projection</div>
+          <div class="mt-1.5 text-[22px] font-semibold tabular-nums tracking-tight text-zinc-950">88<span class="text-[14px] text-zinc-400">%</span></div>
+          <div class="mt-1 text-[11.5px] tabular-nums text-amber-700">target 92%</div>
+        </div>
+      </div>
+
+      <!-- Hold banner -->
+      <div class="mb-8 rounded-lg border border-amber-200 bg-amber-50/60 p-5">
+        <div class="flex items-start gap-4">
+          <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-md bg-amber-100 text-amber-800">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-[15px] font-semibold tracking-tight text-zinc-950">Held at M3 metal etch — pending integration eng review</h3>
+            <p class="mt-1 text-[13px] leading-relaxed text-zinc-700">
+              KLA Surfscan SP7 flagged a <strong class="font-medium text-zinc-900">+3.2σ defect cluster</strong> on the post-etch defect map (concentrated upper-left quadrant).
+              Recipe re-qual gated on <strong class="font-medium text-zinc-900">R. Patel</strong>; expected release within 4h. No scrap so far.
+            </p>
+            <div class="mt-3 flex flex-wrap items-center gap-3 text-[12.5px]">
+              <span class="text-zinc-500">Step</span>
+              <a href="recipe.html" class="font-medium text-zinc-800 underline decoration-zinc-300 underline-offset-2 transition hover:decoration-zinc-700">M3 etch · STP-N3E-M3-ETCH-A4</a>
+              <span class="h-1 w-1 rounded-full bg-zinc-300"></span>
+              <span class="text-zinc-500">Tool</span>
+              <a href="tool-detail.html" class="font-medium text-zinc-800 underline decoration-zinc-300 underline-offset-2 transition hover:decoration-zinc-700">LAM Kiyo F · KYO-04</a>
+              <span class="h-1 w-1 rounded-full bg-zinc-300"></span>
+              <span class="text-zinc-500">Held</span>
+              <span class="font-mono tabular-nums text-zinc-700">2h 34m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two col -->
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
+        <div class="space-y-6">
+
+          <!-- Process timeline -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Process trail</h2>
+              <span class="text-[11.5px] tabular-nums text-zinc-500">last 12 of 487 steps</span>
+            </header>
+            <ol class="px-5 py-4">
+              <!-- Each row: marker · step name · meta · timestamp -->
+              <li class="relative flex gap-3 pb-3">
+                <div class="flex flex-col items-center">
+                  <span class="grid h-5 w-5 place-items-center rounded-full bg-emerald-100 ring-1 ring-inset ring-emerald-300">
+                    <svg viewBox="0 0 12 12" class="h-3 w-3 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6l3 3 5-7"/></svg>
+                  </span>
+                  <span class="my-0.5 w-px flex-1 bg-zinc-200"></span>
+                </div>
+                <div class="flex-1 pb-3 text-[12.5px]">
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="font-medium text-zinc-900">M2 Cu CMP <span class="ml-1 text-zinc-400 tabular-nums">141</span></span>
+                    <span class="font-mono tabular-nums text-zinc-400">Jun 12 · 06:14</span>
+                  </div>
+                  <div class="text-[11.5px] text-zinc-500">AMAT Reflexion · RFX-03 · pad PSL · 28s</div>
+                </div>
+              </li>
+              <!-- Active -->
+              <li class="relative flex gap-3 pb-3">
+                <div class="flex flex-col items-center">
+                  <span class="grid h-5 w-5 place-items-center rounded-full bg-amber-100 ring-2 ring-amber-300">
+                    <span class="h-1.5 w-1.5 rounded-full bg-amber-600"></span>
+                  </span>
+                  <span class="my-0.5 w-px flex-1 bg-zinc-200"></span>
+                </div>
+                <div class="flex-1 pb-3 text-[12.5px]">
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="font-semibold text-zinc-950">M3 metal etch <span class="ml-1 text-zinc-400 tabular-nums">142</span> · <span class="text-amber-700">HOLD</span></span>
+                    <span class="font-mono tabular-nums text-amber-700">running 2h 34m</span>
+                  </div>
+                  <div class="text-[11.5px] text-zinc-500">LAM Kiyo · KYO-04 · Cl₂/BCl₃ · endpoint OES@405</div>
+                  <div class="mt-1 inline-flex items-center gap-1.5 rounded-md border border-red-200 bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-800">
+                    <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>+3.2σ defect cluster (post-etch)
+                  </div>
+                </div>
+              </li>
+              <!-- Queued -->
+              <li class="relative flex gap-3 pb-3">
+                <div class="flex flex-col items-center">
+                  <span class="grid h-5 w-5 place-items-center rounded-full bg-zinc-50 ring-1 ring-inset ring-zinc-300">
+                    <span class="h-1.5 w-1.5 rounded-full bg-zinc-300"></span>
+                  </span>
+                  <span class="my-0.5 w-px flex-1 bg-zinc-200"></span>
+                </div>
+                <div class="flex-1 pb-3 text-[12.5px]">
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="text-zinc-700">M3 Cu fill <span class="ml-1 text-zinc-400 tabular-nums">143</span></span>
+                    <span class="font-mono tabular-nums text-zinc-400">queued</span>
+                  </div>
+                  <div class="text-[11.5px] text-zinc-500">AMAT Endura · Bay 4</div>
+                </div>
+              </li>
+              <li class="relative flex gap-3 pb-3">
+                <div class="flex flex-col items-center">
+                  <span class="grid h-5 w-5 place-items-center rounded-full bg-zinc-50 ring-1 ring-inset ring-zinc-300">
+                    <span class="h-1.5 w-1.5 rounded-full bg-zinc-300"></span>
+                  </span>
+                  <span class="my-0.5 w-px flex-1 bg-zinc-200"></span>
+                </div>
+                <div class="flex-1 pb-3 text-[12.5px]">
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="text-zinc-700">M3 Cu CMP <span class="ml-1 text-zinc-400 tabular-nums">144</span></span>
+                    <span class="font-mono tabular-nums text-zinc-400">queued</span>
+                  </div>
+                  <div class="text-[11.5px] text-zinc-500">AMAT Reflexion · ETA after release</div>
+                </div>
+              </li>
+              <li class="relative flex gap-3 pb-3">
+                <div class="flex flex-col items-center">
+                  <span class="grid h-5 w-5 place-items-center rounded-full bg-zinc-50 ring-1 ring-inset ring-zinc-300">
+                    <span class="h-1.5 w-1.5 rounded-full bg-zinc-300"></span>
+                  </span>
+                  <span class="my-0.5 w-px flex-1 bg-zinc-200"></span>
+                </div>
+                <div class="flex-1 pb-3 text-[12.5px]">
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="text-zinc-700">Defect inspection (post-M3) <span class="ml-1 text-zinc-400 tabular-nums">145</span></span>
+                    <span class="font-mono tabular-nums text-zinc-400">queued</span>
+                  </div>
+                  <div class="text-[11.5px] text-zinc-500">KLA Surfscan SP7</div>
+                </div>
+              </li>
+              <li class="relative flex gap-3">
+                <div class="flex flex-col items-center">
+                  <span class="grid h-5 w-5 place-items-center rounded-full bg-zinc-50 ring-1 ring-inset ring-zinc-300">
+                    <span class="h-1.5 w-1.5 rounded-full bg-zinc-300"></span>
+                  </span>
+                </div>
+                <div class="flex-1 text-[12.5px]">
+                  <div class="flex items-baseline justify-between gap-3">
+                    <span class="text-zinc-700">M4 Litho <span class="ml-1 text-zinc-400 tabular-nums">146</span></span>
+                    <span class="font-mono tabular-nums text-zinc-400">queued</span>
+                  </div>
+                  <div class="text-[11.5px] text-zinc-500">ASML NXE:3800E · est. Jun 13 · 04:00</div>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <!-- Step history -->
+          <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Operator + system events</h2>
+              <span class="text-[11.5px] tabular-nums text-zinc-500">15 entries · this lot</span>
+            </header>
+            <ul class="divide-y divide-zinc-100 text-[12.5px]">
+              <li class="px-5 py-3">
+                <div class="flex items-baseline gap-2">
+                  <span class="font-medium text-zinc-950">SPC system</span>
+                  <span class="font-mono text-[10.5px] tabular-nums text-zinc-400">12 Jun · 09:38</span>
+                  <span class="ml-auto inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-1.5 py-0.5 text-[10.5px] font-medium text-red-800">excursion</span>
+                </div>
+                <p class="mt-0.5 leading-relaxed text-zinc-700">Auto-hold triggered: defect density on M3 etch exceeded UCL on 5 of 25 wafers (cluster Q-NW).</p>
+              </li>
+              <li class="px-5 py-3">
+                <div class="flex items-baseline gap-2">
+                  <span class="font-medium text-zinc-950">R. Patel</span>
+                  <span class="font-mono text-[10.5px] tabular-nums text-zinc-400">12 Jun · 09:42</span>
+                </div>
+                <p class="mt-0.5 leading-relaxed text-zinc-700">Acked hold. Pulled wafer 14 for cross-section. Suspect chamber drift on KYO-04 — last service 23d ago.</p>
+              </li>
+              <li class="px-5 py-3">
+                <div class="flex items-baseline gap-2">
+                  <span class="font-medium text-zinc-950">M. Hayes (op)</span>
+                  <span class="font-mono text-[10.5px] tabular-nums text-zinc-400">12 Jun · 06:14</span>
+                </div>
+                <p class="mt-0.5 leading-relaxed text-zinc-700">M2 Cu CMP complete — pad pressure within window, 28s removal time.</p>
+              </li>
+              <li class="px-5 py-3">
+                <div class="flex items-baseline gap-2">
+                  <span class="font-medium text-zinc-950">MES</span>
+                  <span class="font-mono text-[10.5px] tabular-nums text-zinc-400">11 Jun · 22:08</span>
+                </div>
+                <p class="mt-0.5 leading-relaxed text-zinc-700">Lot dispatched from M2 litho queue → M2 etch (KYO-07).</p>
+              </li>
+              <li class="px-5 py-3">
+                <div class="flex items-baseline gap-2">
+                  <span class="font-medium text-zinc-950">J. Li</span>
+                  <span class="font-mono text-[10.5px] tabular-nums text-zinc-400">11 Jun · 14:55</span>
+                </div>
+                <p class="mt-0.5 leading-relaxed text-zinc-700">M2 EUV exposure complete on NXE-01 — overlay residual within 1.4 nm 3σ.</p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+
+        <!-- Right rail -->
+        <aside class="space-y-6">
+
+          <!-- Wafer map -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+              <div>
+                <h2 class="text-[13px] font-semibold text-zinc-950">Wafer 14 · defect map</h2>
+                <p class="text-[11.5px] text-zinc-500">post-M3 etch · KLA Surfscan</p>
+              </div>
+              <button class="text-[11.5px] font-medium text-zinc-500 transition hover:text-zinc-900">Open all 25 →</button>
+            </header>
+            <div class="px-5 py-4">
+              <svg viewBox="0 0 200 200" class="mx-auto block w-[220px]">
+                <!-- Wafer outline -->
+                <circle cx="100" cy="100" r="92" fill="rgb(250 250 250)" stroke="rgb(212 212 216)" stroke-width="1.2"/>
+                <!-- Notch (bottom) -->
+                <path d="M 100 192 L 96 200 L 104 200 Z" fill="rgb(250 250 250)" stroke="rgb(212 212 216)" stroke-width="1"/>
+                <!-- Crosshair axes -->
+                <g stroke="rgb(228 228 231)" stroke-width="0.5" stroke-dasharray="1.5 2">
+                  <line x1="12" y1="100" x2="188" y2="100"/>
+                  <line x1="100" y1="12" x2="100" y2="188"/>
+                </g>
+                <!-- Die grid — populated by script on load -->
+                <g id="dieGrid"></g>
+              </svg>
+              <div class="mt-4 grid grid-cols-4 gap-2 text-center text-[11px]">
+                <div>
+                  <div id="dieGood" class="font-semibold tabular-nums text-zinc-950">—</div>
+                  <div class="text-zinc-500">pass</div>
+                </div>
+                <div>
+                  <div id="dieMarg" class="font-semibold tabular-nums text-amber-700">—</div>
+                  <div class="text-zinc-500">marginal</div>
+                </div>
+                <div>
+                  <div id="dieFail" class="font-semibold tabular-nums text-red-700">—</div>
+                  <div class="text-zinc-500">fail · NW cluster</div>
+                </div>
+                <div>
+                  <div id="dieYield" class="font-semibold tabular-nums text-zinc-950">—</div>
+                  <div class="text-zinc-500">yield</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Lot identity -->
+          <section class="rounded-lg border border-zinc-200 bg-white">
+            <header class="border-b border-zinc-200 px-5 py-3">
+              <h2 class="text-[13px] font-semibold text-zinc-950">Lot identity</h2>
+            </header>
+            <dl class="space-y-1.5 px-5 py-3 text-[12px]">
+              <div class="flex justify-between"><dt class="text-zinc-500">Started</dt><dd class="tabular-nums text-zinc-800">2026-05-28 · 03:12</dd></div>
+              <div class="flex justify-between"><dt class="text-zinc-500">Routed by</dt><dd class="text-zinc-800">MES · plan PR-N3-26W22</dd></div>
+              <div class="flex justify-between"><dt class="text-zinc-500">Customer</dt><dd class="text-zinc-800">Aetheron · Meridian M6 v2.4</dd></div>
+              <div class="flex justify-between"><dt class="text-zinc-500">Wafer source</dt><dd class="text-zinc-800">Shin-Etsu · 300mm prime</dd></div>
+              <div class="flex justify-between"><dt class="text-zinc-500">Mask set</dt><dd class="font-mono tabular-nums text-zinc-800">MS-N3E-MER-r17</dd></div>
+              <div class="flex justify-between"><dt class="text-zinc-500">Owner</dt><dd class="text-zinc-800">R. Patel · Integration</dd></div>
+            </dl>
+          </section>
+
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+<script>
+  // ============ Wafer bin map ============
+  // Generate a realistic 24×24 die grid clipped to the wafer circle, with a
+  // deterministic NW defect cluster (matching the "+3.2σ NW" alert copy above)
+  // plus a scattered marginal ring around it. No randomness on load — always
+  // renders identically.
+  (() => {
+    const grid   = document.getElementById('dieGrid');
+    if (!grid) return;
+
+    const N          = 24;        // die per row/column
+    const CELL       = 6.5;       // spacing (die width + gap)
+    const DIE        = 6;         // die visible width
+    const CHAMFER    = 1.5;       // octagon corner cut (0 = square, DIE/2 = diamond)
+    const GRID_START = 100 - (N * CELL) / 2;   // 22
+    const WAFER_R    = 82;        // inclusion radius (leaves margin from 92 edge)
+
+    // NW defect cluster: any die whose center is within CLUSTER_R of the cluster origin
+    const CLUSTER_X = 62, CLUSTER_Y = 62, CLUSTER_R = 12;
+    // Marginal ring: die between CLUSTER_R and MARGINAL_R, thinned by a modulo mask
+    const MARGINAL_R = 20;
+
+    let good = 0, marg = 0, fail = 0;
+    const parts = [];
+
+    for (let j = 0; j < N; j++) {
+      for (let i = 0; i < N; i++) {
+        const x  = GRID_START + i * CELL;
+        const y  = GRID_START + j * CELL;
+        const cx = x + DIE / 2;
+        const cy = y + DIE / 2;
+
+        // Distance from wafer center — skip die that fall off the wafer
+        const dw = Math.hypot(cx - 100, cy - 100);
+        if (dw > WAFER_R) continue;
+
+        // Distance from cluster origin
+        const dc = Math.hypot(cx - CLUSTER_X, cy - CLUSTER_Y);
+
+        let fill;
+        if (dc < CLUSTER_R) {
+          fill = 'rgb(220 38 38)';       // red-600
+          fail++;
+        } else if (dc < MARGINAL_R && ((i + j * 3) % 5 < 2)) {
+          fill = 'rgb(251 191 36)';      // amber-400
+          marg++;
+        } else {
+          fill = 'rgb(228 228 231)';     // zinc-200
+          good++;
+        }
+        parts.push(`<polygon points="${(x+CHAMFER).toFixed(2)},${y.toFixed(2)} ${(x+DIE-CHAMFER).toFixed(2)},${y.toFixed(2)} ${(x+DIE).toFixed(2)},${(y+CHAMFER).toFixed(2)} ${(x+DIE).toFixed(2)},${(y+DIE-CHAMFER).toFixed(2)} ${(x+DIE-CHAMFER).toFixed(2)},${(y+DIE).toFixed(2)} ${(x+CHAMFER).toFixed(2)},${(y+DIE).toFixed(2)} ${x.toFixed(2)},${(y+DIE-CHAMFER).toFixed(2)} ${x.toFixed(2)},${(y+CHAMFER).toFixed(2)}" fill="${fill}"/>`);
+      }
+    }
+
+    grid.innerHTML = parts.join('');
+
+    const total = good + marg + fail;
+    const yieldPct = ((good / total) * 100).toFixed(1);
+    document.getElementById('dieGood').textContent  = good.toString();
+    document.getElementById('dieMarg').textContent  = marg.toString();
+    document.getElementById('dieFail').textContent  = fail.toString();
+    document.getElementById('dieYield').textContent = yieldPct + '%';
+  })();
+</script>
+</html>

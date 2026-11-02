@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Fab Floor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: { fontFamily: {
+      sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+    } } },
+  }
+</script>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <!-- ============ Sidebar ============ -->
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Fab Floor
+        </span></li>
+        <li><a href="tools.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>
+          Tool Fleet
+        </a></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>
+          Recipes
+        </a></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+          Wafer Lots
+        </a></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+          Process BOM
+        </a></li>
+        <li><a href="vendors.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</a></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          Yield Insights
+        </a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>
+          Hazmat &amp; DG
+        </a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          Team
+        </a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          Settings
+        </a></li>
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <!-- ============ Main ============ -->
+  <main class="overflow-y-auto">
+    <div class="mx-auto w-full max-w-[1320px] px-6 pb-16 pt-8 lg:px-12 xl:px-16">
+
+      <!-- Hero -->
+      <header class="mb-7 flex items-center justify-between gap-8">
+        <div class="min-w-0">
+          <h1 class="text-3xl font-semibold tracking-tight text-zinc-950">Fab Floor</h1>
+          <p class="mt-2 max-w-2xl text-[15px] leading-relaxed text-zinc-500">A live snapshot of what's running and what needs your attention — every tool, lot, and supply line in Fab 1, on one page.</p>
+        </div>
+        <!-- Decorative isometric: wafer disk → diced wafer → packaged chip -->
+        <svg viewBox="0 0 240 80" class="hidden h-auto w-[220px] flex-shrink-0 lg:block" aria-hidden="true">
+          <defs>
+            <clipPath id="fabHeroDiceClip">
+              <ellipse cx="0" cy="-2" rx="22" ry="11"/>
+            </clipPath>
+          </defs>
+          <g fill="none" stroke="rgb(161 161 170)" stroke-width="1.25" stroke-linecap="round">
+            <path d="M 64 36 L 96 36"/>
+            <path d="M 144 36 L 176 36"/>
+          </g>
+          <!-- 1: Wafer disk (silvery) -->
+          <g transform="translate(40 36)">
+            <ellipse cx="0" cy="0" rx="22" ry="11" fill="rgb(244 244 245)" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <ellipse cx="0" cy="-2" rx="22" ry="11" fill="rgb(250 250 250)" stroke="rgb(113 113 122)" stroke-width="1.2"/>
+            <path d="M -10 -6 L -8 -3 M 10 -6 L 8 -3 M 0 -6 L 0 -2" stroke="rgb(161 161 170)" stroke-width="0.7"/>
+            <path d="M -16 -3 L 16 -3 M -14 0 L 14 0" stroke="rgb(212 212 216)" stroke-width="0.6"/>
+          </g>
+          <!-- 2: Diced wafer / die grid (steel blue) — same disc convention as #1,
+               diced into a grid rather than switched to a boxy isometric prism. -->
+          <g transform="translate(120 36)">
+            <ellipse cx="0" cy="0" rx="22" ry="11" fill="rgb(203 219 240)" stroke="rgb(71 85 105)" stroke-width="1.2"/>
+            <ellipse cx="0" cy="-2" rx="22" ry="11" fill="rgb(226 236 250)" stroke="rgb(71 85 105)" stroke-width="1.2"/>
+            <g clip-path="url(#fabHeroDiceClip)" stroke="rgb(148 163 184)" stroke-width="0.55">
+              <path d="M -22 -8 H 22 M -22 -4 H 22 M -22 0 H 22 M -22 4 H 22"/>
+              <path d="M -15 -13 V 9 M -7.5 -13 V 9 M 0 -13 V 9 M 7.5 -13 V 9 M 15 -13 V 9"/>
+            </g>
+            <rect x="-3.5" y="-5.5" width="7" height="4" fill="rgb(59 130 246)" opacity="0.55"/>
+          </g>
+          <!-- 3: Packaged chip (copper pads) — same disc convention as #1/#2 -->
+          <g transform="translate(200 36)">
+            <ellipse cx="0" cy="0" rx="22" ry="11" fill="rgb(254 215 170)" stroke="rgb(194 65 12)" stroke-width="1.2"/>
+            <ellipse cx="0" cy="-2" rx="22" ry="11" fill="rgb(255 237 213)" stroke="rgb(194 65 12)" stroke-width="1.2"/>
+            <g clip-path="url(#fabHeroDiceClip)" fill="rgb(194 65 12)">
+              <circle cx="-10" cy="-6"   r="1.1"/>
+              <circle cx="-3"  cy="-7"   r="1.1"/>
+              <circle cx="4"   cy="-6.5" r="1.1"/>
+              <circle cx="11"  cy="-6"   r="1.1"/>
+              <circle cx="-10" cy="-2"   r="1.1"/>
+              <circle cx="-3"  cy="-2.5" r="1.1"/>
+              <circle cx="4"   cy="-2"   r="1.1"/>
+              <circle cx="11"  cy="-2"   r="1.1"/>
+            </g>
+          </g>
+        </svg>
+      </header>
+      <hr class="mb-8 border-zinc-200" />
+
+      <!-- KPI strip -->
+      <div class="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">WIP</div>
+          <div class="mt-1.5 flex items-baseline gap-2">
+            <span class="text-[24px] font-semibold tabular-nums tracking-tight text-zinc-950">14,206</span>
+            <span class="text-[12px] tabular-nums text-zinc-500">wafers</span>
+          </div>
+          <div class="mt-1 text-[12px] tabular-nums text-emerald-700">+482 vs last week</div>
+          <svg viewBox="0 0 80 22" class="mt-2 h-[22px] w-full" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="2,18 12,15 22,16 32,12 42,11 52,8 62,9 72,5 78,4" fill="none" stroke="rgb(24 24 27)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="78" cy="4" r="1.8" fill="rgb(24 24 27)"/>
+          </svg>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Weekly outs</div>
+          <div class="mt-1.5 flex items-baseline gap-2">
+            <span class="text-[24px] font-semibold tabular-nums tracking-tight text-zinc-950">3,180</span>
+            <span class="text-[12px] tabular-nums text-zinc-500">wafers</span>
+          </div>
+          <div class="mt-1 text-[12px] tabular-nums text-zinc-500">94% of plan (3,400)</div>
+          <svg viewBox="0 0 80 22" class="mt-2 h-[22px] w-full" preserveAspectRatio="none" aria-hidden="true">
+            <rect x="2"  y="10" width="8" height="12" rx="1" fill="rgb(212 212 216)"/>
+            <rect x="13" y="6"  width="8" height="16" rx="1" fill="rgb(212 212 216)"/>
+            <rect x="24" y="8"  width="8" height="14" rx="1" fill="rgb(212 212 216)"/>
+            <rect x="35" y="4"  width="8" height="18" rx="1" fill="rgb(212 212 216)"/>
+            <rect x="46" y="9"  width="8" height="13" rx="1" fill="rgb(212 212 216)"/>
+            <rect x="57" y="5"  width="8" height="17" rx="1" fill="rgb(212 212 216)"/>
+            <rect x="68" y="7"  width="8" height="15" rx="1" fill="rgb(24 24 27)"/>
+          </svg>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Cycle time</div>
+          <div class="mt-1.5 flex items-baseline gap-2">
+            <span class="text-[24px] font-semibold tabular-nums tracking-tight text-zinc-950">62.4</span>
+            <span class="text-[12px] tabular-nums text-zinc-500">days · N3E</span>
+          </div>
+          <div class="mt-1 text-[12px] tabular-nums text-amber-700">+1.8d vs target</div>
+          <svg viewBox="0 0 80 22" class="mt-2 h-[22px] w-full" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="2,16 12,15 22,14 32,13 42,11 52,10 62,8 72,6 78,4" fill="none" stroke="rgb(180 83 9)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="78" cy="4" r="1.8" fill="rgb(180 83 9)"/>
+          </svg>
+        </div>
+        <div class="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Line yield</div>
+          <div class="mt-1.5 flex items-baseline gap-2">
+            <span class="text-[24px] font-semibold tabular-nums tracking-tight text-zinc-950">91.2<span class="text-[16px] text-zinc-400">%</span></span>
+          </div>
+          <div class="mt-1 text-[12px] tabular-nums text-emerald-700">+0.4 pp WoW</div>
+          <svg viewBox="0 0 80 22" class="mt-2 h-[22px] w-full" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="2,12 12,11 22,13 32,10 42,11 52,9 62,8 72,6 78,5" fill="none" stroke="rgb(4 120 87)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="78" cy="5" r="1.8" fill="rgb(4 120 87)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Attention cards -->
+      <section class="mb-10">
+        <h2 class="mb-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Needs your attention now</h2>
+        <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
+
+          <!-- CRIT: tool down -->
+          <article class="flex flex-col gap-2 rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-px hover:shadow-md">
+            <div class="flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.06em] text-red-700">
+              <span class="h-1.5 w-1.5 rounded-full bg-red-700"></span>
+              Critical
+            </div>
+            <h3 class="text-[15px] font-semibold leading-snug tracking-tight text-zinc-950">Litho Track 3 down · 6h unscheduled</h3>
+            <p class="text-[13px] leading-relaxed text-zinc-600">
+              <span class="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[11.5px] text-zinc-700">ASML NXE:3800E · NXE-02</span> reticle stage fault E14-22.
+              <strong class="font-medium text-zinc-900">8 lots quarantined</strong>, redirected to NXE-01 (cap-constrained).
+              Field service ETA <strong class="font-medium text-zinc-900">2026-06-12 18:30</strong>.
+            </p>
+            <div class="mt-auto flex items-center gap-3 pt-1">
+              <a href="tool-detail.html" class="inline-flex items-center gap-1 rounded-md px-1.5 py-1 -mx-1.5 text-[13px] font-medium text-zinc-900 transition hover:bg-zinc-100">
+                Open tool
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 2l4 4-4 4"/></svg>
+              </a>
+              <a href="lot-detail.html" class="inline-flex items-center text-[13px] font-medium text-zinc-500 transition hover:text-zinc-900">View affected lots</a>
+            </div>
+          </article>
+
+          <!-- WARN: yield excursion -->
+          <article class="flex flex-col gap-2 rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-px hover:shadow-md">
+            <div class="flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.06em] text-amber-700">
+              <span class="h-1.5 w-1.5 rounded-full bg-amber-700"></span>
+              Excursion
+            </div>
+            <h3 class="text-[15px] font-semibold leading-snug tracking-tight text-zinc-950">Meridian M6 yield drop on M3 metal etch</h3>
+            <p class="text-[13px] leading-relaxed text-zinc-600">
+              <span class="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[11.5px] text-zinc-700">Lot W2614-N3</span> die yield <strong class="font-medium text-zinc-900">78%</strong> vs 92% target.
+              KLA Surfscan SP7 flagged a <strong class="font-medium text-zinc-900">+3.2σ defect cluster</strong> on metal-3 etch.
+              Recipe held pending integration eng review.
+            </p>
+            <div class="mt-auto flex items-center gap-3 pt-1">
+              <a href="lot-detail.html" class="inline-flex items-center gap-1 rounded-md px-1.5 py-1 -mx-1.5 text-[13px] font-medium text-zinc-900 transition hover:bg-zinc-100">
+                Open lot
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 2l4 4-4 4"/></svg>
+              </a>
+              <a href="recipe.html" class="inline-flex items-center text-[13px] font-medium text-zinc-500 transition hover:text-zinc-900">View recipe step</a>
+            </div>
+          </article>
+
+          <!-- GOOD: supply ETA -->
+          <article class="flex flex-col gap-2 rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-px hover:shadow-md">
+            <div class="flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.06em] text-emerald-700">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-700"></span>
+              Inbound
+            </div>
+            <h3 class="text-[15px] font-semibold leading-snug tracking-tight text-zinc-950">JSR EUV resist replenishment confirmed</h3>
+            <p class="text-[13px] leading-relaxed text-zinc-600">
+              <span class="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[11.5px] text-zinc-700">PR-EUV-7242 · 480 L</span> — covers <strong class="font-medium text-zinc-900">~14k wafers</strong>.
+              Shipped Yokkaichi → Austin DC, ETA <strong class="font-medium text-zinc-900">2026-06-21</strong>.
+              Buffer rises to <strong class="font-medium text-zinc-900">23 days</strong>.
+            </p>
+            <div class="mt-auto flex items-center gap-3 pt-1">
+              <a href="bom.html" class="inline-flex items-center gap-1 rounded-md px-1.5 py-1 -mx-1.5 text-[13px] font-medium text-zinc-900 transition hover:bg-zinc-100">
+                Open BOM line
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 2l4 4-4 4"/></svg>
+              </a>
+              <a href="#" class="inline-flex items-center text-[13px] font-medium text-zinc-500 transition hover:text-zinc-900">Receiving log</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Tool fleet snapshot -->
+      <section class="mb-10">
+        <div class="mb-3 flex items-end justify-between">
+          <h2 class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Tool fleet snapshot</h2>
+          <a href="tools.html" class="text-[12.5px] font-medium text-zinc-700 transition hover:text-zinc-950">View all 142 tools <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+
+          <!-- ASML EUV -->
+          <a href="tool-detail.html" class="group rounded-lg border border-zinc-200 bg-white p-4 transition hover:border-zinc-300 hover:shadow-md">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br from-slate-100 to-slate-300 text-[10.5px] font-bold text-slate-700 ring-1 ring-inset ring-slate-200">NXE</span>
+                <div class="min-w-0">
+                  <div class="truncate text-[13px] font-semibold text-zinc-950">ASML NXE:3800E</div>
+                  <div class="text-[11px] text-zinc-500">EUV Litho · Bay 1</div>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-1.5 py-0.5 text-[10.5px] font-medium text-red-800">
+                <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>2 down
+              </span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-1.5">
+              <span class="text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">62<span class="text-[12px] text-zinc-400">%</span></span>
+              <span class="text-[10.5px] uppercase tracking-wider text-zinc-500">utilization</span>
+            </div>
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100">
+              <div class="h-full rounded-full bg-zinc-900" style="width:62%"></div>
+            </div>
+          </a>
+
+          <!-- AMAT etch -->
+          <a href="tool-detail.html" class="group rounded-lg border border-zinc-200 bg-white p-4 transition hover:border-zinc-300 hover:shadow-md">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br from-zinc-100 to-zinc-300 text-[10.5px] font-bold text-zinc-700 ring-1 ring-inset ring-zinc-200">CTR</span>
+                <div class="min-w-0">
+                  <div class="truncate text-[13px] font-semibold text-zinc-950">AMAT Centura</div>
+                  <div class="text-[11px] text-zinc-500">Plasma Etch · Bay 2</div>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-medium text-emerald-800">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>14 up
+              </span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-1.5">
+              <span class="text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">88<span class="text-[12px] text-zinc-400">%</span></span>
+              <span class="text-[10.5px] uppercase tracking-wider text-zinc-500">utilization</span>
+            </div>
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100">
+              <div class="h-full rounded-full bg-zinc-900" style="width:88%"></div>
+            </div>
+          </a>
+
+          <!-- LAM Kiyo -->
+          <a href="tool-detail.html" class="group rounded-lg border border-zinc-200 bg-white p-4 transition hover:border-zinc-300 hover:shadow-md">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br from-orange-50 to-orange-200 text-[10.5px] font-bold text-orange-800 ring-1 ring-inset ring-orange-200">KYO</span>
+                <div class="min-w-0">
+                  <div class="truncate text-[13px] font-semibold text-zinc-950">LAM Kiyo</div>
+                  <div class="text-[11px] text-zinc-500">Conductor Etch · Bay 2</div>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[10.5px] font-medium text-amber-800">
+                <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>1 PM
+              </span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-1.5">
+              <span class="text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">79<span class="text-[12px] text-zinc-400">%</span></span>
+              <span class="text-[10.5px] uppercase tracking-wider text-zinc-500">utilization</span>
+            </div>
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100">
+              <div class="h-full rounded-full bg-zinc-900" style="width:79%"></div>
+            </div>
+          </a>
+
+          <!-- KLA -->
+          <a href="tool-detail.html" class="group rounded-lg border border-zinc-200 bg-white p-4 transition hover:border-zinc-300 hover:shadow-md">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br from-emerald-50 to-emerald-200 text-[10.5px] font-bold text-emerald-800 ring-1 ring-inset ring-emerald-200">SP7</span>
+                <div class="min-w-0">
+                  <div class="truncate text-[13px] font-semibold text-zinc-950">KLA Surfscan SP7</div>
+                  <div class="text-[11px] text-zinc-500">Defect Inspection · Metro</div>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-medium text-emerald-800">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>6 up
+              </span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-1.5">
+              <span class="text-[20px] font-semibold tabular-nums tracking-tight text-zinc-950">71<span class="text-[12px] text-zinc-400">%</span></span>
+              <span class="text-[10.5px] uppercase tracking-wider text-zinc-500">utilization</span>
+            </div>
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100">
+              <div class="h-full rounded-full bg-zinc-900" style="width:71%"></div>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- Silicon in orbit -->
+      <section class="mb-10">
+        <div class="mb-3 flex items-end justify-between">
+          <div class="flex items-center gap-3">
+            <h2 class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Silicon in orbit · SC-Compute constellation</h2>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+              <span class="relative flex h-1.5 w-1.5">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70"></span>
+                <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+              </span>
+              Live
+            </span>
+          </div>
+          <div class="flex items-center gap-3 text-[11px] text-zinc-500">
+            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm bg-emerald-400"></span>Nominal</span>
+            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm bg-amber-400"></span>Degraded</span>
+            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-cyan-400"></span>Ground link</span>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-xl border border-zinc-900 bg-zinc-950 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_20px_50px_-24px_rgba(0,0,0,0.3)] ring-1 ring-inset ring-white/5">
+          <div id="globeStage" class="h-[460px] w-full"></div>
+          <!-- Vignette + top/bottom fade for legibility of overlay copy -->
+          <div class="pointer-events-none absolute inset-0" style="background:
+            radial-gradient(120% 80% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%),
+            linear-gradient(180deg, rgba(9,9,11,0.55) 0%, rgba(9,9,11,0) 22%, rgba(9,9,11,0) 78%, rgba(9,9,11,0.55) 100%);"></div>
+          <!-- Floating overlay stats -->
+          <div class="pointer-events-none absolute inset-0 flex flex-col justify-between p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="rounded-lg border border-white/[0.06] bg-zinc-950/55 px-3.5 py-2.5 backdrop-blur-md">
+                <div class="flex items-center gap-2">
+                  <div class="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-zinc-400">Aetheron Vela SC</div>
+                  <span class="rounded-sm border border-white/10 bg-white/[0.04] px-1.5 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-zinc-400">N3E</span>
+                </div>
+                <div class="mt-1 text-[22px] font-semibold tracking-tight text-zinc-50">28 satellites on orbit</div>
+                <div class="mt-0.5 text-[12px] text-zinc-400">Plus 1 orbital data center (K-Anchor). All running Kiln silicon.</div>
+              </div>
+              <div class="flex divide-x divide-white/[0.06] overflow-hidden rounded-lg border border-white/[0.06] bg-zinc-950/55 backdrop-blur-md">
+                <div class="px-4 py-2.5 text-right">
+                  <div class="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Nominal</div>
+                  <div class="mt-0.5 font-mono text-[18px] font-semibold tabular-nums text-emerald-300">25</div>
+                </div>
+                <div class="px-4 py-2.5 text-right">
+                  <div class="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Degraded</div>
+                  <div class="mt-0.5 font-mono text-[18px] font-semibold tabular-nums text-amber-300">2</div>
+                </div>
+                <div class="px-4 py-2.5 text-right">
+                  <div class="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Offline</div>
+                  <div class="mt-0.5 font-mono text-[18px] font-semibold tabular-nums text-zinc-500">1</div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-end justify-between gap-4 text-[11px]">
+              <div class="inline-flex items-center gap-2 rounded-md border border-white/[0.06] bg-zinc-950/55 px-3 py-1.5 font-mono tabular-nums text-zinc-300 backdrop-blur-md">
+                <span class="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.7)]"></span>
+                <span class="text-zinc-500">SC-1042</span>
+                <span class="text-zinc-700">·</span>
+                <span id="linkChipStatus">last contact 14s ago</span>
+                <span class="text-zinc-700">·</span>
+                <span id="linkChipGs" class="text-zinc-400">GS-Andøya</span>
+              </div>
+              <div id="globeLoading" class="font-mono tabular-nums text-zinc-500">Loading constellation…</div>
+            </div>
+          </div>
+
+          <!-- Click-to-inspect card (hidden until a satellite / K-Anchor is picked) -->
+          <div id="orbitCard" class="pointer-events-auto absolute right-5 top-24 hidden w-[268px] overflow-hidden rounded-lg border border-white/[0.08] bg-zinc-950/85 shadow-2xl ring-1 ring-inset ring-white/5 backdrop-blur-md">
+            <div class="flex items-start justify-between gap-2 border-b border-white/[0.06] px-4 py-3">
+              <div>
+                <div id="orbitCardId" class="font-mono text-[13px] font-semibold tracking-tight text-zinc-100">—</div>
+                <div id="orbitCardKind" class="mt-0.5 text-[10.5px] font-semibold uppercase tracking-wider text-zinc-500">—</div>
+              </div>
+              <button id="orbitCardClose" class="rounded p-1 text-zinc-500 hover:bg-white/[0.06] hover:text-zinc-200" aria-label="Close">
+                <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+              </button>
+            </div>
+            <div class="space-y-1.5 px-4 py-3 text-[11.5px]">
+              <div class="flex items-center justify-between"><span class="text-zinc-500">Status</span><span id="orbitCardStatus">—</span></div>
+              <div class="flex items-center justify-between"><span class="text-zinc-500">Silicon</span><span id="orbitCardSilicon" class="text-zinc-300">—</span></div>
+              <div class="flex items-center justify-between"><span class="text-zinc-500">Altitude</span><span id="orbitCardAlt" class="font-mono tabular-nums text-zinc-300">—</span></div>
+              <div class="flex items-center justify-between"><span class="text-zinc-500">Inclination</span><span id="orbitCardIncl" class="font-mono tabular-nums text-zinc-300">—</span></div>
+              <div class="flex items-center justify-between"><span class="text-zinc-500">Uplink</span><span id="orbitCardUplink" class="font-mono tabular-nums text-zinc-300">—</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active lots -->
+      <section>
+        <div class="mb-3 flex items-end justify-between">
+          <h2 class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Active lots</h2>
+          <a href="#" class="text-[12.5px] font-medium text-zinc-700 transition hover:text-zinc-950">All 326 lots <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+          <table class="w-full text-left">
+            <thead class="bg-zinc-50 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+              <tr>
+                <th class="px-5 py-3">Lot</th>
+                <th class="px-3 py-3">Product</th>
+                <th class="px-3 py-3">Stage</th>
+                <th class="px-3 py-3">Tool</th>
+                <th class="px-3 py-3">Progress</th>
+                <th class="px-3 py-3">Status</th>
+                <th class="px-3 py-3 text-right">ETA out</th>
+                <th class="px-3 py-3"></th>
+              </tr>
+            </thead>
+            <tbody id="lotRows" class="divide-y divide-zinc-100"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // ============ Active lots ============
+  const LOTS = [
+    { lot: 'W2607-N3',  product: 'Meridian M6',     stage: 'M5 Litho',     tool: 'ASML NXE-01',  pct: 64, status: 'On hold',     eta: 'Jul 02',  flag: 'crit' },
+    { lot: 'W2614-N3',  product: 'Meridian M6',     stage: 'M3 Etch',      tool: 'LAM Kiyo-04',  pct: 41, status: 'SPC review',  eta: 'Jul 06',  flag: 'warn' },
+    { lot: 'W2589-N4',  product: 'Sinew N2',        stage: 'Gate Implant', tool: 'AMAT Quantum', pct: 28, status: 'Running',     eta: 'Jul 11',  flag: null   },
+    { lot: 'W2602-N3',  product: 'Loom D2',         stage: 'M8 CMP',       tool: 'AMAT Reflexion', pct: 78, status: 'Running',   eta: 'Jun 27',  flag: null   },
+    { lot: 'W2611-N4',  product: 'Vela SC',         stage: 'M2 Cu Fill',   tool: 'AMAT Endura',  pct: 33, status: 'Running',     eta: 'Jul 09',  flag: null   },
+    { lot: 'W2598-N3',  product: 'Loom D2',         stage: 'Final Probe',  tool: 'KLA Archer',   pct: 96, status: 'Running',     eta: 'Jun 16',  flag: 'good' },
+    { lot: 'W2620-N4',  product: 'Sinew N2',        stage: 'STI CMP',      tool: 'AMAT Reflexion', pct: 12, status: 'Running',   eta: 'Jul 18',  flag: null   },
+  ]
+  const FLAG = {
+    crit: { pill: 'border-red-200 bg-red-50 text-red-800', dot: 'bg-red-500' },
+    warn: { pill: 'border-amber-200 bg-amber-50 text-amber-800', dot: 'bg-amber-500' },
+    good: { pill: 'border-emerald-200 bg-emerald-50 text-emerald-800', dot: 'bg-emerald-500' },
+    null: { pill: 'border-zinc-200 bg-zinc-50 text-zinc-700', dot: 'bg-zinc-400' },
+  }
+  const tbody = document.getElementById('lotRows')
+  tbody.innerHTML = LOTS.map(l => {
+    const f = FLAG[l.flag] || FLAG.null
+    return `
+      <tr class="group cursor-pointer transition hover:bg-zinc-50" data-lot="${l.lot}">
+        <td class="px-5 py-3 text-[13px] font-medium tabular-nums text-zinc-950">${l.lot}</td>
+        <td class="px-3 py-3 text-[13px] text-zinc-700">${l.product}</td>
+        <td class="px-3 py-3 text-[12.5px] text-zinc-700">${l.stage}</td>
+        <td class="px-3 py-3 text-[12.5px] text-zinc-500">${l.tool}</td>
+        <td class="px-3 py-3">
+          <div class="flex items-center gap-2 min-w-[120px]">
+            <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
+              <div class="h-full rounded-full bg-zinc-900" style="width:${l.pct}%"></div>
+            </div>
+            <span class="w-9 text-right text-[11px] tabular-nums text-zinc-500">${l.pct}%</span>
+          </div>
+        </td>
+        <td class="px-3 py-3">
+          <span class="inline-flex items-center gap-1.5 rounded-md border ${f.pill} px-2 py-0.5 text-[11px] font-medium">
+            <span class="h-1.5 w-1.5 rounded-full ${f.dot}"></span>${l.status}
+          </span>
+        </td>
+        <td class="px-3 py-3 text-right text-[12.5px] tabular-nums text-zinc-700">${l.eta}</td>
+        <td class="px-3 py-3 text-right">
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+        </td>
+      </tr>`
+  }).join('')
+  tbody.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => {
+    window.location.href = `lot-detail.html?lot=${encodeURIComponent(tr.dataset.lot)}`
+  }))
+
+  // ============ Skip link ============
+  const skip = document.createElement('a')
+  skip.href = '#mainContent'
+  skip.textContent = 'Skip to main content'
+  skip.className = 'sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-zinc-900 focus:px-3 focus:py-2 focus:text-sm focus:text-white'
+  document.body.insertBefore(skip, document.body.firstChild)
+  document.querySelector('main').setAttribute('id', 'mainContent')
+  document.querySelector('main').setAttribute('tabindex', '-1')
+
+  // ============ Cmd+K ============
+  const cmd = document.createElement('div')
+  cmd.className = 'fixed inset-0 z-50 hidden items-start justify-center bg-zinc-900/40 backdrop-blur-sm pt-[18vh]'
+  cmd.innerHTML = `
+    <div class="w-full max-w-md rounded-lg border border-zinc-200 bg-white shadow-2xl">
+      <div class="border-b border-zinc-200 px-3 py-2"><input id="ci" type="text" placeholder="Type a command…" class="w-full bg-transparent px-1 py-1.5 text-sm placeholder:text-zinc-400 focus:outline-none" /></div>
+      <ul id="cl" class="max-h-72 overflow-y-auto p-1 text-sm"></ul>
+      <div class="border-t border-zinc-200 px-3 py-2 text-[11px] text-zinc-500"><kbd class="rounded border border-zinc-200 bg-zinc-50 px-1">↑↓</kbd> navigate · <kbd class="rounded border border-zinc-200 bg-zinc-50 px-1">⏎</kbd> select · <kbd class="rounded border border-zinc-200 bg-zinc-50 px-1">Esc</kbd> close</div>
+    </div>`
+  document.body.appendChild(cmd)
+  const COMMANDS = [
+    { label: 'Go to Fab Floor',         run: () => location.href = 'dashboard.html' },
+    { label: 'Open Tool Fleet',         run: () => location.href = 'tools.html' },
+    { label: 'Open Recipes (canvas)',   run: () => location.href = 'recipe.html' },
+    { label: 'Open Wafer Lot W2607-N3', run: () => location.href = 'lot-detail.html?lot=W2607-N3' },
+    { label: 'Open Process BOM',        run: () => location.href = 'bom.html' },
+    { label: 'Open NXE-02 (down)',      run: () => location.href = 'tool-detail.html' },
+  ]
+  const ci = cmd.querySelector('#ci'), cl = cmd.querySelector('#cl')
+  let active = 0
+  function render(f='') {
+    const items = COMMANDS.filter(c => c.label.toLowerCase().includes(f.toLowerCase()))
+    active = 0
+    cl.innerHTML = items.map((c, i) => `<li data-i="${i}" class="cursor-pointer rounded-md px-3 py-2 ${i===0?'bg-zinc-100':''}">${c.label}</li>`).join('') || '<li class="px-3 py-3 text-zinc-400">No matches.</li>'
+    cl.querySelectorAll('li[data-i]').forEach(li => {
+      li.addEventListener('mouseenter', () => { cl.querySelectorAll('li').forEach(x => x.classList.remove('bg-zinc-100')); li.classList.add('bg-zinc-100'); active = +li.dataset.i })
+      li.addEventListener('click', () => items[+li.dataset.i]?.run())
+    })
+    cl._items = items
+  }
+  function open() { cmd.classList.remove('hidden'); cmd.classList.add('flex'); ci.value=''; render(''); setTimeout(()=>ci.focus(),0) }
+  function close() { cmd.classList.add('hidden'); cmd.classList.remove('flex') }
+  ci.addEventListener('input', () => render(ci.value))
+  ci.addEventListener('keydown', e => {
+    if (e.key==='Escape') { e.preventDefault(); close(); return }
+    const items = cl._items || []
+    if (e.key==='ArrowDown') { e.preventDefault(); active = Math.min(items.length-1, active+1) }
+    else if (e.key==='ArrowUp') { e.preventDefault(); active = Math.max(0, active-1) }
+    else if (e.key==='Enter') { e.preventDefault(); items[active]?.run(); return }
+    else return
+    cl.querySelectorAll('li').forEach((li,i) => li.classList.toggle('bg-zinc-100', i===active))
+  })
+  cmd.addEventListener('click', e => { if (e.target===cmd) close() })
+  window.addEventListener('keydown', e => { if ((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K')) { e.preventDefault(); cmd.classList.contains('hidden') ? open() : close() } })
+</script>
+
+<!-- ============ Constellation globe ============
+     Lazy-loaded: globe.gl bundles three.js + d3 + three-globe (~400KB) and
+     pulls Earth textures from CDN. Satellites fly real circular orbits
+     (inclination + RAAN), drawn as faint rings. Each frame we recompute which
+     ground station every node can see and draw those links. -->
+<script type="module">
+  const stage = document.getElementById('globeStage')
+  const loadingEl = document.getElementById('globeLoading')
+  if (stage) {
+    try {
+      // Use the exact three.js build globe.gl imports. A second copy of three
+      // renders nothing: objects from one instance crash the other's renderer.
+      const GLOBE_URL = 'https://cdn.jsdelivr.net/npm/globe.gl@2.34.4/+esm'
+      const globeSrc = await fetch(GLOBE_URL).then(r => r.text()).catch(() => '')
+      const threePath = (globeSrc.match(/\/npm\/three@[\d.]+\/\+esm/) || [])[0]
+      const THREE_URL = threePath ? 'https://cdn.jsdelivr.net' + threePath : 'https://cdn.jsdelivr.net/npm/three@0.149.0/+esm'
+      const [GlobeMod, ThreeMod, countries] = await Promise.all([
+        import(GLOBE_URL),
+        import(THREE_URL),
+        // Country boundaries for clearer continent definition over the night
+        // Earth texture. Falls back to no polygons if the fetch is blocked.
+        fetch('https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
+          .then(r => r.ok ? r.json() : { features: [] })
+          .catch(() => ({ features: [] })),
+      ])
+      const Globe = GlobeMod.default
+      const THREE = ThreeMod
+      const DEG = Math.PI / 180
+      const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      // Seeded RNG so the constellation looks the same on every load
+      function mulberry32(a) {
+        return () => {
+          a = (a + 0x6D2B79F5) | 0
+          let t = Math.imul(a ^ (a >>> 15), 1 | a)
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+        }
+      }
+      const rand = mulberry32(1042)
+
+      // Ground locations — Kiln fabs, Aetheron DCs, ground stations
+      const GROUND = [
+        { name: 'Fab 1 · Austin',          lat: 30.27,  lng: -97.74,  kind: 'fab'    },
+        { name: 'Aetheron · Palo Alto',    lat: 37.45,  lng: -122.18, kind: 'dc'     },
+        { name: 'Aetheron · Hawthorne',    lat: 33.92,  lng: -118.33, kind: 'dc'     },
+        { name: 'Aetheron · Boca Chica',   lat: 25.99,  lng: -97.16,  kind: 'launch' },
+        { name: 'GS · Andøya',             lat: 69.30,  lng: 16.04,   kind: 'gs'     },
+        { name: 'GS · Adelaide',           lat: -34.93, lng: 138.60,  kind: 'gs'     },
+        { name: 'GS · Punta Arenas',       lat: -53.16, lng: -70.91,  kind: 'gs'     },
+        { name: 'GS · Reykjavík',          lat: 64.13,  lng: -21.94,  kind: 'gs'     },
+        { name: 'GS · Singapore',          lat: 1.35,   lng: 103.82,  kind: 'gs'     },
+        { name: 'GS · Bahrain',            lat: 26.07,  lng: 50.55,   kind: 'gs'     },
+      ]
+
+      // Orbital planes: inclination + RAAN (where the orbit crosses the
+      // equator heading north) in degrees, altitude in globe radii. Four
+      // 6-sat planes in a 53° shell plus a 4-sat polar plane = 28 nodes.
+      // Angular rate follows Kepler (higher = slower).
+      const rateFor = alt => 6 * Math.pow(1.45 / (1 + alt), 1.5) * (reduceMotion ? 0.25 : 1)
+      const PLANES = [
+        { incl: 53, raan:   0, alt: 0.45, count: 6 },
+        { incl: 53, raan:  90, alt: 0.45, count: 6 },
+        { incl: 53, raan: 180, alt: 0.45, count: 6 },
+        { incl: 53, raan: 270, alt: 0.45, count: 6 },
+        { incl: 88, raan:  45, alt: 0.60, count: 4 },
+      ].map(p => ({ ...p, rate: rateFor(p.alt), pathOpacity: 0.12 }))
+      const ANCHOR_PLANE = { incl: 8, raan: 200, alt: 0.95, rate: rateFor(0.95), pathOpacity: 0.2 }
+
+      // Matches the header counts: 25 nominal, 2 degraded, 1 offline
+      const STATUS_BY_ID = { 'SC-1033': 'warn', 'SC-1044': 'warn', 'SC-1050': 'off' }
+      const SATS = []
+      PLANES.forEach((plane, p) => {
+        for (let k = 0; k < plane.count; k++) {
+          const id = 'SC-' + (1024 + SATS.length)
+          SATS.push({
+            id, plane,
+            phase:    k * 360 / plane.count + p * 15 + (rand() - 0.5) * 6,
+            status:   STATUS_BY_ID[id] || 'ok',
+            link:     null,
+            lastLink: -(3 + rand() * 40),   // seconds since last contact at load
+            lastGs:   null,
+          })
+        }
+      })
+
+      const globe = Globe({ animateIn: true })(stage)
+        .globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-night.jpg')
+        .bumpImageUrl('https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-topology.png')
+        .backgroundColor('rgba(0,0,0,0)')
+        .showAtmosphere(true)
+        .atmosphereColor('#3b82f6')
+        .atmosphereAltitude(0.18)
+        // Country polygons — subtle cyan wash on land + brighter borders so
+        // continents are clearly readable on the otherwise low-contrast night
+        // Earth texture.
+        .polygonsData(countries.features || [])
+        .polygonCapColor(() => 'rgba(56, 189, 248, 0.14)')
+        .polygonSideColor(() => 'rgba(0, 0, 0, 0)')
+        .polygonStrokeColor(() => 'rgba(125, 211, 252, 0.70)')
+        .polygonAltitude(0.004)
+        .pointOfView({ lat: 25, lng: -90, altitude: 2.5 }, 0)
+
+      // Ground points — white halo + colored dot (so dots stay legible on
+      // bright land + dark ocean)
+      const groundColor = (k) =>
+        k === 'fab'    ? '#22d3ee' :
+        k === 'launch' ? '#ef4444' :
+        k === 'dc'     ? '#fbbf24' :
+                         '#67e8f9'
+      const haloPoints = GROUND.map(p => ({ ...p, _color: '#ffffff', _size: 1.4, _alt: 0.005 }))
+      const dotPoints  = GROUND.map(p => ({ ...p, _color: groundColor(p.kind), _size: 0.7, _alt: 0.012 }))
+
+      globe
+        .pointsData([...haloPoints, ...dotPoints])
+        .pointLat('lat').pointLng('lng')
+        .pointColor('_color')
+        .pointAltitude('_alt')
+        .pointRadius('_size')
+        .pointLabel(p => p._color === '#ffffff' ? '' : `
+          <div style="background:rgba(20,24,32,0.92);color:white;padding:8px 12px;border-radius:8px;border:0.5px solid rgba(255,255,255,0.12);font:12px Inter,sans-serif;letter-spacing:-0.005em;box-shadow:0 8px 24px rgba(0,0,0,0.4)">
+            <div style="font-weight:600">${p.name}</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:10.5px;margin-top:1px">${p.kind === 'fab' ? 'Kiln fab' : p.kind === 'launch' ? 'Launch site' : p.kind === 'dc' ? 'Data center' : 'Ground station'}</div>
+          </div>
+        `)
+        // Pulse ring on each Kiln fab — that's the source of the silicon
+        .ringsData(GROUND.filter(p => p.kind === 'fab').map(p => ({ ...p, _maxR: 5 })))
+        .ringLat('lat').ringLng('lng')
+        .ringColor(() => t => `rgba(34,211,238,${1 - t})`)
+        .ringMaxRadius('_maxR')
+        .ringPropagationSpeed(1.4)
+        .ringRepeatPeriod(2200)
+
+      const scene = globe.scene()
+
+      // ============ Orbit math ============
+      // Circular orbit → lat/lng. u = angle travelled from the ascending node.
+      // Orbits are fixed in space; the camera auto-rotates around them.
+      function posAt(plane, uDeg) {
+        const u = uDeg * DEG, i = plane.incl * DEG
+        const lat = Math.asin(Math.sin(i) * Math.sin(u)) / DEG
+        const lng = plane.raan + Math.atan2(Math.cos(i) * Math.sin(u), Math.cos(u)) / DEG
+        return globe.getCoords(lat, lng, plane.alt)
+      }
+
+      // Faint ring per plane; brightens when one of its nodes is selected
+      function addOrbitPath(plane, color) {
+        const pts = []
+        for (let d = 0; d <= 360; d += 3) {
+          const c = posAt(plane, d)
+          pts.push(new THREE.Vector3(c.x, c.y, c.z))
+        }
+        const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: plane.pathOpacity, depthWrite: false })
+        plane.path = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat)
+        scene.add(plane.path)
+      }
+      PLANES.forEach(p => addOrbitPath(p, 0x7dd3fc))
+      addOrbitPath(ANCHOR_PLANE, 0xe5e7eb)
+
+      // ============ Satellites ============
+      const matOk    = new THREE.MeshLambertMaterial({ color: 0xa3e635, emissive: 0x365314, emissiveIntensity: 0.55 })
+      const matWarn  = new THREE.MeshLambertMaterial({ color: 0xfbbf24, emissive: 0x78350f, emissiveIntensity: 0.55 })
+      const matOff   = new THREE.MeshLambertMaterial({ color: 0x52525b, emissive: 0x18181b, emissiveIntensity: 0.20 })
+      const matPanel = new THREE.MeshLambertMaterial({ color: 0x60a5fa, emissive: 0x1e3a8a, emissiveIntensity: 0.35, transparent: true, opacity: 0.92 })
+      // Invisible, oversized sphere per node so small satellites are easy to hit
+      const hitMat   = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+
+      const bodyGeo  = new THREE.BoxGeometry(1.5, 1.5, 2.1)
+      const panelGeo = new THREE.BoxGeometry(6.0, 0.24, 1.5)
+      const clickables = []
+
+      function addHitTarget(rec, radius) {
+        const hit = new THREE.Mesh(new THREE.SphereGeometry(radius, 12, 8), hitMat)
+        hit.userData.rec = rec
+        rec.obj.add(hit)
+        clickables.push(hit)
+      }
+
+      SATS.forEach(s => {
+        const grp = new THREE.Group()
+        const body = new THREE.Mesh(bodyGeo, s.status === 'ok' ? matOk : s.status === 'warn' ? matWarn : matOff)
+        const lp = new THREE.Mesh(panelGeo, matPanel); lp.position.x =  3.5
+        const rp = new THREE.Mesh(panelGeo, matPanel); rp.position.x = -3.5
+        grp.add(body, lp, rp)
+        s.obj = grp
+        addHitTarget(s, 6)
+        scene.add(grp)
+      })
+
+      // ============ K-Anchor — orbital data center ============
+      // Distinct from the satellite swarm: 5 stacked compute modules along a
+      // central spine, two large solar arrays, two radiator fins. Higher,
+      // slower orbit so it visually leads the swarm.
+      function buildDC() {
+        const grp = new THREE.Group()
+        const modMat = new THREE.MeshLambertMaterial({ color: 0xe5e7eb, emissive: 0x1f2937, emissiveIntensity: 0.45 })
+        const modGeo = new THREE.BoxGeometry(1.9, 1.65, 1.65)
+        for (let i = 0; i < 5; i++) {
+          const m = new THREE.Mesh(modGeo, modMat)
+          m.position.x = (i - 2) * 2.0
+          grp.add(m)
+        }
+        const panelMat = new THREE.MeshLambertMaterial({ color: 0x38bdf8, emissive: 0x0c4a6e, emissiveIntensity: 0.55, transparent: true, opacity: 0.95 })
+        const panelGeo = new THREE.BoxGeometry(15, 0.26, 3.3)
+        const ptop = new THREE.Mesh(panelGeo, panelMat); ptop.position.z =  2.8
+        const pbot = new THREE.Mesh(panelGeo, panelMat); pbot.position.z = -2.8
+        grp.add(ptop, pbot)
+        const radMat = new THREE.MeshLambertMaterial({ color: 0xf59e0b, emissive: 0x92400e, emissiveIntensity: 0.5 })
+        const radGeo = new THREE.BoxGeometry(0.26, 1.65, 1.65)
+        const rtop = new THREE.Mesh(radGeo, radMat); rtop.position.y =  1.65
+        const rbot = new THREE.Mesh(radGeo, radMat); rbot.position.y = -1.65
+        grp.add(rtop, rbot)
+        return grp
+      }
+      const DC = { id: 'K-Anchor', plane: ANCHOR_PLANE, phase: 40, obj: buildDC(), links: [] }
+      addHitTarget(DC, 10)
+      scene.add(DC.obj)
+
+      // ============ Ground links ============
+      // A node links to a ground station when it's above that station's
+      // horizon mask (min elevation). Satellites take the single best
+      // station; K-Anchor meshes with every station in view.
+      const MIN_ELEV_SAT = 25, MIN_ELEV_DC = 15
+      const STATIONS = GROUND.filter(g => g.kind === 'gs').map(g => {
+        const c = globe.getCoords(g.lat, g.lng, 0.012)
+        const v = new THREE.Vector3(c.x, c.y, c.z)
+        return { name: g.name.replace('GS · ', 'GS-'), v, up: v.clone().normalize() }
+      })
+      const linkPos = new Float32Array((SATS.length + STATIONS.length) * 6)
+      const linkGeo = new THREE.BufferGeometry()
+      linkGeo.setAttribute('position', new THREE.BufferAttribute(linkPos, 3))
+      const linkMat = new THREE.LineBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.55, depthWrite: false })
+      const links = new THREE.LineSegments(linkGeo, linkMat)
+      links.frustumCulled = false
+      scene.add(links)
+
+      const tmp = new THREE.Vector3()
+      const elevation = (pos, st) => Math.asin(tmp.subVectors(pos, st.v).normalize().dot(st.up)) / DEG
+
+      // Selection ring — camera-facing, drawn over everything
+      const selRing = new THREE.Mesh(
+        new THREE.RingGeometry(7.6, 8.2, 64),
+        new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.85, depthTest: false })
+      )
+      selRing.renderOrder = 999
+      selRing.visible = false
+      scene.add(selRing)
+
+      // ============ Animation ============
+      // Nadir-pointing: body faces Earth, "up" is the direction of travel so
+      // panels sit cross-track.
+      function place(rec, t) {
+        const u = rec.phase + rec.plane.rate * t
+        const c = posAt(rec.plane, u), ahead = posAt(rec.plane, u + 1)
+        rec.obj.position.set(c.x, c.y, c.z)
+        rec.obj.up.set(ahead.x - c.x, ahead.y - c.y, ahead.z - c.z).normalize()
+        rec.obj.lookAt(0, 0, 0)
+      }
+
+      let simT = 0, last = performance.now(), rafId = 0, selected = null
+      function tick(now) {
+        simT += Math.min(0.1, (now - last) / 1000)
+        last = now
+        let n = 0
+        const addLink = (a, b) => { linkPos.set([a.x, a.y, a.z, b.x, b.y, b.z], n++ * 6) }
+
+        for (const s of SATS) {
+          place(s, simT)
+          if (s.status === 'off') {
+            // Dead node, slow uncontrolled tumble
+            s.obj.rotateX(simT * 0.6)
+            s.obj.rotateY(simT * 0.25)
+            continue
+          }
+          let best = null, bestEl = MIN_ELEV_SAT
+          for (const st of STATIONS) {
+            const el = elevation(s.obj.position, st)
+            if (el > bestEl) { bestEl = el; best = st }
+          }
+          s.link = best
+          if (best) { s.lastLink = simT; s.lastGs = best.name; addLink(best.v, s.obj.position) }
+        }
+
+        place(DC, simT)
+        DC.links = STATIONS.filter(st => elevation(DC.obj.position, st) > MIN_ELEV_DC)
+        DC.links.forEach(st => addLink(st.v, DC.obj.position))
+
+        linkGeo.setDrawRange(0, n * 2)
+        linkGeo.attributes.position.needsUpdate = true
+
+        // Degraded nodes breathe so they catch the eye
+        matWarn.emissiveIntensity = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(simT * 4))
+
+        if (selected) {
+          selRing.position.copy(selected.obj.position)
+          selRing.quaternion.copy(globe.camera().quaternion)
+        }
+        rafId = requestAnimationFrame(tick)
+      }
+      rafId = requestAnimationFrame(tick)
+
+      // Auto-rotate (slow). Off for reduced motion and while inspecting.
+      const ctrls = globe.controls()
+      ctrls.autoRotate = !reduceMotion
+      ctrls.autoRotateSpeed = 0.3
+      ctrls.enableZoom = false
+
+      // Pause everything when the globe is offscreen or the tab is hidden
+      let running = true, onScreen = true
+      function syncRunning() {
+        const on = onScreen && !document.hidden
+        if (on === running) return
+        running = on
+        if (on) { last = performance.now(); rafId = requestAnimationFrame(tick); globe.resumeAnimation() }
+        else    { cancelAnimationFrame(rafId); globe.pauseAnimation() }
+      }
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; syncRunning() }).observe(stage)
+      document.addEventListener('visibilitychange', syncRunning)
+
+      // ============ Click-to-inspect ============
+      // globe.gl doesn't pick raw THREE meshes added to its scene, so we
+      // raycast against each node's hit sphere ourselves.
+      const raycaster = new THREE.Raycaster()
+      const ndc = new THREE.Vector2()
+      const canvas = globe.renderer().domElement
+
+      function pick(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect()
+        ndc.x =  ((clientX - rect.left) / rect.width)  * 2 - 1
+        ndc.y = -((clientY - rect.top)  / rect.height) * 2 + 1
+        raycaster.setFromCamera(ndc, globe.camera())
+        const hits = raycaster.intersectObjects(clickables, false)
+        return hits.length ? hits[0].object.userData.rec : null
+      }
+
+      const card = document.getElementById('orbitCard')
+      const cardEl = {
+        id:      document.getElementById('orbitCardId'),
+        kind:    document.getElementById('orbitCardKind'),
+        status:  document.getElementById('orbitCardStatus'),
+        silicon: document.getElementById('orbitCardSilicon'),
+        alt:     document.getElementById('orbitCardAlt'),
+        incl:    document.getElementById('orbitCardIncl'),
+        uplink:  document.getElementById('orbitCardUplink'),
+      }
+      const STATUS_LABEL = { ok: 'Nominal', warn: 'Degraded', off: 'Offline' }
+      const STATUS_COLOR = { ok: 'text-emerald-300', warn: 'text-amber-300', off: 'text-zinc-400' }
+
+      const altKm = alt => Math.round(500 + alt * 800) + ' km'
+      function uplinkText(s) {
+        if (s.status === 'off') return 'No lock'
+        if (s.link) return s.link.name + ' · live'
+        return (s.lastGs || 'GS') + ' · ' + Math.round(simT - s.lastLink) + 's ago'
+      }
+
+      function renderCard() {
+        const r = selected
+        if (!r) return
+        if (r === DC) {
+          cardEl.id.textContent      = 'K-Anchor'
+          cardEl.kind.textContent    = 'Orbital data center'
+          cardEl.status.className    = 'font-semibold text-emerald-300'
+          cardEl.status.textContent  = 'Nominal'
+          cardEl.silicon.textContent = 'Kiln N3E · Loom D2'
+          cardEl.uplink.textContent  = 'Mesh · ' + DC.links.length + ' GS live'
+        } else {
+          cardEl.id.textContent      = r.id
+          cardEl.kind.textContent    = 'Vela SC Node'
+          cardEl.status.className    = 'font-semibold ' + STATUS_COLOR[r.status]
+          cardEl.status.textContent  = STATUS_LABEL[r.status]
+          cardEl.silicon.textContent = 'Kiln N3E'
+          cardEl.uplink.textContent  = uplinkText(r)
+        }
+        cardEl.alt.textContent  = altKm(r.plane.alt)
+        cardEl.incl.textContent = r.plane.incl + '°'
+      }
+
+      function select(rec) {
+        if (selected) selected.plane.path.material.opacity = selected.plane.pathOpacity
+        selected = rec
+        selRing.visible = !!rec
+        ctrls.autoRotate = !rec && !reduceMotion
+        if (!rec) { card.classList.add('hidden'); return }
+        rec.plane.path.material.opacity = 0.55
+        selRing.scale.setScalar(rec === DC ? 1.3 : 1)
+        card.classList.remove('hidden')
+        renderCard()
+      }
+
+      // Keep the card + the SC-1042 chip live
+      const SC1042 = SATS.find(s => s.id === 'SC-1042')
+      const chipStatus = document.getElementById('linkChipStatus')
+      const chipGs = document.getElementById('linkChipGs')
+      setInterval(() => {
+        if (!running) return
+        renderCard()
+        chipStatus.textContent = SC1042.link ? 'linked now' : 'last contact ' + Math.round(simT - SC1042.lastLink) + 's ago'
+        chipGs.textContent = (SC1042.link || { name: SC1042.lastGs || 'GS-Andøya' }).name
+      }, 500)
+
+      canvas.addEventListener('mousemove', e => {
+        canvas.style.cursor = pick(e.clientX, e.clientY) ? 'pointer' : ''
+      })
+      // Ignore the click that ends a drag-to-rotate
+      let downAt = null
+      canvas.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY] })
+      canvas.addEventListener('click', e => {
+        if (downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) return
+        select(pick(e.clientX, e.clientY))
+      })
+
+      document.getElementById('orbitCardClose').addEventListener('click', () => select(null))
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && selected) select(null)
+      })
+
+      // Size to the stage, including sidebar/layout changes
+      const sizeGlobe = () => globe.width(stage.clientWidth).height(stage.clientHeight)
+      sizeGlobe()
+      new ResizeObserver(sizeGlobe).observe(stage)
+
+      if (loadingEl) loadingEl.style.display = 'none'
+    } catch (err) {
+      console.error('Constellation globe failed to load:', err)
+      if (loadingEl) loadingEl.textContent = 'Globe failed to load. Check the console.'
+    }
+  }
+</script>
+
+</body>
+</html>

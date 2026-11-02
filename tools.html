@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiln — Tool Fleet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+  } } } }
+</script>
+</head>
+<body class="bg-white text-zinc-950 antialiased">
+
+<div class="grid h-screen grid-cols-[232px_1fr]">
+
+  <!-- ============ Sidebar (shared) ============ -->
+  <aside class="flex h-full flex-col border-r border-zinc-200 bg-white">
+    <div class="flex items-center gap-2 px-5 pt-5 pb-4">
+      <span class="grid h-6 w-6 place-items-center rounded-md bg-zinc-900 text-[12px] font-bold text-white">K</span>
+      <span class="text-[15px] font-semibold tracking-tight">Kiln</span>
+    </div>
+    <button class="mx-3 mb-3 flex items-center gap-2.5 rounded-md border border-zinc-200 px-2.5 py-2 text-left transition hover:bg-zinc-50">
+      <span class="grid h-6 w-6 place-items-center rounded-full bg-zinc-200 text-[11px] font-semibold text-zinc-700">F1</span>
+      <span class="flex-1 truncate text-[13px] font-medium text-zinc-800">Fab 1 · Austin</span>
+      <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    </button>
+    <nav class="flex-1 overflow-y-auto px-2">
+      <ul class="space-y-0.5 text-[13px]">
+        <li><a href="dashboard.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Fab Floor</a></li>
+        <li><span aria-current="page" class="flex items-center gap-2.5 rounded-md bg-zinc-100 px-2.5 py-1.5 font-medium text-zinc-900 cursor-default"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-2.8z"/></svg>Tool Fleet</span></li>
+        <li><a href="recipe.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 7l4 9M17 7l-4 9"/></svg>Recipes</a></li>
+        <li><a href="lot-detail.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Wafer Lots</a></li>
+        <li><a href="bom.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>Process BOM</a></li>
+        <li><a href="vendors.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Vendors</a></li>
+        <li><a href="comms.html" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.14L3 21l1.86-6.4A8 8 0 1 1 21 12z"/></svg>Comms</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>Yield Insights</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg>Hazmat &amp; DG</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a></li>
+        <li><a href="#" class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2.5 border-t border-zinc-200 px-3 py-3">
+      <span class="grid h-7 w-7 place-items-center rounded-full bg-zinc-900 text-[11px] font-semibold text-white">CM</span>
+      <span class="text-[13px] font-medium text-zinc-800">C. Mesbah</span>
+    </div>
+  </aside>
+
+  <!-- ============ Main ============ -->
+  <main class="overflow-y-auto">
+    <div class="mx-auto w-full max-w-[1320px] px-6 pb-16 pt-8 lg:px-12 xl:px-16">
+
+      <header class="mb-7 flex items-end justify-between gap-6">
+        <div class="min-w-0">
+          <h1 class="text-3xl font-semibold tracking-tight text-zinc-950">Tool Fleet</h1>
+          <p class="mt-2 max-w-2xl text-[15px] leading-relaxed text-zinc-500">142 process tools across the litho, etch, dep, CMP, implant, anneal, and metrology modules. Click any tool family to drill into individual chambers, qual status, and PM windows.</p>
+        </div>
+        <button class="inline-flex h-9 flex-shrink-0 items-center gap-1.5 rounded-md border border-zinc-900 bg-white px-4 text-sm font-medium text-zinc-900 shadow-sm transition-all duration-150 hover:bg-zinc-900 hover:text-zinc-50 hover:shadow-md active:scale-[0.98]">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export fleet CSV
+        </button>
+      </header>
+      <hr class="mb-6 border-zinc-200" />
+
+      <!-- Filter row -->
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap gap-1.5" id="moduleFilters">
+          <button data-filter="all"      class="mod-filter inline-flex h-7 items-center rounded-md bg-zinc-900 px-3 text-xs font-medium text-zinc-50 transition">All <span class="ml-1.5 rounded-sm bg-white/20 px-1.5 text-[10px] tabular-nums">17</span></button>
+          <button data-filter="Litho"     class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Litho <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">3</span></button>
+          <button data-filter="Etch"      class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Etch <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">3</span></button>
+          <button data-filter="Dep"       class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Dep <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">3</span></button>
+          <button data-filter="CMP"       class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">CMP <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">1</span></button>
+          <button data-filter="Implant"   class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Implant <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">1</span></button>
+          <button data-filter="Track"     class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Track <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">2</span></button>
+          <button data-filter="Metro"     class="mod-filter inline-flex h-7 items-center rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50">Metrology <span class="ml-1.5 rounded-sm bg-zinc-100 px-1.5 text-[10px] tabular-nums">4</span></button>
+        </div>
+        <div class="relative w-72 max-w-full">
+          <svg viewBox="0 0 24 24" class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+          <input id="toolSearch" type="search" placeholder="Search tools, vendors, chambers…" class="w-full rounded-md border border-zinc-200 bg-white py-1.5 pl-8 pr-3 text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-1" />
+        </div>
+      </div>
+
+      <!-- Tool table -->
+      <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+        <table class="w-full text-left">
+          <thead class="bg-zinc-50 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+            <tr>
+              <th class="px-5 py-3">Tool family</th>
+              <th class="px-3 py-3">Module</th>
+              <th class="px-3 py-3 text-right">Chambers</th>
+              <th class="px-3 py-3">Status</th>
+              <th class="px-3 py-3">Utilization</th>
+              <th class="px-3 py-3 text-right">MTBF</th>
+              <th class="px-3 py-3">Next PM</th>
+              <th class="px-3 py-3"></th>
+            </tr>
+          </thead>
+          <tbody id="toolRows" class="divide-y divide-zinc-100"></tbody>
+        </table>
+        <p id="emptyState" class="hidden p-12 text-center text-sm text-zinc-500">No tools match the current filter.</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // ============ Tool catalog ============
+  const TOOLS = [
+    // Litho
+    { fam: 'NXE', name: 'ASML NXE:3800E',         vendor: 'ASML',   module: 'Litho',   submod: 'EUV · Bay 1',         chambers: 2,  up: 1,  down: 1, pm: 0, util: 62, mtbf: 412, nextPM: 'Jun 28', status: 'down', tone: 'slate' },
+    { fam: 'NXT', name: 'ASML TWINSCAN NXT:2050i', vendor: 'ASML',   module: 'Litho',   submod: 'DUV Immersion',       chambers: 4,  up: 4,  down: 0, pm: 0, util: 86, mtbf: 612, nextPM: 'Jul 14', status: 'up',   tone: 'slate' },
+    { fam: 'XT',  name: 'ASML TWINSCAN XT:1980i',  vendor: 'ASML',   module: 'Litho',   submod: 'DUV (mid-NA)',        chambers: 3,  up: 2,  down: 0, pm: 1, util: 71, mtbf: 540, nextPM: 'Jun 14', status: 'pm',   tone: 'slate' },
+    // Etch
+    { fam: 'CTR', name: 'AMAT Centura',            vendor: 'Applied', module: 'Etch',  submod: 'Conductor · Bay 2',   chambers: 14, up: 14, down: 0, pm: 0, util: 88, mtbf: 720, nextPM: 'Jul 02', status: 'up',   tone: 'zinc'  },
+    { fam: 'KYO', name: 'LAM Kiyo F',              vendor: 'LAM',    module: 'Etch',   submod: 'Conductor · Bay 2',   chambers: 12, up: 11, down: 0, pm: 1, util: 79, mtbf: 690, nextPM: 'Jun 13', status: 'pm',   tone: 'orange' },
+    { fam: 'SEN', name: 'LAM Sense.i',             vendor: 'LAM',    module: 'Etch',   submod: 'Dielectric · Bay 3',  chambers: 8,  up: 8,  down: 0, pm: 0, util: 74, mtbf: 580, nextPM: 'Jul 09', status: 'up',   tone: 'orange' },
+    // Dep
+    { fam: 'END', name: 'AMAT Endura',             vendor: 'Applied', module: 'Dep',   submod: 'PVD Cu · Bay 4',      chambers: 8,  up: 8,  down: 0, pm: 0, util: 82, mtbf: 660, nextPM: 'Jun 24', status: 'up',   tone: 'zinc'  },
+    { fam: 'PRD', name: 'AMAT Producer SE',        vendor: 'Applied', module: 'Dep',   submod: 'CVD Dielectric · Bay 4', chambers: 10, up: 10, down: 0, pm: 0, util: 77, mtbf: 540, nextPM: 'Jul 06', status: 'up',   tone: 'zinc'  },
+    { fam: 'ALT', name: 'LAM ALTUS',               vendor: 'LAM',    module: 'Dep',    submod: 'W CVD · Bay 4',       chambers: 5,  up: 4,  down: 1, pm: 0, util: 66, mtbf: 470, nextPM: 'Jun 30', status: 'down', tone: 'orange' },
+    // CMP
+    { fam: 'RFX', name: 'AMAT Reflexion LK Prime', vendor: 'Applied', module: 'CMP',   submod: 'Cu / Oxide · Bay 5',  chambers: 6,  up: 6,  down: 0, pm: 0, util: 84, mtbf: 720, nextPM: 'Jul 11', status: 'up',   tone: 'zinc'  },
+    // Implant
+    { fam: 'QTM', name: 'AMAT Quantum',            vendor: 'Applied', module: 'Implant', submod: 'High Energy · Bay 6', chambers: 4, up: 4, down: 0, pm: 0, util: 58, mtbf: 612, nextPM: 'Jul 19', status: 'up',   tone: 'zinc'  },
+    // Track
+    { fam: 'CT',  name: 'TEL CLEAN TRACK ACT12',   vendor: 'TEL',    module: 'Track',  submod: 'Coater / Dev · Bay 1', chambers: 9, up: 9,  down: 0, pm: 0, util: 91, mtbf: 540, nextPM: 'Jun 18', status: 'up',   tone: 'rose'  },
+    { fam: 'TRS', name: 'TEL Trias SPA',           vendor: 'TEL',    module: 'Track',  submod: 'Oxide · Bay 3',       chambers: 4,  up: 4,  down: 0, pm: 0, util: 69, mtbf: 660, nextPM: 'Jul 23', status: 'up',   tone: 'rose'  },
+    // Metrology
+    { fam: 'SP7', name: 'KLA Surfscan SP7',        vendor: 'KLA',    module: 'Metro',  submod: 'Defect · Metro',      chambers: 6,  up: 6,  down: 0, pm: 0, util: 71, mtbf: 720, nextPM: 'Jul 12', status: 'up',   tone: 'emerald' },
+    { fam: 'ARC', name: 'KLA Archer 750',          vendor: 'KLA',    module: 'Metro',  submod: 'Overlay · Metro',     chambers: 4,  up: 4,  down: 0, pm: 0, util: 64, mtbf: 600, nextPM: 'Jul 04', status: 'up',   tone: 'emerald' },
+    { fam: 'CGS', name: 'Hitachi CG6300',          vendor: 'Hitachi',module: 'Metro',  submod: 'CD-SEM · Metro',      chambers: 5,  up: 4,  down: 0, pm: 1, util: 80, mtbf: 540, nextPM: 'Jun 13', status: 'pm',   tone: 'sky'  },
+    { fam: 'ATL', name: 'Onto Atlas',              vendor: 'Onto',   module: 'Metro',  submod: 'Thin-film · Metro',   chambers: 3,  up: 3,  down: 0, pm: 0, util: 56, mtbf: 480, nextPM: 'Jul 16', status: 'up',   tone: 'emerald' },
+  ]
+
+  const TONE = {
+    slate:   'from-slate-100 to-slate-300 text-slate-700 ring-slate-200',
+    zinc:    'from-zinc-100 to-zinc-300 text-zinc-700 ring-zinc-200',
+    orange:  'from-orange-50 to-orange-200 text-orange-800 ring-orange-200',
+    rose:    'from-rose-50 to-rose-200 text-rose-800 ring-rose-200',
+    emerald: 'from-emerald-50 to-emerald-200 text-emerald-800 ring-emerald-200',
+    sky:     'from-sky-50 to-sky-200 text-sky-800 ring-sky-200',
+  }
+  const STATUS = {
+    up:   { pill: 'border-emerald-200 bg-emerald-50 text-emerald-800', dot: 'bg-emerald-500', label: 'All up' },
+    pm:   { pill: 'border-amber-200 bg-amber-50 text-amber-800',       dot: 'bg-amber-500',   label: 'PM' },
+    down: { pill: 'border-red-200 bg-red-50 text-red-800',             dot: 'bg-red-500',     label: 'Down' },
+  }
+
+  let activeFilter = 'all'
+  let activeSearch = ''
+
+  function render() {
+    const tbody = document.getElementById('toolRows')
+    const filtered = TOOLS.filter(t => {
+      if (activeFilter !== 'all' && t.module !== activeFilter) return false
+      if (activeSearch) {
+        const hay = (t.name + ' ' + t.vendor + ' ' + t.submod + ' ' + t.fam).toLowerCase()
+        if (!hay.includes(activeSearch)) return false
+      }
+      return true
+    })
+    document.getElementById('emptyState').classList.toggle('hidden', filtered.length > 0)
+    tbody.innerHTML = filtered.map(t => {
+      const tone = TONE[t.tone] || TONE.zinc
+      const s = STATUS[t.status]
+      const utilTone = t.util >= 85 ? 'bg-amber-500' : 'bg-zinc-900'
+      const breakdown = []
+      if (t.up) breakdown.push(`${t.up} up`)
+      if (t.pm) breakdown.push(`${t.pm} PM`)
+      if (t.down) breakdown.push(`${t.down} down`)
+      return `
+        <tr class="group cursor-pointer transition hover:bg-zinc-50" data-fam="${t.fam}">
+          <td class="px-5 py-3">
+            <div class="flex items-center gap-3">
+              <span class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-md bg-gradient-to-br ${tone} text-[10.5px] font-bold ring-1 ring-inset">${t.fam}</span>
+              <div class="min-w-0">
+                <div class="truncate text-[13px] font-semibold text-zinc-950">${t.name}</div>
+                <div class="text-[11px] text-zinc-500">${t.vendor}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-3 py-3">
+            <span class="text-[12.5px] text-zinc-700">${t.module}</span>
+            <div class="text-[11px] text-zinc-500">${t.submod}</div>
+          </td>
+          <td class="px-3 py-3 text-right text-[12.5px] tabular-nums">
+            <span class="font-medium text-zinc-950">${t.chambers}</span>
+            <div class="text-[10.5px] text-zinc-500">${breakdown.join(' · ')}</div>
+          </td>
+          <td class="px-3 py-3">
+            <span class="inline-flex items-center gap-1.5 rounded-md border ${s.pill} px-2 py-0.5 text-[11px] font-medium">
+              <span class="h-1.5 w-1.5 rounded-full ${s.dot}"></span>${s.label}
+            </span>
+          </td>
+          <td class="px-3 py-3">
+            <div class="flex items-center gap-2 min-w-[140px]">
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                <div class="h-full rounded-full ${utilTone}" style="width:${t.util}%"></div>
+              </div>
+              <span class="w-9 text-right text-[11px] tabular-nums text-zinc-500">${t.util}%</span>
+            </div>
+          </td>
+          <td class="px-3 py-3 text-right text-[12.5px] tabular-nums text-zinc-700">${t.mtbf}h</td>
+          <td class="px-3 py-3 text-[12.5px] tabular-nums text-zinc-500">${t.nextPM}</td>
+          <td class="px-3 py-3 text-right">
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-zinc-400 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </td>
+        </tr>`
+    }).join('')
+
+    tbody.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => {
+      window.location.href = `tool-detail.html?fam=${encodeURIComponent(tr.dataset.fam)}`
+    }))
+  }
+
+  document.querySelectorAll('.mod-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter
+      document.querySelectorAll('.mod-filter').forEach(b => {
+        const on = b.dataset.filter === activeFilter
+        b.classList.toggle('bg-zinc-900', on)
+        b.classList.toggle('text-zinc-50', on)
+        b.classList.toggle('border', !on)
+        b.classList.toggle('border-zinc-200', !on)
+        b.classList.toggle('bg-white', !on)
+        b.classList.toggle('text-zinc-700', !on)
+        b.classList.toggle('hover:bg-zinc-50', !on)
+      })
+      render()
+    })
+  })
+  document.getElementById('toolSearch').addEventListener('input', e => {
+    activeSearch = e.target.value.trim().toLowerCase()
+    render()
+  })
+  render()
+</script>
+
+</body>
+</html>
